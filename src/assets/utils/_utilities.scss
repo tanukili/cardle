@@ -1,0 +1,77 @@
+$utilities: map-merge(
+  $utilities,
+  (
+    'font-size': map-merge(
+        map-get($utilities, 'font-size'),
+        (
+          responsive: true,
+        )
+      ),
+    'rounded': map-merge(
+        map-get($utilities, 'rounded'),
+        (
+          responsive: true,
+        )
+      ),
+    'line-height': map-merge(
+        map-get($utilities, 'line-height'),
+        (
+          responsive: true,
+        )
+      ),
+    'font-weight': map-merge(
+        map-get($utilities, 'font-weight'),
+        (
+          responsive: true,
+        )
+      ),
+    'width': (
+      responsive: true,
+      property: width,
+      class: w,
+      values: (
+        25: 25%,
+        33: 33.33%,
+        40: 40%,
+        50: 50%,
+        60: 60%,
+        66: 66.66%,
+        75: 75%,
+        100: 100%,
+        auto: auto,
+      ),
+    ),
+  )
+);
+
+.material-symbols-outlined.fill {
+  font-variation-settings:
+    'FILL' 1,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+.font-Manrope {
+  font-family: 'Manrope', 'sans-serif';
+}
+
+// letter spacing 字距
+.tracking-2 {
+  letter-spacing: 0.02em;
+}
+
+// 隱藏滾動條
+.scrollbar-none {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+// 筆記內程式碼的樣式
+.code-area {
+  white-space: pre-wrap; // 保留縮排 + 自動斷行
+  word-break: break-word; // 字長過長時斷行
+}
