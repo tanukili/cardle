@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createHashRouter } from "react-router-dom";
 import Home from "@/pages/Home";
 import SignUp from "@/pages/SignUp";
 import Login from "@/pages/Login";
@@ -29,7 +29,7 @@ import HomeLayout from "@/layouts/HomeLayout";
 import AccountLayout from "@/layouts/account/AccountLayout";
 import UserLayout from "@/layouts/user/UserLayout";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <HomeLayout />,
@@ -159,6 +159,7 @@ const router = createBrowserRouter([
       },
     ],
   },
+  { basename: "/cardle" },
 ]);
 
 export default router;
