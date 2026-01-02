@@ -148,33 +148,30 @@ export default function BaseHeader() {
             </ul>
           </div>
           {/* offcanvas 按鈕 */}
-          {isLoggedIn ? (
+          <button
+            className="navbar-toggler border-0 ms-auto"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#mainNavbar"
+            aria-controls="headerNavbar"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          {isLoggedIn && (
             <button
               className="navbar-toggler p-0 border-0 rounded-circle focus-ring ms-4"
               type="button"
               data-bs-toggle="offcanvas"
-              data-bs-target="#mainNavbar"
+              data-bs-target="#userNavbar"
               aria-controls="userNavbar"
               aria-label="Toggle navigation"
-              key="btn-user"
             >
               <img
                 className="header-avatar rounded-circle"
                 src={userInfo.avatarUrl}
                 alt="個人頭像"
               />
-            </button>
-          ) : (
-            <button
-              className="navbar-toggler border-0 ms-auto"
-              type="button"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#mainNavbar"
-              aria-controls="headerNavbar"
-              aria-label="Toggle navigation"
-              key="btn-guest"
-            >
-              <span className="navbar-toggler-icon"></span>
             </button>
           )}
         </div>
@@ -191,68 +188,25 @@ export default function BaseHeader() {
       >
         <div className="offcanvas-body p-2 border border-primary-400">
           <ul className="navbar-nav me-auto mb-6">
-            {isLoggedIn ? (
-              <Fragment key="offcanvas-user">
-                <li className="nav-item">
-                  <Link
-                    className="nav-link text-primary rounded-2 py-3 px-4 mb-2"
-                    to="/user"
-                  >
-                    筆記儀表板
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link
-                    className="nav-link text-primary rounded-2 py-3 px-4 mb-2"
-                    to="/user/bookshelf"
-                  >
-                    我的書單
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link
-                    className="nav-link text-primary rounded-2 py-3 px-4 mb-2"
-                    to="/account"
-                  >
-                    會員中心
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <button
-                    className="nav-link text-primary rounded-2 py-3 px-4 w-100 text-start"
-                    type="button"
-                    onClick={handleLogout}
-                  >
-                    登出
-                  </button>
-                </li>
-              </Fragment>
-            ) : (
-              <Fragment key="offcanvas-guest">
-                <li className="nav-item">
-                  <Link
-                    className="nav-link rounded-2 py-3 px-4 active"
-                    aria-current="page"
-                    to="/"
-                  >
-                    首頁
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link rounded-2 py-3 px-4" to="/features">
-                    商品介紹
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link
-                    className="nav-link rounded-2 py-3 px-4"
-                    to="/subscription"
-                  >
-                    訂閱方案
-                  </Link>
-                </li>
-              </Fragment>
-            )}
+            <li className="nav-item">
+              <Link
+                className="nav-link rounded-2 py-3 px-4 active"
+                aria-current="page"
+                to="/"
+              >
+                首頁
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link rounded-2 py-3 px-4" to="/features">
+                商品介紹
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link rounded-2 py-3 px-4" to="/subscription">
+                訂閱方案
+              </Link>
+            </li>
           </ul>
           {isLoggedIn || (
             <>
@@ -270,6 +224,52 @@ export default function BaseHeader() {
               </div>
             </>
           )}
+        </div>
+      </div>
+      <div
+        className="header-offcanvas offcanvas offcanvas-end bg-gray-0 d-md-none"
+        tabIndex="-1"
+        id="userNavbar"
+        data-bs-scroll="true"
+        data-bs-backdrop="true"
+        aria-labelledby="userNavbarLabel"
+      >
+        <div className="offcanvas-body p-2 border border-primary-400">
+          <ul className="navbar-nav me-auto mb-6">
+            <li className="nav-item">
+              <Link
+                className="nav-link text-primary rounded-2 py-3 px-4 mb-2"
+                to="/user"
+              >
+                筆記儀表板
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                className="nav-link text-primary rounded-2 py-3 px-4 mb-2"
+                to="/user/bookshelf"
+              >
+                我的書單
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                className="nav-link text-primary rounded-2 py-3 px-4 mb-2"
+                to="/account"
+              >
+                會員中心
+              </Link>
+            </li>
+            <li className="nav-item">
+              <button
+                className="nav-link text-primary rounded-2 py-3 px-4 w-100 text-start"
+                type="button"
+                onClick={handleLogout}
+              >
+                登出
+              </button>
+            </li>
+          </ul>
         </div>
       </div>
     </>
