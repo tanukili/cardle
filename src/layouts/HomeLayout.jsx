@@ -1,9 +1,13 @@
 import { Outlet } from "react-router-dom";
+import BaseHeader from "@/layouts/base/BaseHeader";
+
 export default function HomeLayout() {
   return (
     <>
-      <h1>header</h1>
-      <Outlet />
+      <BaseHeader />
+      <div style={{ height: "1000px" }}>
+        <Outlet />
+      </div>
       <h2>footer</h2>
     </>
   );
