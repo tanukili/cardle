@@ -57,6 +57,10 @@
       background-color: $primary-100;
     }
   }
+  .dropdown-menu.show {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .header-offcanvas.offcanvas {

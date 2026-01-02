@@ -66,8 +66,7 @@ export default function BaseHeader() {
                       )}
                       <span className="mx-2">Jennie</span>
                       <span className="material-symbols-outlined">
-                        {" "}
-                        keyboard_arrow_down{" "}
+                        keyboard_arrow_down
                       </span>
                     </button>
                     <ul className="dropdown-shadow dropdown-menu border-primary-400 bg-gray-0">
@@ -146,98 +145,6 @@ export default function BaseHeader() {
                   </li>
                 </Fragment>
               )}
-
-              {/* 會員儀錶板 dropdown
-              <li className="">
-                <div className="dropdown">
-                  <button
-                    className="nav-link py-1 px-4 rounded-2 d-flex align-items-center dropdown-toggle"
-                    type="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    {userInfo.avatarUrl && (
-                      <img
-                        className="header-avatar rounded-circle"
-                        src={userInfo.avatarUrl}
-                        alt="個人頭像"
-                      />
-                    )}
-                    <span className="mx-2">Jennie</span>
-                    <span className="material-symbols-outlined">
-                      {" "}
-                      keyboard_arrow_down{" "}
-                    </span>
-                  </button>
-                  <ul
-                    className="dropdown-shadow dropdown-menu border-primary-400 bg-gray-0 mt-4 flex-column"
-                    style={{ height: "calc(100vh - 73px)" }}
-                  >
-                    <li>
-                      <Link
-                        className="dropdown-item rounded-2 mb-2"
-                        to="/user/bookshelf"
-                      >
-                        我的書單
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        className="dropdown-item rounded-2 mb-2"
-                        to="/user/card-boxes"
-                      >
-                        卡片盒一覽
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        className="dropdown-item rounded-2 mb-2"
-                        to="/user/boards"
-                      >
-                        白板一覽
-                      </Link>
-                    </li>
-                    <li className="border-bottom border-gray-200 mb-2">
-                      <Link
-                        className="dropdown-item rounded-2 mb-2"
-                        to="/user/articles"
-                      >
-                        草稿與文章
-                      </Link>
-                    </li>
-                    <li>
-                      <Link className="dropdown-item rounded-2 mb-2" to="/user">
-                        個人首頁
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        className="dropdown-item rounded-2 mb-2"
-                        to="/account"
-                      >
-                        會員中心
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        className="dropdown-item rounded-2 mb-2"
-                        to="/account/plan/upgrade"
-                      >
-                        升級方案
-                      </Link>
-                    </li>
-                    <li className="mt-auto border-top border-gray-200">
-<button
-                          className="dropdown-item rounded-2"
-                          type="button"
-                          onClick={handleLogout}
-                        >
-                          登出
-                        </button>
-                    </li>
-                  </ul>
-                </div>
-              </li> */}
             </ul>
           </div>
           {/* offcanvas 按鈕 */}
@@ -349,7 +256,7 @@ export default function BaseHeader() {
           </ul>
           {isLoggedIn || (
             <>
-              <span className="border-bottom border-gray-200 mb-6 mx-2_5 d-block"></span>
+              <span className="border-bottom border-gray-200 mb-6 mx-0_5 d-block"></span>
               <div className="d-flex flex-column">
                 <Link
                   className="btn btn-outline-primary text-start py-3 mb-2"
