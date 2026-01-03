@@ -1,14 +1,14 @@
-.plan-swiper {
-  .swiper-slide {
-    width: 280px;
-  }
+// .plan-swiper {
+//   .swiper-slide {
+//     width: 280px;
+//   }
 
-  @include media-breakpoint-up(md) {
-    .swiper-slide {
-      width: 352px;
-    }
-  }
-}
+//   @include media-breakpoint-up(md) {
+//     .swiper-slide {
+//       width: 352px;
+//     }
+//   }
+// }
 $smooth-bezier: cubic-bezier(0.2, 0.8, 0.4, 1);
 $duration: 0.3s; /* 稍微增加到 0.4s 增加「緩慢」感 */
 $bg-expanded: #EBF1FA;

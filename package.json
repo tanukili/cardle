@@ -18,6 +18,7 @@
     "@nivo/pie": "^0.99.0",
     "@xyflow/react": "^12.10.0",
     "bootstrap": "^5.3.8",
+    "material-symbols": "^0.40.2",
     "quill": "^2.0.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",

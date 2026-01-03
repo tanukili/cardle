@@ -1,6 +1,8 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import 'material-symbols';
 import "./assets/index.scss";
+// import 'bootstrap/dist/js/bootstrap.min.js';
 import App from "./App.jsx";
 
 createRoot(document.getElementById("root")).render(
