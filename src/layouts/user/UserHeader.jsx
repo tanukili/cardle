@@ -63,7 +63,7 @@ export default function BaseHeader() {
                         alt="個人頭像"
                       />
                     )}
-                    <span className="mx-2">Jennie</span>
+                    <span className="mx-2">{userInfo.name}</span>
                     <span className="material-symbols-outlined">
                       keyboard_arrow_down
                     </span>

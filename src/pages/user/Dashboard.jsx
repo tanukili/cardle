@@ -1,8 +1,11 @@
+import { useSelector, useDispatch } from "react-redux";
 import ProgressList from "@/components/bookshelf/ProgressList";
 import BaseCard from "@/components/card/BaseCard";
 import CardBox from "@/components/card/CardBox";
 
 export default function Dashboard() {
+  const userInfo = useSelector((state) => state.user.userInfo);
+
   const learningResources = [
     {
       type: "book",
@@ -248,7 +251,202 @@ setCount(count + 1);
 
   return (
     <main>
-      <h1>6. 個人筆記儀表板</h1>
+      <section
+        className="text-center pt-20 pb-14 pt-lg-25 pb-lg-30"
+        style={{ backgroundColor: "#fafafa" }}
+      >
+        <div className="container">
+          <h2 className="fs-xl text-gray-700 mb-4 fs-md-3xl">
+            哈囉！
+            <span className="badge badge-lg badge-secondary fs-xl mx-2 lh-base lh-md-sm fs-md-3xl">
+              {userInfo.name}
+            </span>
+            ！
+          </h2>
+          <h1 className="fs-2xl text-gray-700 mb-13 fs-md-4xl mb-md-16">
+            今天有任何靈感嗎？
+          </h1>
+          <nav className="nav nav-underline justify-content-center mb-10">
+            <div
+              className="nav-item d-flex"
+              id="dashboard-nav-tab"
+              role="tablist"
+            >
+              <button
+                className="nav-link mx-3 d-flex align-items-center active"
+                id="nav-add-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#nav-add"
+                type="button"
+                role="tab"
+                aria-controls="nav-home"
+                aria-selected="true"
+              >
+                <span className="material-symbols-outlined me-4">
+                  {" "}
+                  edit_square{" "}
+                </span>
+                新增卡片
+              </button>
+              <button
+                className="nav-link mx-3 d-flex align-items-center"
+                id="nav-search-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#nav-search"
+                type="button"
+                role="tab"
+                aria-controls="nav-profile"
+                aria-selected="false"
+              >
+                <span className="material-symbols-outlined me-4"> search </span>
+                搜尋卡片
+              </button>
+            </div>
+          </nav>
+          <form className="row">
+            <div className="tab-content mb-10 col-md-8 mx-md-auto">
+              <div
+                className="tab-pane fade show active"
+                id="nav-add"
+                role="tabpanel"
+                aria-labelledby="nav-add-tab"
+                tabIndex="0"
+              >
+                <textarea
+                  className="form-control dashboard-textarea"
+                  id="addCardTextarea"
+                  placeholder="請輸入要新增卡片的內容"
+                ></textarea>
+              </div>
+              <div
+                className="tab-pane fade"
+                id="nav-search"
+                role="tabpanel"
+                aria-labelledby="nav-search-tab"
+                tabIndex="0"
+              >
+                <textarea
+                  className="form-control dashboard-textarea"
+                  id="searchCardTextarea"
+                  placeholder="請輸入要搜尋卡片的內容"
+                ></textarea>
+              </div>
+            </div>
+            <div className="col-12">
+              <button
+                className="btn btn-primary w-100 w-md-auto fs-md-xl py-md-4 px-md-6"
+                type="submit"
+              >
+                新增
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+      <section className="pt-14 pb-6 pt-lg-20 pb-lg-10">
+        <div className="container">
+          <h2 className="fs-xl lh-base mb-8 pb-6 border-bottom border-gray-200 d-flex align-items-center fs-md-3xl lh-md-sm mb-md-10">
+            學習狀態分析
+            <a
+              className="lh-1 ms-2 ms-md-4"
+              data-bs-toggle="collapse"
+              href="#chartCollapse"
+              role="button"
+              aria-expanded="false"
+              aria-controls="chartCollapse"
+            >
+              <span className="material-symbols-outlined align-bottom fs-md-3xl">
+                {" "}
+                keyboard_arrow_down{" "}
+              </span>
+            </a>
+          </h2>
+        </div>
+        <div className="collapse show" id="chartCollapse">
+          <div className="container mb-lg-10">
+            <div className="row gx-6">
+              {/* <!-- 圓餅圖 --> */}
+              <div className="pie-chart col-12 col-lg-6 col-xl-5 mb-8 mb-lg-0">
+                <div className="card bg-gray-0 border-primary-100 rounded-4 h-100">
+                  <div className="card-title p-4 mb-0 p-xl-6">
+                    <h3 className="fs-l lh-base fw-normal text-primary-900 fs-xl-xl">
+                      本月學習主題
+                    </h3>
+                  </div>
+                  <div className="card-body d-flex flex-column flex-sm-row justify-content-center align-items-center py-0 py-sm-4 py-xl-6">
+                    <div className="pie-container pe-sm-3">
+                      <canvas id="themePie" className="p-3"></canvas>
+                    </div>
+                    <div className="d-sm-flex align-items-center pt-4 pt-sm-0 ps-sm-3">
+                      <ul
+                        className="list-unstyled mx-auto mb-2 px-3 d-flex flex-wrap flex-sm-column justify-content-between align-items-center py-1 align-items-sm-start ps-sm-2 pe-sm-0 mb-sm-0"
+                        style={{
+                          maxWidth: "288px",
+                          minWidth: "164px",
+                        }}
+                      >
+                        <li className="w-50 px-2 py-1 py-sm-2 px-sm-0 w-sm-100">
+                          <p className="d-flex align-items-center fs-s text-gray-700">
+                            <span
+                              className="d-block bg-secondary-500 rounded-circle me-2"
+                              style={{
+                                width: "8px",
+                                height: "8px",
+                              }}
+                            ></span>
+                            網頁切板: 70%
+                          </p>
+                        </li>
+                        <li className="w-50 px-2 py-1 py-sm-2 px-sm-0 w-sm-100">
+                          <p className="d-flex align-items-center fs-s text-gray-700">
+                            <span
+                              className="d-block rounded-circle me-2"
+                              style={{
+                                width: "8px",
+                                height: "8px",
+                                backgroundColor: "#ff9e69",
+                              }}
+                            ></span>
+                            JavaScrip: 20%
+                          </p>
+                        </li>
+                        <li className="w-50 px-2 py-1 py-sm-2 px-sm-0 w-sm-100">
+                          <p className="d-flex align-items-center fs-s text-gray-700">
+                            <span
+                              className="d-block rounded-circle me-2"
+                              style={{
+                                width: "8px",
+                                height: "8px",
+                                backgroundColor: "#fed0a7",
+                              }}
+                            ></span>
+                            料理基礎: 10%
+                          </p>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* <!-- 長條圖 --> */}
+              <div className="bar-chart col-12 col-lg-6 col-xl-7 mb-8 mb-md-10 mb-lg-0">
+                <div className="overflow-scroll scrollbar-none">
+                  <div className="card bg-gray-0 border-primary-100 rounded-4">
+                    <div className="card-title p-4 mb-0 p-xl-6">
+                      <h3 className="fs-l lh-base fw-normal text-primary-900 fs-xl-xl">
+                        學習時間 (分)
+                      </h3>
+                    </div>
+                    <div className="bar-container card-body d-flex flex-column p-xl-6">
+                      <canvas id="spendTimeBar"></canvas>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       <section className="container py-14 py-lg-20">
         <h2 className="fs-xl mb-8 pb-6 border-bottom border-gray-200 fs-md-3xl lh-md-sm mb-md-10">
           學習進度追蹤
