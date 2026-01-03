@@ -1,5 +1,6 @@
 import ProgressList from "@/components/bookshelf/ProgressList";
 import BaseCard from "@/components/card/BaseCard";
+import CardBox from "@/components/card/CardBox";
 
 export default function Dashboard() {
   const learningResources = [
@@ -49,6 +50,7 @@ export default function Dashboard() {
   const lastestCards = [
     {
       badgeId: "1",
+      id: "1",
       title: "**常見單位（px, %, rem）**",
       content: `px：固定像素  
 %：相對於父元素  
@@ -56,6 +58,7 @@ rem：相對於 root font size`,
     },
     {
       badgeId: "1",
+      id: "2",
       title: "**實用建議**",
       content: `* 響應式設計：建議優先使用 rem + % + vw/vh 的組合  
 * 元件內縮放：用 em 可以讓文字隨父層等比縮放  
@@ -63,6 +66,7 @@ rem：相對於 root font size`,
     },
     {
       badgeId: "2",
+      id: "3",
       title: "**和風醬汁：醬油 × 味醂 × 高湯**",
       content: `常見比例為：  
 1（醬油）：1（味醂）：2（高湯）  
@@ -73,6 +77,7 @@ rem：相對於 root font size`,
     },
     {
       badgeId: "2",
+      id: "4",
       title: "**黃金比例：醬油 × 糖 × 米酒**",
       content: `適用於台式紅燒料理，常見比例為：  
 1（醬油）：1（糖）：1（米酒）  
@@ -100,18 +105,21 @@ rem：相對於 root font size`,
 * 辣椒粉或辣椒油：依個人口味
 * 香油：少許`,
       badgeId: "2",
+      id: "5",
     },
     {
       title: "**props vs state**",
       content: `props 是由父元件傳入的資料。  
     state 是元件內部的狀態，可被修改。`,
       badgeId: "3",
+      id: "6",
     },
     {
       title: "**Flexbox（彈性盒子）**",
       content: `\`display: flex;\`  
     是現代網頁常用的排版方式之一，能夠快速讓元素水平或垂直對齊`,
       badgeId: "1",
+      id: "7",
     },
     {
       title: "**Box Model（盒模型）**",
@@ -125,6 +133,7 @@ rem：相對於 root font size`,
 * \`border\`元素的邊框
 * \`margin\`元素與外部其他元素之間的距離`,
       badgeId: "1",
+      id: "8",
     },
     {
       title: "**useState — 狀態管理入門**",
@@ -135,6 +144,7 @@ setCount(count + 1);
 \`\`\`  
 每次 \`setCount\` 呼叫後元件會重新渲染。`,
       badgeId: "3",
+      id: "9",
     },
     {
       title: "**《我得了不想上班的病》- 倦怠 3 種類型：**",
@@ -143,6 +153,7 @@ setCount(count + 1);
 3. 無聊萎靡
 `,
       badgeId: "4",
+      id: "10",
     },
     {
       title: "**過勞型倦怠**",
@@ -156,6 +167,7 @@ setCount(count + 1);
 4. 這陣子忙完就好
 `,
       badgeId: "4",
+      id: "11",
     },
     {
       title: "**歌劇院蛋糕 Opera Cake**",
@@ -181,31 +193,58 @@ setCount(count + 1);
    * 鮮奶油 – 75g
 `,
       badgeId: "2",
+      id: "12",
     },
   ];
 
-  const badges = [
+  const cardBoxes = [
     {
       id: "1",
-      text: "CSS 基礎",
-      ui: "success",
+      title: "CSS 基礎",
+      cover_url: "user/card-box-cover-1.png",
+      ui: {
+        color: "success",
+      },
     },
     {
       id: "2",
-      text: "料理基礎",
-      ui: "secondary",
+      title: "React 框架",
+      cover_url: "user/card-box-cover-2.png",
+      ui: {
+        color: "orange",
+      },
     },
     {
       id: "3",
-      text: "React",
-      ui: "orange",
+      title: "料理基礎",
+      cover_url: "user/card-box-cover-3.png",
+      ui: {
+        color: "secondary",
+      },
     },
     {
       id: "4",
-      text: "認識自己",
-      ui: "success",
+      title: "認識自己",
+      cover_url: "user/card-box-cover-4.jpg",
+      ui: {
+        color: "success",
+      },
+    },
+    {
+      id: "5",
+      title: "規劃與管理",
+      cover_url: "user/card-box-cover-5.jpg",
+      ui: {
+        color: "orange",
+      },
     },
   ];
+
+  const badges = cardBoxes.map(({ id, title, ui }) => ({
+    id,
+    text: title,
+    ui: ui.color,
+  }));
 
   return (
     <main>
@@ -255,7 +294,23 @@ setCount(count + 1);
           <ProgressList learningResources={learningResources} />
         </ul>
       </section>
-
+      <section className="container py-14 py-lg-20">
+        <h2 className="fs-xl mb-8 pb-6 border-bottom border-gray-200 fs-md-3xl lh-md-sm mb-md-10 mb-lg-20">
+          常用卡片盒
+        </h2>
+        <div id="card-box-swiper" className="swiper">
+          <div className="swiper-wrapper">
+            {cardBoxes.map((cardBox) => (
+              <div className="swiper-slide" key={cardBox.id}>
+                <CardBox cardBox={cardBox} />
+              </div>
+            ))}
+          </div>
+          <div className="mt-20">
+            <div className="swiper-scrollbar scrollbar-primary"></div>
+          </div>
+        </div>
+      </section>
       <section className="container py-14 py-lg-20">
         <h2 className="fs-xl mb-8 pb-6 border-bottom border-gray-200 fs-md-3xl lh-md-sm mb-md-10 mb-lg-20">
           最近新增卡片
@@ -264,7 +319,7 @@ setCount(count + 1);
           <div className="swiper-wrapper">
             <div className="swiper-slide" style={{ width: "300px" }}>
               {lastestCards.map((card) => (
-                <BaseCard card={card} badges={badges} />
+                <BaseCard card={card} badges={badges} key={card.id} />
               ))}
             </div>
           </div>
