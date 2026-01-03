@@ -1,15 +1,12 @@
-import { Outlet, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
-import PlanSwiper from "../components/PlanSwiper";
-import { version } from "react";
+import PlanSwiper from "../components/swiper/PlanSwiper";
 
 export default function Home() {
   return (
     <>
-      <h1>1. 首頁</h1>
-
       {/* hero 區塊 */}
       <section className="hero vh-100">
         <div className="container h-100">
@@ -24,14 +21,14 @@ export default function Home() {
             >
               把靈感拆解、連結、重組，打造專屬你的知識地圖。
             </p>
-            <a
-              href="<%= HERF_BASE %>sing-up.html"
+            <Link
+              to="/sign-up"
               className="btn btn-primary align-self-md-start fs-md-xl py-md-4 px-md-6"
               data-aos="fade-up"
               data-aos-delay="200"
             >
               立即開始
-            </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -336,7 +333,7 @@ export default function Home() {
                     </div>
                     {/* 評論時間 */}
                     <time
-                      datetime="2021-11-23"
+                      dateTime="2021-11-23"
                       className="font-Manrope text-gray-500 fs-xs lh-1"
                     >
                       23 Nov 2021
@@ -386,7 +383,7 @@ export default function Home() {
                     </div>
                     {/* 評論時間 */}
                     <time
-                      datetime="2021-11-23"
+                      dateTime="2021-11-23"
                       className="font-Manrope text-gray-500 fs-xs lh-1"
                     >
                       23 Nov 2021
@@ -436,7 +433,7 @@ export default function Home() {
                     </div>
                     {/* 評論時間 */}
                     <time
-                      datetime="2021-11-23"
+                      dateTime="2021-11-23"
                       className="font-Manrope text-gray-500 fs-xs lh-1"
                     >
                       23 Nov 2021
@@ -485,7 +482,7 @@ export default function Home() {
                     </div>
                     {/* 評論時間 */}
                     <time
-                      datetime="2021-11-23"
+                      dateTime="2021-11-23"
                       className="font-Manrope text-gray-500 fs-xs lh-1"
                     >
                       23 Nov 2021
@@ -535,7 +532,7 @@ export default function Home() {
                     </div>
                     {/* 評論時間 */}
                     <time
-                      datetime="2021-11-23"
+                      dateTime="2021-11-23"
                       className="font-Manrope text-gray-500 fs-xs lh-1"
                     >
                       23 Nov 2021
@@ -584,7 +581,7 @@ export default function Home() {
                     </div>
                     {/* 評論時間 */}
                     <time
-                      datetime="2021-11-23"
+                      dateTime="2021-11-23"
                       className="font-Manrope text-gray-500 fs-xs lh-1"
                     >
                       23 Nov 2021
@@ -633,7 +630,7 @@ export default function Home() {
                     </div>
                     {/* 評論時間 */}
                     <time
-                      datetime="2021-11-23"
+                      dateTime="2021-11-23"
                       className="font-Manrope text-gray-500 fs-xs lh-1"
                     >
                       23 Nov 2021
@@ -686,7 +683,7 @@ export default function Home() {
                     </div>
                     {/* 評論時間 */}
                     <time
-                      datetime="2021-11-23"
+                      dateTime="2021-11-23"
                       className="font-Manrope text-gray-500 fs-xs lh-1"
                     >
                       23 Nov 2021
@@ -734,7 +731,7 @@ export default function Home() {
                     </div>
                     {/* 評論時間 */}
                     <time
-                      datetime="2021-11-23"
+                      dateTime="2021-11-23"
                       className="font-Manrope text-gray-500 fs-xs lh-1"
                     >
                       23 Nov 2021
@@ -787,7 +784,7 @@ export default function Home() {
                     </div>
                     {/* 評論時間 */}
                     <time
-                      datetime="2021-11-23"
+                      dateTime="2021-11-23"
                       className="font-Manrope text-gray-500 fs-xs lh-1"
                     >
                       23 Nov 2021
@@ -837,7 +834,7 @@ export default function Home() {
                     </div>
                     {/* 評論時間 */}
                     <time
-                      datetime="2021-11-23"
+                      dateTime="2021-11-23"
                       className="font-Manrope text-gray-500 fs-xs lh-1"
                     >
                       23 Nov 2021
@@ -887,7 +884,7 @@ export default function Home() {
                     </div>
                     {/* 評論時間 */}
                     <time
-                      datetime="2021-11-23"
+                      dateTime="2021-11-23"
                       className="font-Manrope text-gray-500 fs-xs lh-1"
                     >
                       23 Nov 2021
@@ -936,7 +933,7 @@ export default function Home() {
                     </div>
                     {/* 評論時間 */}
                     <time
-                      datetime="2021-11-23"
+                      dateTime="2021-11-23"
                       className="font-Manrope text-gray-500 fs-xs lh-1"
                     >
                       23 Nov 2021
@@ -986,7 +983,7 @@ export default function Home() {
                     </div>
                     {/* 評論時間 */}
                     <time
-                      datetime="2021-11-23"
+                      dateTime="2021-11-23"
                       className="font-Manrope text-gray-500 fs-xs lh-1"
                     >
                       23 Nov 2021
@@ -1035,7 +1032,7 @@ export default function Home() {
                     </div>
                     {/* 評論時間 */}
                     <time
-                      datetime="2021-11-23"
+                      dateTime="2021-11-23"
                       className="font-Manrope text-gray-500 fs-xs lh-1"
                     >
                       23 Nov 2021
@@ -1084,7 +1081,7 @@ export default function Home() {
                     </div>
                     {/* 評論時間 */}
                     <time
-                      datetime="2021-11-23"
+                      dateTime="2021-11-23"
                       className="font-Manrope text-gray-500 fs-xs lh-1"
                     >
                       23 Nov 2021
@@ -1137,7 +1134,7 @@ export default function Home() {
                     </div>
                     {/* 評論時間 */}
                     <time
-                      datetime="2021-11-23"
+                      dateTime="2021-11-23"
                       className="font-Manrope text-gray-500 fs-xs lh-1"
                     >
                       23 Nov 2021
@@ -1185,7 +1182,7 @@ export default function Home() {
                     </div>
                     {/* 評論時間 */}
                     <time
-                      datetime="2021-11-23"
+                      dateTime="2021-11-23"
                       className="font-Manrope text-gray-500 fs-xs lh-1"
                     >
                       23 Nov 2021
@@ -1224,70 +1221,6 @@ export default function Home() {
           </div>
         </section>
       </main>
-
-      {/* 頁尾 */}
-      <footer className="bg-gray-0 py-16">
-        <div className="container">
-          <div className="d-flex flex-column flex-md-row justify-content-md-between align-items-md-center mb-8">
-            {/* 標題 */}
-            <div className="text-center text-md-start mb-8 mb-md-0">
-              <a href="<%= HERF_BASE %>index.html" className="mb-4 mb-md-2">
-                <img src="icons/logo-with-text.svg" alt="logo" />
-              </a>
-              <p className="text-primary fw-bold fs-s">
-                把靈感放進卡片盒，慢慢長成知識的森林。
-              </p>
-            </div>
-            {/* 導覽連結 */}
-            <ul className="nav nav-pills flex-column flex-md-row align-items-center gap-3">
-              <li className="nav-item">
-                <a className="nav-link" href="<%= HERF_BASE %>index.html">
-                  首頁
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="<%= HERF_BASE %>features.html">
-                  產品介紹
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  href="<%= HERF_BASE %>subscription/detail.html"
-                >
-                  訂閱方案
-                </a>
-              </li>
-            </ul>
-          </div>
-          {/* 社群連結, copyright */}
-          <div className="d-flex flex-column flex-md-row justify-content-md-between align-items-center gap-6">
-            <ul className="community-list list-unstyled d-flex gap-8 mb-0">
-              <li>
-                <a href="#" className="community-link">
-                  <img src="icons/facebook.svg" alt="facebook" />
-                </a>
-              </li>
-              <li>
-                <a href="#" className="community-link">
-                  <img src="icons/Instagram.svg" alt="Instagram" />
-                </a>
-              </li>
-              <li>
-                <a href="#" className="community-link">
-                  <img src="icons/twitter.svg" alt="twitter" />
-                </a>
-              </li>
-              <li>
-                <a href="#" className="community-link">
-                  <img src="icons/email.svg" alt="email" />
-                </a>
-              </li>
-            </ul>
-            <p class="text-gray-500">©2025 Cardle All Rights Reserved.</p>
-          </div>
-        </div>
-      </footer>
     </>
   );
 }

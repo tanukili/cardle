@@ -1,5 +1,6 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import { Link } from "react-router-dom";
 
 export default function PlanSwiper() {
   return (
@@ -64,12 +65,12 @@ export default function PlanSwiper() {
                 </ul>
               </div>
               {/* CTA 按鈕 */}
-              <a
-                href="<%= HERF_BASE %>sing-up.html"
+              <Link
+                to="/sign-up"
                 className="btn btn-outline-gray-400 py-md-4 mt-auto w-100"
               >
                 立即註冊
-              </a>
+              </Link>
             </div>
           </SwiperSlide>
           <SwiperSlide className="swiper-slide h-auto">
