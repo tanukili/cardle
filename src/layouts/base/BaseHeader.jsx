@@ -2,7 +2,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect, useRef, Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "@/store/slices/userSlice";
-import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
+import { Offcanvas } from "bootstrap";
 
 export default function BaseHeader() {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
@@ -17,7 +17,7 @@ export default function BaseHeader() {
     const el = offcanvasRef.current;
     if (!el) return;
 
-    const bsOffcanvas = bootstrap.Offcanvas.getInstance(el);
+    const bsOffcanvas = Offcanvas.getInstance(el);
 
     if (bsOffcanvas && el.classList.contains("show")) {
       bsOffcanvas.hide();
