@@ -5,7 +5,7 @@ export default function HomeLayout() {
   return (
     <>
       <BaseHeader />
-      <div style={{ height: "1000px" }}>
+      <div>
         <Outlet />
       </div>
       <h2>footer</h2>
