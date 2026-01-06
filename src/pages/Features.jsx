@@ -180,54 +180,6 @@ export default function Features() {
               {/*swiper 區塊 */}
               <div className="my-10 my-md-20">
                 <UsersSwiper />
-                {/* 多個slides */}
-                {/* <div className="swiper-wrapper">
-                  
-                  <div className="swiper-slide">
-                    <div className="border border-gray-400 rounded-4 h-md-300 mb-4 mb-md-8 users-img">
-                      <img src="features/student.png" alt="student" />
-                    </div>
-                    <div className="text-center">
-                      <h4 className="fs-l fs-md-3xl fw-bold mb-1 mb-md-4">
-                        學生
-                      </h4>
-                      <p className="fs-m fs-md-xl text-gray-600">讀書筆記</p>
-                    </div>
-                  </div>
-                  <div className="swiper-slide">
-                    <div className="border border-gray-400 rounded-4 h-md-300 mb-4 mb-md-8 users-img">
-                      <img src="features/researcher.png" alt="researcher" />
-                    </div>
-                    <div className="text-center">
-                      <h4 className="fs-l fs-md-3xl fw-bold mb-1 mb-md-4">
-                        研究者
-                      </h4>
-                      <p className="fs-m fs-md-xl text-gray-600">文獻整理</p>
-                    </div>
-                  </div>
-                  <div className="swiper-slide">
-                    <div className="border border-gray-400 rounded-4 h-md-300 mb-4 mb-md-8 users-img">
-                      <img src="features/professional.png" alt="professional" />
-                    </div>
-                    <div className="text-center">
-                      <h4 className="fs-l fs-md-3xl fw-bold mb-1 mb-md-4">
-                        專業人士
-                      </h4>
-                      <p className="fs-m fs-md-xl text-gray-600">知識管理</p>
-                    </div>
-                  </div>
-                  <div className="swiper-slide">
-                    <div className="border border-gray-400 rounded-4 h-md-300 mb-4 mb-md-8 users-img">
-                      <img src="features/team.png" alt="team" />
-                    </div>
-                    <div className="text-center">
-                      <h4 className="fs-l fs-md-3xl fw-bold mb-1 mb-md-4">
-                        團隊
-                      </h4>
-                      <p className="fs-m fs-md-xl text-gray-600">同步協作</p>
-                    </div>
-                  </div>
-                </div> */}
               </div>
 
               <button
