@@ -1,6 +1,6 @@
 // hero 區塊
 .hero {
-  background: url(/assets/images/index/hero.png) no-repeat top right 41.5% / auto 132%;
+  background: url("/index/hero.png") no-repeat top right 41.5% / auto 132%;
 
   @include media-breakpoint-up(md) {
     background-position: center;
@@ -13,9 +13,9 @@
   position: relative;
   z-index: 1;
   &::after {
-    content: '';
+    content: "";
     position: absolute;
-    background: url('/assets/images/index/orange-deco-pc.svg') no-repeat center / contain;
+    background: url("/index/orange-deco-pc.svg") no-repeat center / contain;
     right: 0;
     bottom: 0;
     transform: translate(
@@ -37,9 +37,9 @@
     z-index: 2;
 
     &::before {
-      content: '';
+      content: "";
       position: absolute;
-      background: url('/assets/images/index/secondary-deco-pc.svg') no-repeat center / contain;
+      background: url("/index/secondary-deco-pc.svg") no-repeat center / contain;
       left: clamp(-3.75rem, -3.568rem + -0.7767vw, -4.5rem);
       bottom: clamp(-9.75rem, -17.0922rem + 31.3269vw, 20.5rem);
       width: clamp(12.5rem, 1.8811rem + 45.3074vw, 56.25rem);
@@ -48,9 +48,9 @@
     }
 
     &::after {
-      content: '';
+      content: "";
       position: absolute;
-      background: url('/assets/images/index/success-deco-pc.svg') no-repeat center / contain;
+      background: url("/index/success-deco-pc.svg") no-repeat center / contain;
       right: 0;
       bottom: 0;
       transform: translate(92px, 233px);
@@ -67,7 +67,8 @@
   }
 }
 
-.function-swiper {
+.swiper.function-swiper {
+  overflow: visible;
   .swiper-wrapper {
     display: flex;
   }
@@ -118,23 +119,25 @@
   position: relative;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: -34px;
     left: 0;
     width: clamp(23.4375rem, 0rem + 100vw, 120rem);
     aspect-ratio: 375 / 55.16;
-    background: url('/assets/images/index/boundary-deco-top-mobile.svg') no-repeat center / cover;
+    background: url("/index/boundary-deco-top-mobile.svg") no-repeat center /
+      cover;
     z-index: 4;
   }
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -20px;
     left: 0;
     right: 0;
     aspect-ratio: 375 / 76;
-    background: url('/assets/images/index/boundary-deco-bottom-mobile.svg') no-repeat center / contain;
+    background: url("/index/boundary-deco-bottom-mobile.svg") no-repeat center /
+      contain;
     z-index: 4;
   }
 
@@ -148,12 +151,14 @@
       top: -43.2px;
       aspect-ratio: auto;
       height: clamp(3.4475rem, 2.1605rem + 5.4913vw, 8.75rem);
-      background: url('/assets/images/index/boundary-deco-top-pc.svg') no-repeat center / cover;
+      background: url("/index/boundary-deco-top-pc.svg") no-repeat center /
+        cover;
     }
     &::after {
       aspect-ratio: auto;
       height: clamp(4.75rem, 3.3847rem + 5.8252vw, 10.375rem);
-      background: url('/assets/images/index/boundary-deco-bottom-pc.svg') no-repeat center / cover;
+      background: url("/index/boundary-deco-bottom-pc.svg") no-repeat center /
+        cover;
     }
   }
   @include media-breakpoint-up(lg) {
@@ -166,7 +171,8 @@
   }
 }
 
-.comment-swiper {
+.swiper.comment-swiper {
+  overflow: visible;
   .swiper-wrapper {
     transition-timing-function: linear; // 線性速度，取消預設的 ease-in-out 抖動感
   }
@@ -189,7 +195,8 @@
 }
 
 // 選擇適合你的使用方案
-.plan-swiper {
+.swiper.plan-swiper {
+  overflow: visible;
   .swiper-slide {
     width: 280px;
   }

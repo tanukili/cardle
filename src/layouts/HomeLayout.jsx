@@ -1,10 +1,13 @@
 import { Outlet } from "react-router-dom";
+import BaseHeader from "@/layouts/base/BaseHeader";
+import BaseFooter from "./base/BaseFooter";
+
 export default function HomeLayout() {
   return (
     <>
-      <h1>header</h1>
+      <BaseHeader />
       <Outlet />
-      <h2>footer</h2>
+      <BaseFooter />
     </>
   );
 }
