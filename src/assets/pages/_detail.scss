@@ -178,7 +178,7 @@ $shadow-expanded: 0 4px 12px rgba(0, 0, 0, 0.15);
       content: '';
       position: absolute;
       width: clamp(23.4375rem, 0rem + 100vw, 120rem);
-      background: url('/assets/images/detail/wave-top1.svg') no-repeat center / cover;
+      background: url('../detail/wave-top1.svg') no-repeat center / cover;
       z-index: -1;
       top: -65px;
     }
@@ -195,7 +195,7 @@ $shadow-expanded: 0 4px 12px rgba(0, 0, 0, 0.15);
     right: 0;
     aspect-ratio: auto;
     height: clamp(3rem, 1.21rem + 7.6375vw, 10.375rem);
-    background: url('/assets/images/detail/wave-bottom1.svg') no-repeat center / contain;
+    background: url('../detail/wave-bottom1.svg') no-repeat center / contain;
     z-index: -1;
   }
       @include media-breakpoint-down(md) {
