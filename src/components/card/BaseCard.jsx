@@ -3,13 +3,11 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { prism } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 export default function BaseCard({ card, badges }) {
-  //
-
   const findBadge = (badgeId) => badges.find((b) => b.id === badgeId);
 
   return (
     <div className="card rounded-4 bg-gray-0 border-gray-200 mb-4">
-      <div className="card-body p-xl-6">
+      <div className="card-body p-lg-6">
         <span
           className={`badge badge-${findBadge(card.badgeId).ui} lh-base mb-4`}
         >

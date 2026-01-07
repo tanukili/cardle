@@ -3,6 +3,11 @@ import ProgressList from "@/components/bookshelf/ProgressList";
 import BaseCard from "@/components/card/BaseCard";
 import CardBox from "@/components/card/CardBox";
 
+import { Scrollbar } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/scrollbar";
+
 export default function Dashboard() {
   const userInfo = useSelector((state) => state.user.userInfo);
 
@@ -50,6 +55,24 @@ export default function Dashboard() {
     },
   ];
 
+  const resourceTypes = [
+    {
+      type: "book",
+      text: "讀書筆記",
+      iconName: "book",
+    },
+    {
+      type: "video",
+      text: "線上課程",
+      iconName: "live_tv",
+    },
+    {
+      type: "podcast",
+      text: "Podcast",
+      iconName: "music_video",
+    },
+  ];
+
   const lastestCards = [
     {
       badgeId: "1",
@@ -57,7 +80,8 @@ export default function Dashboard() {
       title: "**常見單位（px, %, rem）**",
       content: `px：固定像素  
 %：相對於父元素  
-rem：相對於 root font size`,
+rem：相對於 root font size  
+使用 rem 可以更靈活響應式。`,
     },
     {
       badgeId: "1",
@@ -118,6 +142,17 @@ rem：相對於 root font size`,
       id: "6",
     },
     {
+      title: "**useState — 狀態管理入門**",
+      content: `用來宣告與更新元件內的狀態  
+\`\`\`javascript
+const [count, setCount] = useState(0);
+setCount(count + 1);
+\`\`\`  
+每次 \`setCount\` 呼叫後元件會重新渲染。`,
+      badgeId: "3",
+      id: "9",
+    },
+    {
       title: "**Flexbox（彈性盒子）**",
       content: `\`display: flex;\`  
     是現代網頁常用的排版方式之一，能夠快速讓元素水平或垂直對齊`,
@@ -138,17 +173,7 @@ rem：相對於 root font size`,
       badgeId: "1",
       id: "8",
     },
-    {
-      title: "**useState — 狀態管理入門**",
-      content: `用來宣告與更新元件內的狀態  
-\`\`\`javascript
-const [count, setCount] = useState(0);
-setCount(count + 1);
-\`\`\`  
-每次 \`setCount\` 呼叫後元件會重新渲染。`,
-      badgeId: "3",
-      id: "9",
-    },
+
     {
       title: "**《我得了不想上班的病》- 倦怠 3 種類型：**",
       content: `1. 過勞
@@ -200,6 +225,42 @@ setCount(count + 1);
     },
   ];
 
+  const countRows = (content) => (content.match(/\n/g) || []).length + 1;
+
+  const organizeCardSwiper = (cards) => {
+    const result = [];
+    const maxRows = 9;
+
+    let i = 0;
+    while (i < cards.length) {
+      const currentCard = cards[i];
+      const currentRowCount = countRows(currentCard.content);
+
+      if (currentRowCount > maxRows) {
+        // 情況 A：它是長卡片，單獨一組
+        result.push(currentCard);
+        i++;
+      } else {
+        // 情況 B：它是短卡片，嘗試抓下一張
+        const nextCard = cards[i + 1];
+
+        if (nextCard && countRows(nextCard.content) <= maxRows) {
+          // 下一張也是短卡片，合併！
+          result.push([currentCard, nextCard]);
+          i += 2; // 跳過下一張
+        } else {
+          // 沒有下一張，或是下一張是長卡片，則這張單獨一組（格式統一為 [card]）
+          result.push([currentCard]);
+          i++;
+        }
+      }
+    }
+    return result;
+  };
+
+  const displayCardSwiper = organizeCardSwiper(lastestCards);
+  console.log(displayCardSwiper);
+
   const cardBoxes = [
     {
       id: "1",
@@ -210,7 +271,7 @@ setCount(count + 1);
       },
     },
     {
-      id: "2",
+      id: "3",
       title: "React 框架",
       cover_url: "user/card-box-cover-2.png",
       ui: {
@@ -218,7 +279,7 @@ setCount(count + 1);
       },
     },
     {
-      id: "3",
+      id: "2",
       title: "料理基礎",
       cover_url: "user/card-box-cover-3.png",
       ui: {
@@ -250,7 +311,7 @@ setCount(count + 1);
   }));
 
   return (
-    <main>
+    <main className="overflow-hidden">
       <section
         className="text-center pt-20 pb-14 pt-lg-25 pb-lg-30"
         style={{ backgroundColor: "#fafafa" }}
@@ -463,29 +524,18 @@ setCount(count + 1);
             >
               顯示全部
             </button>
-            <button
-              className="nav-link border border-primary d-flex align-items-center"
-              type="button"
-            >
-              <span className="material-symbols-outlined me-3">book</span>
-              讀書筆記
-            </button>
-            <button
-              className="nav-link border border-primary d-flex align-items-center"
-              type="button"
-            >
-              <span className="material-symbols-outlined me-3">live_tv</span>
-              線上課程
-            </button>
-            <button
-              className="nav-link border border-primary d-flex align-items-center"
-              type="button"
-            >
-              <span className="material-symbols-outlined me-3">
-                music_video
-              </span>
-              Podcast
-            </button>
+            {resourceTypes.map(({ type, text, iconName }) => (
+              <button
+                className="nav-link border border-primary d-flex align-items-center"
+                type="button"
+                key={type}
+              >
+                <span className="material-symbols-outlined me-3">
+                  {iconName}
+                </span>
+                {text}
+              </button>
+            ))}
           </nav>
         </div>
         <ul className="list-unstyled mb-0 d-flex flex-column gap-6">
@@ -496,35 +546,62 @@ setCount(count + 1);
         <h2 className="fs-xl mb-8 pb-6 border-bottom border-gray-200 fs-md-3xl lh-md-sm mb-md-10 mb-lg-20">
           常用卡片盒
         </h2>
-        <div id="card-box-swiper" className="swiper">
-          <div className="swiper-wrapper">
-            {cardBoxes.map((cardBox) => (
-              <div className="swiper-slide" key={cardBox.id}>
-                <CardBox cardBox={cardBox} />
-              </div>
-            ))}
-          </div>
-          <div className="mt-20">
-            <div className="swiper-scrollbar scrollbar-primary"></div>
-          </div>
-        </div>
+        <Swiper
+          className="card-box-swiper"
+          modules={[Scrollbar]}
+          spaceBetween={24}
+          slidesPerView={"auto"}
+          slidesOffsetBefore={0}
+          slidesOffsetAfter={0}
+          watchOverflow={true}
+          scrollbar={{
+            draggable: true,
+            el: ".swiper-scrollbar",
+          }}
+        >
+          {cardBoxes.map((cardBox) => (
+            <SwiperSlide key={cardBox.id}>
+              <CardBox cardBox={cardBox} />
+            </SwiperSlide>
+          ))}
+          <div className="swiper-scrollbar scrollbar-primary mt-20"></div>
+        </Swiper>
       </section>
       <section className="container py-14 py-lg-20">
         <h2 className="fs-xl mb-8 pb-6 border-bottom border-gray-200 fs-md-3xl lh-md-sm mb-md-10 mb-lg-20">
           最近新增卡片
         </h2>
-        <div id="current-cards-swiper" className="swiper overflow-visible">
-          <div className="swiper-wrapper">
-            <div className="swiper-slide" style={{ width: "300px" }}>
-              {lastestCards.map((card) => (
-                <BaseCard card={card} badges={badges} key={card.id} />
-              ))}
-            </div>
-          </div>
-          <div className="mt-6 mt-md-10">
-            <div className="swiper-scrollbar scrollbar-primary"></div>
-          </div>
-        </div>
+        <Swiper
+          className="current-cards-swiper overflow-visible"
+          modules={[Scrollbar]}
+          spaceBetween={24}
+          slidesPerView={"auto"}
+          slidesOffsetBefore={0}
+          slidesOffsetAfter={0}
+          watchOverflow={true}
+          scrollbar={{
+            draggable: true,
+            el: ".swiper-scrollbar",
+          }}
+        >
+          {displayCardSwiper.map((swiperItem) => (
+            <SwiperSlide style={{ width: "300px" }}>
+              {Array.isArray(swiperItem) ? (
+                swiperItem.map((card) => (
+                  // countRows(card.content)
+                  <BaseCard card={card} badges={badges} key={card.id} />
+                ))
+              ) : (
+                <BaseCard
+                  card={swiperItem}
+                  badges={badges}
+                  key={swiperItem.id}
+                />
+              )}
+            </SwiperSlide>
+          ))}
+          <div className="swiper-scrollbar scrollbar-primary mt-6 mt-md-10"></div>
+        </Swiper>
       </section>
     </main>
   );
