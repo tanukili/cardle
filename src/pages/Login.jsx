@@ -1,13 +1,13 @@
 import { useState } from "react";
-// import { useDispatch } from "react-redux";
-// import { login } from "@/store/slices/userSlice";
-import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "@/store/slices/userSlice";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Login() {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // 對應原始 HTML 的 input value
+  // 表單狀態
   const [email, setEmail] = useState("fakemail@mail.com");
   const [password, setPassword] = useState("123456");
 
@@ -15,18 +15,16 @@ export default function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // 假設登入成功，建立 userInfo
-    // const userInfo = {
-    //   name: email.split("@")[0], // 假資料，可自行改
-    //   avatarUrl: "./user.png",
-    // };
+    //  暫時沿用假登入資料
+    const fakeUserInfo = {
+      name: email.split("@")[0],
+      avatarUrl: "./user.png",
+    };
 
-    // Redux dispatch
-    // dispatch(login(userInfo));
+    // Redux 登入
+    dispatch(login(fakeUserInfo));
 
-    // 暫時只做 alert 或直接導向
-    console.log("暫時 login:", { email, password });
-    // 導向 user dashboard
+    // 登入後導頁
     navigate("/user/dashboard");
   };
 
@@ -89,12 +87,12 @@ export default function Login() {
 
               <p>
                 新會員？
-                <a
+                <Link
+                  to="/sign-up"
                   className="link-primary ms-2 text-decoration-underline"
-                  href="/sign-up"
                 >
                   註冊
-                </a>
+                </Link>
               </p>
             </form>
           </section>

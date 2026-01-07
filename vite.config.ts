@@ -33,4 +33,7 @@ export default defineConfig({
       },
     },
   },
+  optimizeDeps: {
+    include: ["swiper/react", "swiper", "swiper/modules"],
+  },
 });
