@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "@/store/slices/userSlice";
 import { useNavigate, Link } from "react-router-dom";
 
 export default function Login() {
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const userInfo = useSelector((state) => state.user.userInfo);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -25,7 +27,7 @@ export default function Login() {
     dispatch(login(fakeUserInfo));
 
     // 登入後導頁
-    navigate("/user/dashboard");
+    navigate("/user");
   };
 
   return (
