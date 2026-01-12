@@ -19,6 +19,7 @@
     "@reduxjs/toolkit": "^2.11.2",
     "@xyflow/react": "^12.10.0",
     "bootstrap": "^5.3.8",
+    "bootstrap-icons": "^1.13.1",
     "material-symbols": "^0.40.2",
     "quill": "^2.0.3",
     "react": "^19.2.0",

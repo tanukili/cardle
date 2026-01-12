@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, children } from 'react';
 import { Swiper, SwiperSlide  } from 'swiper/react';
+import { Link } from 'react-router-dom';
 import 'swiper/css';  
 import FAQItem from './FAQItem';
 export default function Detail() {
@@ -59,7 +60,7 @@ export default function Detail() {
                     </li>
                   </ul>
                 </div>
-                <a href="#" className="btn btn-outline-gray-400 py-md-4 mt-auto w-100 fs-md-5 fs-6">立即註冊</a>
+                <Link href="#" className="btn btn-outline-gray-400 py-md-4 mt-auto w-100 fs-md-5 fs-6"to={`/sign-up`}>立即註冊</Link>
               </div>
             </SwiperSlide>
             <SwiperSlide className="col-md-4 col-12 h-auto">
@@ -98,7 +99,7 @@ export default function Detail() {
                     </li>
                   </ul>
                 </div>
-                <a href="#" className="btn btn-secondary py-md-4 mt-auto w-100 fs-md-5 fs-6">升級方案（推薦）</a>
+                <Link  href="#" className="btn btn-secondary py-md-4 mt-auto w-100 fs-md-5 fs-6" to={`/subscription/checkout/1`}>升級方案（推薦）</Link >
               </div>
             </SwiperSlide>
             <SwiperSlide className="col-md-4 col-12 h-auto">
@@ -137,7 +138,7 @@ export default function Detail() {
                     </li>
                   </ul>
                 </div>
-                <a href="#" className="btn btn-outline-gray-400 py-md-4 mt-auto w-100 fs-md-5 fs-6">升級方案</a>
+                <Link href="#" className="btn btn-outline-gray-400 py-md-4 mt-auto w-100 fs-md-5 fs-6"  to={`/subscription/checkout/2`}>升級方案</Link>
               </div>
             </SwiperSlide> 
         </Swiper>
