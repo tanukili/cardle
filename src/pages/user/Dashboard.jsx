@@ -8,6 +8,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/scrollbar";
 
+import { ResponsivePie } from "@nivo/pie";
+import { ResponsiveBar } from "@nivo/bar";
+
 export default function Dashboard() {
   const userInfo = useSelector((state) => state.user.userInfo);
 
@@ -310,6 +313,44 @@ setCount(count + 1);
     ui: ui.color,
   }));
 
+  // 圓餅圖數據
+  const pieData = [
+    {
+      id: "網頁切板",
+      label: "網頁切板",
+      value: 70,
+      color: "#4a90e2", // 藍色
+    },
+    {
+      id: "JavaScript",
+      label: "JavaScript",
+      value: 20,
+      color: "#ff9e69",
+    },
+    {
+      id: "料理基礎",
+      label: "料理基礎",
+      value: 10,
+      color: "#fed0a7",
+    },
+  ];
+
+  // 長條圖數據
+  const barData = [
+    { month: "Jan", 學習時間: 50 },
+    { month: "Feb", 學習時間: 20 },
+    { month: "Mar", 學習時間: 70 },
+    { month: "Apr", 學習時間: 30 },
+    { month: "May", 學習時間: 140 },
+    { month: "Jun", 學習時間: 180 },
+    { month: "Jul", 學習時間: 80 },
+    { month: "Aug", 學習時間: 100 },
+    { month: "Sep", 學習時間: 40 },
+    { month: "Oct", 學習時間: 10 },
+    { month: "Nov", 學習時間: 30 },
+    { month: "Dec", 學習時間: 100 },
+  ];
+
   return (
     <main className="overflow-hidden">
       <section
@@ -435,8 +476,17 @@ setCount(count + 1);
                     </h3>
                   </div>
                   <div className="card-body d-flex flex-column flex-sm-row justify-content-center align-items-center py-0 py-sm-4 py-xl-6">
-                    <div className="pie-container pe-sm-3">
-                      <canvas id="themePie" className="p-3"></canvas>
+                    <div className="pie-container pe-sm-3" style={{ height: "200px", width: "200px" }}>
+                      <ResponsivePie
+                        data={pieData}
+                        margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+                        activeOuterRadiusOffset={8}
+                        colors={{ datum: "data.color" }}
+                        borderWidth={0}
+                        enableArcLinkLabels={false}
+                        enableArcLabels={false}
+                        isInteractive={false}
+                      />
                     </div>
                     <div className="d-sm-flex align-items-center pt-4 pt-sm-0 ps-sm-3">
                       <ul
@@ -449,10 +499,11 @@ setCount(count + 1);
                         <li className="w-50 px-2 py-1 py-sm-2 px-sm-0 w-sm-100">
                           <p className="d-flex align-items-center fs-s text-gray-700">
                             <span
-                              className="d-block bg-secondary-500 rounded-circle me-2"
+                              className="d-block rounded-circle me-2"
                               style={{
                                 width: "8px",
                                 height: "8px",
+                                backgroundColor: "#4a90e2",
                               }}
                             ></span>
                             網頁切板: 70%
@@ -468,7 +519,7 @@ setCount(count + 1);
                                 backgroundColor: "#ff9e69",
                               }}
                             ></span>
-                            JavaScrip: 20%
+                            JavaScript: 20%
                           </p>
                         </li>
                         <li className="w-50 px-2 py-1 py-sm-2 px-sm-0 w-sm-100">
@@ -498,8 +549,36 @@ setCount(count + 1);
                         學習時間 (分)
                       </h3>
                     </div>
-                    <div className="bar-container card-body d-flex flex-column p-xl-6">
-                      <canvas id="spendTimeBar"></canvas>
+                    <div className="bar-container card-body d-flex flex-column p-xl-6" style={{ height: "300px" }}>
+                      <ResponsiveBar
+                        data={barData}
+                        keys={["學習時間"]}
+                        indexBy="month"
+                        margin={{ top: 20, right: 20, bottom: 50, left: 40 }}
+                        padding={0.3}
+                        valueScale={{ type: "linear" }}
+                        indexScale={{ type: "band", round: true }}
+                        colors="#4a90e2"
+                        axisTop={null}
+                        axisRight={null}
+                        axisBottom={{
+                          tickSize: 5,
+                          tickPadding: 5,
+                          tickRotation: 0,
+                        }}
+                        axisLeft={{
+                          tickSize: 5,
+                          tickPadding: 5,
+                          tickRotation: 0,
+                        }}
+                        borderRadius={8}
+                        enableLabel={false}
+                        animate={true}
+                        motionConfig="gentle"
+                        role="application"
+                        barAriaLabel={(e) => `${e.id}: ${e.formattedValue} 分鐘`}
+                        ariaLabel="學習時間長條圖"
+                        />
                     </div>
                   </div>
                 </div>
