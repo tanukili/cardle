@@ -82,6 +82,14 @@ export default function BookshelfIndex() {
     },
   ];
 
+  const progressResources = learningResources.map((resource) => ({
+    id: resource.id,
+    type: resource.type,
+    title: resource.title,
+    completedUnit: resource.progress.current,
+    totalUnit: resource.progress.total,
+  }));
+
   const resourceTypes = [
     {
       type: "book",
@@ -200,6 +208,19 @@ export default function BookshelfIndex() {
     };
   });
 
+  const typeMap = {
+    book: "書籍",
+    video: "影音",
+    podcast: "Podcast",
+    network: "網路資源",
+  };
+  const statusMap = {
+    completed: "完成",
+    learning: "學習中",
+    not_started: "未開始",
+    paused: "已暫停",
+  };
+
   const formatDate = (unix) => {
     const date = new Date(unix * 1000);
 
@@ -211,26 +232,112 @@ export default function BookshelfIndex() {
     return formattedDate;
   };
 
+  const todoList = [
+    {
+      isCompleted: true,
+      content: "JS 課前影音",
+      pomoNum: 2,
+    },
+    {
+      isCompleted: true,
+      content: "Leetcode 刷題",
+      pomoNum: 0,
+    },
+    {
+      isCompleted: false,
+      content: "duolingo 英文三個單元",
+      pomoNum: 0,
+    },
+  ];
+
   return (
     <main>
-      <ul className="nav nav-pills">
-        <li className="nav-item">
-          <Link className="nav-link" to="/user/bookshelf">
-            日曆
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link" to="/user/bookshelf/pomodoro">
-            番茄鐘
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link" to="/user/bookshelf/topics">
-            學習主題
-          </Link>
-        </li>
-      </ul>
-      <Outlet />
+      <section className="container mt-6">
+        <h2 className="fs-xl mb-8 pb-6 border-bottom border-gray-200 fs-md-3xl lh-md-sm mb-md-10">
+          我的書單
+        </h2>
+        <ul className="nav nav-pills mb-10">
+          <li className="nav-item">
+            <Link className="nav-link" to="/user/bookshelf">
+              學習日曆
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/user/bookshelf/pomodoro">
+              番茄鐘
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/user/bookshelf/topics">
+              學習主題
+            </Link>
+          </li>
+        </ul>
+        <div className="row">
+          <div className="col-lg-9">
+            <Outlet />
+          </div>
+          <div className="col-lg-3">
+            <div className="card">
+              <div className="card-body pb-10">
+                <h3 className="mb-6">今日任務</h3>
+                <ul className="list-group row-gap-6 mb-6">
+                  {todoList.map((todo, index) => (
+                    <li key={index} className="form-check d-flex items-center">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id={`checkDefault-${index}`}
+                        checked={todo.isCompleted}
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor={`checkDefault-${index}`}
+                      >
+                        {todo.content}
+                      </label>
+                      {Array.from({ length: todo.pomoNum }, (_, i) => (
+                        <span key={i} className="material-symbols-outlined">
+                          timer
+                        </span>
+                      ))}
+                    </li>
+                  ))}
+                </ul>
+                <button className="btn btn-outline-primary w-100" type="button">
+                  新增
+                </button>
+              </div>
+              <div className="card-footer pt-10">
+                <ul className="list-group row-gap-6">
+                  <li className="d-flex justify-content-between">
+                    <span>待完成任務：</span>
+                    <span>
+                      {todoList.filter((todo) => !todo.isCompleted).length}
+                    </span>
+                  </li>
+                  <li className="d-flex justify-content-between">
+                    <span>已專注時間：</span>
+                    <span>
+                      {todoList.reduce(
+                        (acc, todo) => acc + todo.pomoNum * 25,
+                        0
+                      )}
+                      分鐘
+                    </span>
+                  </li>
+                  <li className="d-flex justify-content-between">
+                    <span>已完成任務：</span>
+                    <span>
+                      {todoList.filter((todo) => todo.isCompleted).length}
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       <section className="container py-14 py-lg-20">
         <h2 className="fs-xl mb-8 pb-6 border-bottom border-gray-200 fs-md-3xl lh-md-sm mb-md-10">
           學習進度追蹤
@@ -262,7 +369,7 @@ export default function BookshelfIndex() {
           </nav>
         </div>
         <ul className="list-unstyled mb-0 d-flex flex-column gap-6">
-          <ProgressList learningResources={learningResources} />
+          <ProgressList learningResources={progressResources} />
         </ul>
       </section>
       <section className="container py-14 py-lg-20">
@@ -284,13 +391,17 @@ export default function BookshelfIndex() {
           <table className="table">
             <thead className="table-primary">
               <tr>
-                <th scope="col"></th>
+                <th scope="col" className="text-nowrap"></th>
                 {resourceColMap.map((col) => (
-                  <th scope="col" key={col.correspondingKey}>
+                  <th
+                    scope="col"
+                    key={col.correspondingKey}
+                    className="text-nowrap"
+                  >
                     {col.text}
                   </th>
                 ))}
-                <th scope="col"></th>
+                <th scope="col" className="text-nowrap"></th>
               </tr>
             </thead>
             <tbody>
@@ -306,6 +417,37 @@ export default function BookshelfIndex() {
                     />
                   </th>
                   {resourceColMap.map(({ correspondingKey }) => {
+                    if (correspondingKey === "is_favorite") {
+                      return (
+                        <td>
+                          <input
+                            type="checkbox"
+                            className="btn-check"
+                            id={`btn-check-${resources.id}`}
+                            autoComplete="off"
+                            checked={resources.is_favorite}
+                          />
+                          <label
+                            className="btn"
+                            htmlFor={`btn-check-${resources.id}`}
+                            style={{
+                              border: "none",
+                            }}
+                          >
+                            <span
+                              className="material-symbols-outlined text-warning"
+                              style={{
+                                fontVariationSettings: `'FILL' ${Number(
+                                  resources.is_favorite
+                                )}`,
+                              }}
+                            >
+                              star
+                            </span>
+                          </label>
+                        </td>
+                      );
+                    }
                     if (correspondingKey === "link") {
                       return (
                         <td key={correspondingKey}>
@@ -320,6 +462,12 @@ export default function BookshelfIndex() {
                           </a>
                         </td>
                       );
+                    }
+                    if (correspondingKey === "type") {
+                      return <td>{typeMap[resources[correspondingKey]]}</td>;
+                    }
+                    if (correspondingKey === "status") {
+                      return <td>{statusMap[resources[correspondingKey]]}</td>;
                     }
                     if (correspondingKey.includes("_at")) {
                       return <td>{formatDate(resources[correspondingKey])}</td>;
