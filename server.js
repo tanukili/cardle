@@ -1,4 +1,3 @@
-// 引入必要的套件
 import jsonServer from "json-server";
 import auth from "json-server-auth";
 import path from "path";
@@ -8,7 +7,6 @@ import { fileURLToPath } from "url";
 const server = jsonServer.create();
 const middlewares = jsonServer.defaults(); // 包含 Logger, Static, CORS 等功能
 
-// ESM 下沒有 __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -35,6 +33,7 @@ server.db = router.db;
 
 // 依序設定 預設中間件 => json-server-auth => 掛載資料路由
 server.use(middlewares);
+server.use(jsonServer.bodyParser);
 server.use(auth);
 server.use(router);
 
@@ -45,7 +44,7 @@ const port = process.env.PORT || 3000;
 // Error Handling 避免伺服器崩潰
 server.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send("Something broke!");
+  res.status(500).send("Server Error");
 });
 
 // 監聽 '0.0.0.0'
