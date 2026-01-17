@@ -4,11 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": " start json-server-auth db.json --port 4000 && vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "backend": "json-server-auth db.json",
+    "start": "node server.js"
   },
   "dependencies": {
     "@fullcalendar/core": "^6.1.20",
@@ -20,6 +22,8 @@
     "@reduxjs/toolkit": "^2.11.2",
     "@xyflow/react": "^12.10.0",
     "bootstrap": "^5.3.8",
+    "json-server": "^0.17.4",
+    "json-server-auth": "^2.1.0",
     "material-symbols": "^0.40.2",
     "quill": "^2.0.3",
     "react": "^19.2.0",
