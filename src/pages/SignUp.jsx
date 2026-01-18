@@ -1,7 +1,69 @@
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import { Modal } from "bootstrap";
+import { useEffect, useRef } from "react";
+import axios from "axios";
+
+const BASE_URL = "http://localhost:3000";
 
 export default function SignUp() {
+  const signUpModalElRef = useRef(null);
+  const signUpModalInstanceRef = useRef(null);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({ mode: "onChange" });
+
+  const password = watch("password");
+
+  useEffect(() => {
+    signUpModalInstanceRef.current = new Modal(signUpModalElRef.current);
+
+    // Modal 關閉時移除焦點
+    document
+      .querySelector("#registerModal")
+      .addEventListener("hide.bs.modal", () => {
+        if (document.activeElement instanceof HTMLElement) {
+          document.activeElement.blur();
+        }
+      });
+  }, []);
+
+  const openSignUpModal = () => {
+    signUpModalInstanceRef.current?.show();
+  };
+
+  const handleSignUp = async (formData) => {
+    try {
+      const { password2, subscribe, agreeTerms, ...payload } = formData;
+      // console.log(payload);
+      // console.log(subscribe);
+
+      const now = Math.floor(Date.now() / 1000);
+
+      const data = {
+        email: payload.email,
+        password: payload.password,
+        username: payload.username,
+        phone: payload.phone,
+        avatarImage: "",
+        address: payload.address,
+        newsletterSubscribed: subscribe,
+        createdAt: now,
+        updatedAt: now,
+      };
+      console.log(data);
+
+      const res = await axios.post(`${BASE_URL}/users`, data);
+      console.log(res.data);
+
+      openSignUpModal();
+    } catch (error) {}
+  };
+
   return (
     <>
       <main className="d-flex flex-column flex-md-row bg-light">
@@ -18,22 +80,31 @@ export default function SignUp() {
               <p className="fw-medium">立即註冊，開始建立你的知識地圖。</p>
             </div>
             {/* 表單 */}
-            <form className="row mb-6 was-validated">
+            <form
+              className="row mb-6"
+              onSubmit={handleSubmit(handleSignUp)}
+              noValidate
+            >
               <div className="col-xl-6 mb-4">
                 <label htmlFor="inputEmail" className="form-label">
                   電子信箱<span className="ms-1 text-primary">*</span>
                 </label>
                 <input
                   type="email"
-                  className="form-control"
+                  className={`form-control ${errors.email ? "is-invalid" : ""}`}
                   name="email"
                   id="inputEmail"
                   placeholder="xxxxx@example.com"
                   required
+                  {...register("email", {
+                    required: "請輸入您的電子信箱，將用於登入與通知",
+                    pattern: {
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                      message: "電子信箱格式不正確",
+                    },
+                  })}
                 />
-                <div className="invalid-feedback">
-                  請輸入有效的電子信箱，未來將用於登入與通知。
-                </div>
+                <div className="invalid-feedback">{errors.email?.message}</div>
               </div>
               <div className="col-xl-6 mb-4">
                 <label htmlFor="inputName" className="form-label">
@@ -41,13 +112,24 @@ export default function SignUp() {
                 </label>
                 <input
                   type="text"
-                  className="form-control"
+                  className={`form-control ${errors.username ? "is-invalid" : ""}`}
                   name="username"
                   id="inputName"
                   placeholder="請輸入暱稱"
                   required
+                  {...register("username", {
+                    required: "請輸入您的名字或暱稱",
+                    maxLength: {
+                      value: 15,
+                      message: "用戶名稱最多 15 個字",
+                    },
+                    validate: (v) =>
+                      v.trim().length > 0 || "用戶名稱不能只輸入空白",
+                  })}
                 />
-                <div className="invalid-feedback">請輸入您的名字或暱稱。</div>
+                <div className="invalid-feedback">
+                  {errors.username?.message}
+                </div>
               </div>
               <div className="col-xl-6 mb-4">
                 <label htmlFor="inputPassword" className="form-label">
@@ -55,14 +137,27 @@ export default function SignUp() {
                 </label>
                 <input
                   type="password"
-                  className="form-control"
+                  className={`form-control ${errors.password ? "is-invalid" : ""}`}
                   name="password1"
                   id="inputPassword"
                   minLength="6"
-                  placeholder="請輸入至少6位數密碼"
+                  placeholder="請輸入至少 6 碼的英文字母及數字"
                   required
+                  {...register("password", {
+                    required: "請輸入您的密碼",
+                    minLength: {
+                      value: 6,
+                      message: "密碼至少需要 6 碼",
+                    },
+                    pattern: {
+                      value: /^(?=.*[A-Za-z])(?=.*\d).{6,}$/,
+                      message: "密碼需包含英文字母與數字",
+                    },
+                  })}
                 />
-                <div className="invalid-feedback">密碼格式不符合規則。</div>
+                <div className="invalid-feedback">
+                  {errors.password?.message}
+                </div>
               </div>
               <div className="col-xl-6 mb-4">
                 <label htmlFor="inputPassword2" className="form-label">
@@ -70,14 +165,21 @@ export default function SignUp() {
                 </label>
                 <input
                   type="password"
-                  className="form-control"
+                  className={`form-control ${errors.password2 ? "is-invalid" : ""}`}
                   name="password2"
                   id="inputPassword2"
                   minLength="6"
                   placeholder="再次確認密碼"
                   required
+                  {...register("password2", {
+                    required: "請再次輸入密碼",
+                    validate: (v) =>
+                      v === password || "兩次密碼不一致，請再確認一次",
+                  })}
                 />
-                <div className="invalid-feedback">兩次密碼需相同。</div>
+                <div className="invalid-feedback">
+                  {errors.password2?.message}
+                </div>
               </div>
               <div className="col-xl-6 mb-4">
                 <label htmlFor="inputPhone" className="form-label">
@@ -85,13 +187,20 @@ export default function SignUp() {
                 </label>
                 <input
                   type="text"
-                  className="form-control"
+                  className={`form-control ${errors.phone ? "is-invalid" : ""}`}
                   name="phone"
                   id="inputPhone"
                   placeholder="請輸入電話號碼"
+                  {...register("phone", {
+                    pattern: {
+                      value: /^(09\d{8}|0[2-8]-?\d{7})$/,
+                      message: "請輸入正確的手機或市話格式",
+                    },
+                  })}
                 />
+                <div className="invalid-feedback">{errors.phone?.message}</div>
               </div>
-              <div className="col-xl-6 mb-4 align-self-end">
+              <div className="col-xl-6 mb-4 align-self-center">
                 <div className="d-flex">
                   <div className="align-self-end">
                     <label
@@ -119,11 +228,15 @@ export default function SignUp() {
                 </label>
                 <input
                   type="text"
-                  className="form-control"
+                  className={`form-control ${errors.address ? "is-invalid" : ""}`}
                   name="address"
                   id="inputAddress"
                   placeholder="請輸入帳單地址"
+                  {...register("address")}
                 />
+                <div className="invalid-feedback">
+                  {errors.address?.message}
+                </div>
               </div>
               <div className="col-12">
                 <div className="form-check">
@@ -133,6 +246,7 @@ export default function SignUp() {
                     name="subscribe"
                     id="checkNewsletter"
                     defaultChecked
+                    {...register("subscribe")}
                   />
                   <label className="form-check-label" htmlFor="checkNewsletter">
                     訂閱電子報，收到更多產品資訊
@@ -142,11 +256,14 @@ export default function SignUp() {
               <div className="col-12 mb-11 mb-md-15">
                 <div className="form-check position-relative">
                   <input
-                    className="form-check-input"
+                    className={`form-check-input ${errors.agreeTerms ? "is-invalid" : ""}`}
                     type="checkbox"
                     name="agreeTerms"
                     id="checkTerms"
                     required
+                    {...register("agreeTerms", {
+                      required: "請先同意《服務條款與隱私政策》",
+                    })}
                   />
                   <label className="form-check-label" htmlFor="checkTerms">
                     我已閱讀並同意
@@ -160,16 +277,16 @@ export default function SignUp() {
                     </a>
                   </label>
                   <div className="invalid-feedback position-absolute start-0">
-                    請先同意《服務條款與隱私政策》。
+                    {errors.agreeTerms?.message}
                   </div>
                 </div>
               </div>
               <div className="col-12">
                 <button
-                  type="button"
+                  type="submit"
                   className="btn btn-primary py-md-4 w-100"
-                  data-bs-toggle="modal"
-                  data-bs-target="#registerModal"
+                  // data-bs-toggle="modal"
+                  // data-bs-target="#registerModal"
                 >
                   註冊
                 </button>
@@ -253,6 +370,7 @@ export default function SignUp() {
 
       {/* Modal - 註冊 */}
       <div
+        ref={signUpModalElRef}
         className="modal fade"
         id="registerModal"
         tabIndex="-1"
