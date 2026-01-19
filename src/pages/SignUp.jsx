@@ -1,20 +1,27 @@
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Modal } from "bootstrap";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+const DEFAULT_AVATAR_URL =
+  "https://res.cloudinary.com/dt24k06gm/image/upload/v1768755900/uncd8bdsxzci1yj3aeho.png";
 
 export default function SignUp() {
   const signUpModalElRef = useRef(null);
   const signUpModalInstanceRef = useRef(null);
+
+  const [imgUrl, setImgUrl] = useState("");
 
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
+    reset,
   } = useForm({ mode: "onChange" });
 
   const password = watch("password");
@@ -36,6 +43,32 @@ export default function SignUp() {
     signUpModalInstanceRef.current?.show();
   };
 
+  const uploadImage = async (file) => {
+    const url = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
+
+    const formData = new FormData();
+    formData.append("file", file); // 檔案本體
+    formData.append("upload_preset", UPLOAD_PRESET); // unsigned preset 必帶
+
+    try {
+      const res = await axios.post(url, formData);
+      // console.log(res.data);
+
+      return res.data.secure_url;
+    } catch (error) {
+      alert("上傳圖片失敗");
+    }
+  };
+
+  const handleImageChange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // 上傳到 Cloudinary 拿網址
+    const url = await uploadImage(file);
+    setImgUrl(url);
+  };
+
   const handleSignUp = async (formData) => {
     try {
       const { password2, subscribe, agreeTerms, ...payload } = formData;
@@ -49,19 +82,23 @@ export default function SignUp() {
         password: payload.password,
         username: payload.username,
         phone: payload.phone,
-        avatarImage: "",
+        avatarImage: imgUrl,
         address: payload.address,
         newsletterSubscribed: subscribe,
         createdAt: now,
         updatedAt: now,
       };
-      console.log(data);
+      // console.log(data);
 
-      const res = await axios.post(`${BASE_URL}/users`, data);
-      console.log(res.data);
+      const res = await axios.post(`${BASE_URL}users`, data);
+      // console.log(res.data);
 
+      reset();
+      setImgUrl(DEFAULT_AVATAR_URL);
       openSignUpModal();
-    } catch (error) {}
+    } catch (error) {
+      alert("註冊失敗，帳號已存在");
+    }
   };
 
   return (
@@ -211,13 +248,18 @@ export default function SignUp() {
                     </label>
                     <input
                       type="file"
+                      accept="image/*"
                       className="form-control d-none"
                       name="profile"
                       id="inputProfile"
+                      onChange={handleImageChange}
                     />
                   </div>
                   <div className="profile-preview">
-                    <img src="user.png" alt="profile-preview" />
+                    <img
+                      src={imgUrl || DEFAULT_AVATAR_URL}
+                      alt="profile-preview"
+                    />
                   </div>
                 </div>
                 <div className="invalid-feedback">檔案過大或格式不支援。</div>
