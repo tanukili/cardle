@@ -13,9 +13,7 @@ export default function CardBoxs() {
         <div className="d-flex justify-content-between align-items-center">
           <h1 className="fs-xl mb-2 pb-6 fs-md-3xl lh-md-sm mb-md-3">卡片盒</h1>
 
-          {/* 使用 div 而不是 switch */}
           <div className="form-check form-switch">
-            {/* input 必須是自閉合，文字要放在 label 裡 */}
             <input
               className="form-check-input"
               type="checkbox"
@@ -31,7 +29,6 @@ export default function CardBoxs() {
           </div>
         </div>
         <div className="d-flex justify-content-between align-items-center">
-          {/* 這裡是一個整體，父層不會拆散裡面的內容 */}
           <div className="d-flex align-items-center mb-0">
             {/* 搜尋框容器 */}
             <div className="input-group" style={{ width: "300px" }}>
@@ -45,13 +42,12 @@ export default function CardBoxs() {
               />
             </div>
 
-            {/* 緊跟在後的文字，使用 ms-6 增加間距 */}
             <span className="text-muted ms-6 flex-shrink-0">
               共 30 個卡片盒
             </span>
           </div>
-          {/* 父層的其他元素（例如之前的按鈕） */}
-          {/* 關鍵：使用 d-flex flex-column，並在 md 尺寸以上改回 flex-row */}
+          {/* 父層的其他元素 */}
+
           <nav className="nav nav-pills d-flex gap-3 gap-md-6">
             <button
               className="nav-link border border-primary"
