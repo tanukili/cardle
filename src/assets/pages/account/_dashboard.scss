@@ -1,12 +1,10 @@
 .dashboard-textarea {
   resize: none;
   height: 300px;
-  box-shadow:
-    0px 2px 5px 0px rgba($gray-700, 0.12),
+  box-shadow: 0px 2px 5px 0px rgba($gray-700, 0.12),
     0px 8px 8px 0px rgba($gray-700, 0.04),
     0px 19px 11px 0px rgba($gray-700, 0.06);
-  background:
-    linear-gradient($gray-0, $gray-0) padding-box,
+  background: linear-gradient($gray-0, $gray-0) padding-box,
     linear-gradient(90deg, #eb5858 0%, #6863f7 100%) border-box;
   --bs-border-color: transparent;
   position: relative;
@@ -15,9 +13,7 @@
   }
   &:focus {
     border-color: transparent;
-    box-shadow:
-      0 0 8px 0 rgba(#eb5858, 0.2),
-      0 0 8px 0 rgba(#6863f7, 0.2),
+    box-shadow: 0 0 8px 0 rgba(#eb5858, 0.2), 0 0 8px 0 rgba(#6863f7, 0.2),
       0px 2px 5px 0px rgba($gray-700, 0.12),
       0px 8px 8px 0px rgba($gray-700, 0.04),
       0px 19px 11px 0px rgba($gray-700, 0.06);
@@ -27,7 +23,7 @@
   }
 }
 
-a[href='#chartCollapse'] {
+a[href="#chartCollapse"] {
   transform: rotate(-180deg);
   transition: transform 0.3s ease-in-out;
   &.collapsed {
@@ -108,7 +104,7 @@ a[href='#chartCollapse'] {
   }
 }
 
-#card-box-swiper {
+.card-box-swiper {
   &.swiper {
     overflow: visible;
     @include media-breakpoint-up(sm) {
@@ -141,10 +137,10 @@ a[href='#chartCollapse'] {
   }
 }
 
-#current-cards-swiper {
+.current-cards-swiper {
   .swiper-wrapper {
     height: 626px;
-    @include media-breakpoint-up(xl) {
+    @include media-breakpoint-up(lg) {
       width: 706px;
     }
   }

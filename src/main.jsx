@@ -1,8 +1,8 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import 'material-symbols';
+import "material-symbols";
 import "./assets/index.scss";
-// import 'bootstrap/dist/js/bootstrap.min.js';
+
 import { Provider } from "react-redux";
 import { store } from "./store/index";
 
@@ -15,5 +15,5 @@ createRoot(document.getElementById("root")).render(
     <Provider store={store}>
       <App />
     </Provider>
-  </StrictMode>
+  </StrictMode>,
 );

@@ -5,8 +5,12 @@ import { PatternFormat } from "react-number-format";
 import { useEffect, useState } from "react"
 import axios from "axios";
 import Validation from "./Validation"
+// console.log(BASE_URLL);
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+console.log(BASE_URL);
 
 const Checkout = () => {
+  
   const [plans, setPlans] = useState([]);
   const { id } = useParams(); 
   const [step, setStep] = useState(1);
@@ -24,7 +28,7 @@ const Checkout = () => {
   });
 
   useEffect(() => {
-    axios.get('http://localhost:3000/plans').then(res => setPlans(res.data));
+    axios.get(`${BASE_URL}/plans`).then(res => setPlans(res.data));
   }, []);
 
   // --- 日期與格式工具 ---
@@ -141,7 +145,7 @@ return (
             <p class="card-text">訂閱日期：{nowDay}</p>
             {/* {JSON.stringify(formatChineseDate())} */}
             <p className="card-text">自動續訂日期: {nextDay}</p>
-            <p className="card-text mb-2">費用：{`NT${currentPlan.price}/${currentPlan.billing.unit}`}</p>
+            <p className="card-text mb-2">費用：{`NT${currentPlan.price}/${currentPlan.billing?.unit}`}</p>
             <div className="accordion accordion-flush" id="planDetails">
               <div className="accordion-item">
                 <h2 className="accordion-header d-flex flex-column">
@@ -153,13 +157,14 @@ return (
               <div id="collapseOne" className="accordion-collapse collapse show">
                 <div className="accordion-body px-0 pt-3">
                   <ol className="list-group list-group-numbered list-group-flush small">
-                    {
+                    {JSON.stringify(currentPlan.featuresDetail)}
+                    {/* {
                       currentPlan.featuresDetail.map((item,i)=>(
                         <li key={item.key} className="list-group-item border-0 px-0 plan-list-item">
                           <strong>{item.title}: </strong>{item.description}
                         </li>
                       ))
-                    }
+                    } */}
                 </ol>
                 </div>
               </div>
