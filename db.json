@@ -1,0 +1,461 @@
+{
+  "users": [
+    {
+      "id": 101,
+      "email": "example@gmail.com",
+      "password": "123456",
+      "username": "Amy",
+      "phone": "0911111111",
+      "avatarUrl": "",
+      "address": "台北市...",
+      "newsletterSubscribed": true,
+      "createdAt": 1766637020,
+      "updatedAt": 1766637020
+    },
+    {
+      "id": 104,
+      "email": "example@gmail.com",
+      "password": "123456",
+      "username": "Amy",
+      "phone": "0911111111",
+      "avatarUrl": "",
+      "address": "台北市...",
+      "newsletterSubscribed": true,
+      "createdAt": 1766637020,
+      "updatedAt": 1766637020
+    }
+  ],
+  "plans": [
+    {
+      "id": "plan_free",
+      "title": "Free",
+      "subtitle": "免費方案",
+      "price": 0,
+      "billing": {
+        "cycle": 0,
+        "unit": "月"
+      },
+      "status": "active",
+      "featuresShort": [
+        "建立筆記卡片",
+        "建立書單",
+        "標籤分類"
+      ],
+      "featuresDetail": [
+        {
+          "key": "cards",
+          "title": "建立卡片",
+          "description": "建立最多 30 張筆記卡片，初學者也能輕鬆上手。"
+        },
+        {
+          "key": "booklists",
+          "title": "建立書單",
+          "description": "建立最多 15 個學習書單，整理你的學習主題。"
+        },
+        {
+          "key": "tags",
+          "title": "標籤分類",
+          "description": "支援標籤分類管理，簡單歸納每一筆知識。"
+        },
+        {
+          "key": "no_card",
+          "title": "完全免費",
+          "description": "完全免費，無需綁定信用卡。"
+        }
+      ],
+      "limits": {
+        "maxCards": 30,
+        "maxBooklists": 15
+      },
+      "permissions": {
+        "tagManagement": true,
+        "knowledgeGraph": false,
+        "progressTracking": false
+      }
+    },
+    {
+      "id": "plan_pro_month",
+      "title": "Pro",
+      "subtitle": "月繳方案",
+      "price": 120,
+      "billing": {
+        "cycle": 1,
+        "unit": "月"
+      },
+      "status": "active",
+      "featuresShort": [
+        "無限制建立筆記卡片",
+        "無限制建立書單",
+        "標籤分類",
+        "視覺化關聯地圖",
+        "進度追蹤與提醒"
+      ],
+      "featuresDetail": [
+        {
+          "key": "cards_unlimited",
+          "title": "無限制建立筆記卡片",
+          "description": "沒有張數限制，靈感再多也能全部記下來，打造屬於你的知識庫。"
+        },
+        {
+          "key": "booklists_unlimited",
+          "title": "無限制建立書單",
+          "description": "想追的書、學的主題再多都沒問題，隨心所欲整理你的閱讀計畫。"
+        },
+        {
+          "key": "tags",
+          "title": "標籤分類",
+          "description": "支援標籤分類管理，簡單歸納每一筆知識。"
+        },
+        {
+          "key": "graph",
+          "title": "視覺化關聯地圖",
+          "description": "將筆記之間的連結一目了然，幫助你建立屬於自己的知識網絡。"
+        },
+        {
+          "key": "progress",
+          "title": "進度追蹤與提醒",
+          "description": "一起養成穩定學習習慣！追蹤閱讀進度，還能設定提醒不怕忘記。"
+        },
+        {
+          "key": "cancel_anytime",
+          "title": "隨時取消",
+          "description": "無綁約壓力，可隨時取消訂閱，依照你的學習節奏自由彈性使用。"
+        }
+      ],
+      "limits": {
+        "maxCards": null,
+        "maxBooklists": null
+      },
+      "permissions": {
+        "tagManagement": true,
+        "knowledgeGraph": true,
+        "progressTracking": true
+      }
+    },
+    {
+      "id": "plan_pro_year",
+      "title": "Pro",
+      "subtitle": "年繳方案",
+      "price": 1200,
+      "billing": {
+        "cycle": 12,
+        "unit": "年"
+      },
+      "status": "active",
+      "featuresShort": [
+        "無限制建立筆記卡片",
+        "無限制建立書單",
+        "標籤分類",
+        "視覺化關聯地圖",
+        "進度追蹤與提醒"
+      ],
+      "featuresDetail": [
+        {
+          "key": "cards_unlimited",
+          "title": "無限制建立筆記卡片",
+          "description": "沒有張數限制，靈感再多也能全部記下來，打造屬於你的知識庫。"
+        },
+        {
+          "key": "booklists_unlimited",
+          "title": "無限制建立書單",
+          "description": "想追的書、學的主題再多都沒問題，隨心所欲整理你的閱讀計畫。"
+        },
+        {
+          "key": "tags",
+          "title": "標籤分類",
+          "description": "支援標籤分類管理，簡單歸納每一筆知識。"
+        },
+        {
+          "key": "graph",
+          "title": "視覺化關聯地圖",
+          "description": "將筆記之間的連結一目了然，幫助你建立屬於自己的知識網絡。"
+        },
+        {
+          "key": "progress",
+          "title": "進度追蹤與提醒",
+          "description": "一起養成穩定學習習慣！追蹤閱讀進度，還能設定提醒不怕忘記。"
+        },
+        {
+          "key": "cancel_anytime",
+          "title": "隨時取消",
+          "description": "無綁約壓力，可隨時取消訂閱，依照你的學習節奏自由彈性使用。"
+        },
+        {
+          "key": "yearly_value",
+          "title": "年繳更划算",
+          "description": "一次訂閱一年，享受更優惠的價格，適合長期學習者。"
+        }
+      ],
+      "limits": {
+        "maxCards": null,
+        "maxBooklists": null
+      },
+      "permissions": {
+        "tagManagement": true,
+        "knowledgeGraph": true,
+        "progressTracking": true
+      }
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord-20250809-001",
+      "planId": "plan_pro_month",
+      "userId": 101,
+      "price": 120,
+      "subscribeDate": 1754668800,
+      "nextBillingDate": 1757347200,
+      "isAutoRenew": true,
+      "agreedToTerms": true,
+      "status": "active",
+      "paymentMethodId": "pm-001"
+    },
+    {
+      "id": "ord-20250809-05501",
+      "planId": "plan_free",
+      "userId": 104,
+      "subscribeDate": 1754668800,
+      "nextBillingDate": 1757347200,
+      "isAutoRenew": true,
+      "agreedToTerms": true,
+      "status": "active",
+      "paymentMethodId": "pm-001"
+    },
+    {
+      "planId": "1",
+      "userId": 101,
+      "paymentMethodId": "fWjNIok",
+      "isAutoRenew": true,
+      "agreedToTerms": true,
+      "status": "active",
+      "subscribeDate": "2026-01-17",
+      "id": "2mpzkgU"
+    },
+    {
+      "id": "ord-20260117-63609",
+      "planId": "plan_free",
+      "userId": 104,
+      "isAutoRenew": true,
+      "agreedToTerms": true,
+      "status": "active",
+      "subscribeDate": 1768643451,
+      "nextBillingDate": 1771235451,
+      "paymentMethodId": "pm-001"
+    },
+    {
+      "planId": "1",
+      "userId": 101,
+      "paymentMethodId": "KWJ7lqs",
+      "isAutoRenew": true,
+      "agreedToTerms": true,
+      "status": "active",
+      "subscribeDate": 1768646010,
+      "nextBillingDate": 1771238010,
+      "id": "KpS1fKF"
+    },
+    {
+      "id": "ord-20260117-12533",
+      "planId": "plan_free",
+      "userId": 101,
+      "isAutoRenew": true,
+      "agreedToTerms": true,
+      "status": "active",
+      "subscribeDate": 1768723652,
+      "nextBillingDate": 1771315652,
+      "paymentMethodId": "pm-001"
+    },
+    {
+      "id": "ord-20260122-886",
+      "planId": "免費方案",
+      "userId": 101,
+      "price": 0,
+      "subscribeDate": 1769107963,
+      "nextBillingDate": 1771786363,
+      "isAutoRenew": true,
+      "agreedToTerms": true,
+      "status": "active",
+      "paymentMethodId": "pm-1769107963559"
+    },
+    {
+      "id": "ord-20260122-644",
+      "planId": "免費方案",
+      "userId": 101,
+      "price": 0,
+      "subscribeDate": 1769107994,
+      "nextBillingDate": 1771786394,
+      "isAutoRenew": true,
+      "agreedToTerms": true,
+      "status": "active",
+      "paymentMethodId": "pm-1769107994586"
+    },
+    {
+      "id": "ord-20260122-898",
+      "planId": "免費方案",
+      "userId": 101,
+      "price": 0,
+      "subscribeDate": 1769110309,
+      "nextBillingDate": 1771788709,
+      "isAutoRenew": true,
+      "agreedToTerms": true,
+      "status": "active",
+      "paymentMethodId": "pm-1769110309544"
+    },
+    {
+      "id": "ord-20260122-179",
+      "planId": "月繳方案",
+      "userId": 101,
+      "price": 120,
+      "subscribeDate": 1769110816,
+      "nextBillingDate": 1771789216,
+      "isAutoRenew": true,
+      "agreedToTerms": true,
+      "status": "active",
+      "paymentMethodId": "pm-1769110816402"
+    },
+    {
+      "id": "ord-20260124-388",
+      "planId": "月繳方案",
+      "userId": 101,
+      "price": 120,
+      "subscribeDate": 1769258239,
+      "nextBillingDate": 1771936639,
+      "isAutoRenew": true,
+      "agreedToTerms": true,
+      "status": "active",
+      "paymentMethodId": "pm-1769258239683"
+    },
+    {
+      "id": "ord-20260124-11",
+      "planId": "月繳方案",
+      "userId": 101,
+      "price": 120,
+      "subscribeDate": 1769258284,
+      "nextBillingDate": 1771936684,
+      "isAutoRenew": true,
+      "agreedToTerms": true,
+      "status": "active",
+      "paymentMethodId": "pm-1769258284367"
+    },
+    {
+      "id": "ord-20260124-593",
+      "planId": "年繳方案",
+      "userId": 101,
+      "price": 1200,
+      "subscribeDate": 1769265467,
+      "nextBillingDate": 1771943867,
+      "isAutoRenew": true,
+      "agreedToTerms": true,
+      "status": "active",
+      "paymentMethodId": "pm-1769265467600"
+    }
+  ],
+  "paymentMethods": [
+    {
+      "id": "pm-001",
+      "userId": 101,
+      "brand": "VISA",
+      "type": "credit_card",
+      "cardHolder": "John Doe",
+      "last4": "1234",
+      "expDate": "12/28"
+    },
+    {
+      "id": "pm-002",
+      "brand": "藍新金流",
+      "type": "credit_card",
+      "cardHolder": "John Doe",
+      "last4": "1234",
+      "expDate": "12/28"
+    },
+    {
+      "userId": 101,
+      "brand": "VISA",
+      "type": "credit_card",
+      "cardHolder": "kam",
+      "last4": "1236",
+      "expDate": "0212",
+      "id": "fWjNIok"
+    },
+    {
+      "userId": 101,
+      "brand": "VISA",
+      "type": "credit_card",
+      "cardHolder": "kam2",
+      "last4": "1246",
+      "expDate": "0911",
+      "id": "KWJ7lqs"
+    },
+    {
+      "id": "pm-1769107963559",
+      "userId": 101,
+      "brand": "MASTERCARD",
+      "type": "credit_card",
+      "cardHolder": "NEWEBPAY USER",
+      "last4": "1111",
+      "expDate": "12/28"
+    },
+    {
+      "id": "pm-1769107994586",
+      "userId": 101,
+      "brand": "VISA",
+      "type": "credit_card",
+      "cardHolder": "JOHN DOE",
+      "last4": "4444",
+      "expDate": "05/29"
+    },
+    {
+      "id": "pm-1769110262629",
+      "userId": 101,
+      "brand": "credit_card",
+      "type": "credit_card",
+      "cardHolder": "kam2",
+      "last4": "1421",
+      "expDate": "0214"
+    },
+    {
+      "id": "pm-1769110309544",
+      "userId": 101,
+      "brand": "credit_card",
+      "type": "credit_card",
+      "cardHolder": "kam2",
+      "last4": "1421",
+      "expDate": "0214"
+    },
+    {
+      "id": "pm-1769110816402",
+      "userId": 101,
+      "brand": "MASTERCARD",
+      "type": "credit_card",
+      "cardHolder": "NEWEBPAY USER",
+      "last4": "1111",
+      "expDate": "12/28"
+    },
+    {
+      "id": "pm-1769258239683",
+      "userId": 101,
+      "brand": "credit_card",
+      "type": "credit_card",
+      "cardHolder": "kam2",
+      "last4": "1111",
+      "expDate": "0122"
+    },
+    {
+      "id": "pm-1769258284367",
+      "userId": 101,
+      "brand": "MASTERCARD",
+      "type": "credit_card",
+      "cardHolder": "NEWEBPAY USER",
+      "last4": "1111",
+      "expDate": "12/28"
+    },
+    {
+      "id": "pm-1769265467600",
+      "userId": 101,
+      "brand": "credit_card",
+      "type": "credit_card",
+      "cardHolder": "kam2",
+      "last4": "4444",
+      "expDate": "0112"
+    }
+  ]
+}
