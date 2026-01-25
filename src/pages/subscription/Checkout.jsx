@@ -28,7 +28,7 @@ const Checkout = () => {
   });
 
   useEffect(() => {
-    axios.get(`${BASE_URL}/plans`).then(res => setPlans(res.data));
+    axios.get(`${BASE_URL}plans`).then(res => setPlans(res.data));
   }, []);
 
   // --- 日期與格式工具 ---
@@ -74,7 +74,7 @@ const { nextDay, nowDay } = formatChineseDate();
         last4: cardData.number.slice(-4),
         expDate: cardData.expDate || "12/28"
       };
-      await axios.post('http://localhost:3000/paymentMethods', newPaymentMethod);
+      await axios.post(`${BASE_URL}paymentMethods`, newPaymentMethod);
 
       // 2. 再建立訂單紀錄 (orders)
       const newOrder = {
@@ -89,7 +89,7 @@ const { nextDay, nowDay } = formatChineseDate();
         status: "active",
         paymentMethodId: pmId // 關聯剛剛建立的 PM ID
       };
-      await axios.post('http://localhost:3000/orders', newOrder);
+      await axios.post(`${BASE_URL}orders`, newOrder);
 
       getOrderHistory(newOrder.id)
       // alert(`【${modeLabel}】付款成功！\n下次扣款日：${display}`);
@@ -101,11 +101,11 @@ const { nextDay, nowDay } = formatChineseDate();
   // 模擬：讀取訂單並顯示關聯的卡片末四碼
   const getOrderHistory = async (orderId) => {
     // 1. 取得訂單資料
-    const orderRes = await axios.get(`http://localhost:3000/orders/${orderId}`);
+    const orderRes = await axios.get(`${BASE_URL}orders/${orderId}`);
     const order = orderRes.data;
 
     // 2. 根據訂單中的 paymentMethodId 取得卡片資訊
-    const pmRes = await axios.get(`http://localhost:3000/paymentMethods/${order.paymentMethodId}`);
+    const pmRes = await axios.get(`${BASE_URL}paymentMethods/${order.paymentMethodId}`);
     const payment = pmRes.data;
 
     console.log(`訂單編號：${order.id}`);
@@ -157,14 +157,13 @@ return (
               <div id="collapseOne" className="accordion-collapse collapse show">
                 <div className="accordion-body px-0 pt-3">
                   <ol className="list-group list-group-numbered list-group-flush small">
-                    {JSON.stringify(currentPlan.featuresDetail)}
-                    {/* {
+                    {
                       currentPlan.featuresDetail.map((item,i)=>(
                         <li key={item.key} className="list-group-item border-0 px-0 plan-list-item">
                           <strong>{item.title}: </strong>{item.description}
                         </li>
                       ))
-                    } */}
+                    }
                 </ol>
                 </div>
               </div>
