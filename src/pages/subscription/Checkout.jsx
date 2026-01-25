@@ -142,7 +142,7 @@ return (
           <div className="card-body">
             {/* {JSON.stringify(currentPlan)} */}
             <h2 className="card-title fw-bold border-bottom mb-3">{currentPlan.title}{currentPlan.subtitle}</h2>
-            <p class="card-text">訂閱日期：{nowDay}</p>
+            <p className="card-text">訂閱日期：{nowDay}</p>
             {/* {JSON.stringify(formatChineseDate())} */}
             <p className="card-text">自動續訂日期: {nextDay}</p>
             <p className="card-text mb-2">費用：{`NT${currentPlan.price}/${currentPlan.billing?.unit}`}</p>
