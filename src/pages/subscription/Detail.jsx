@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, children } from 'react';
 import { Swiper, SwiperSlide  } from 'swiper/react';
 import { Link } from 'react-router-dom';
 import 'swiper/css';  
-import FAQItem from './FAQItem';
+import FAQItem from '../../components/FAQ/FAQItem';
 export default function Detail() {
   // 記錄當前展開項目的 ID，null 表示全部收合
   const [activeKey, setActiveKey] = useState(null);

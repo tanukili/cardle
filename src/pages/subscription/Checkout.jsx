@@ -4,7 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { PatternFormat } from "react-number-format";
 import { useEffect, useState } from "react"
 import axios from "axios";
-import Validation from "./Validation"
+import Validation from "../../components/checkout/Validation"
 // console.log(BASE_URLL);
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 console.log(BASE_URL);
