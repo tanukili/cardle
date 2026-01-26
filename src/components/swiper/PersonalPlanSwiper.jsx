@@ -6,9 +6,9 @@ import "swiper/css";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-export default function PlanSwiper() {
+export default function PersonalPlanSwiper() {
   const [plans, setPlans] = useState([]);
-  const [recommendedPlan, setRecommendedPlan] = useState("plan_pro_month");
+  const [currentPlan, setCurrentPlan] = useState("plan_pro_month");
 
   const getPlans = async () => {
     try {
@@ -29,8 +29,8 @@ export default function PlanSwiper() {
       {/* Swiper 主容器 */}
       <Swiper
         className="plan-swiper h-100"
-        initialSlide={1}
-        centeredSlides={true}
+        // initialSlide={1}
+        // centeredSlides={true}
         slidesPerView={"auto"}
         spaceBetween={24}
         centerInsufficientSlides={true}
@@ -41,9 +41,13 @@ export default function PlanSwiper() {
       >
         {/* 多個 Slides */}
         {plans.map((plan) => (
-          <SwiperSlide key={plan.id} className="swiper-slide h-auto">
+          <SwiperSlide
+            key={plan.id}
+            className="swiper-slide h-auto"
+            style={{ width: "279.33px" }}
+          >
             <div
-              className={`bg-gray-0 p-6 border ${plan.id === recommendedPlan ? " border-2 border-secondary" : "border-gray-100"} rounded-4 d-flex flex-column h-100`}
+              className={`bg-gray-0 p-6 border ${plan.id === currentPlan ? "border-2 border-primary" : "border-gray-100"} rounded-4 d-flex flex-column h-100`}
             >
               <div>
                 {/* 方案名稱 */}
@@ -84,7 +88,7 @@ export default function PlanSwiper() {
               {/* CTA 按鈕 */}
               <Link
                 to="/sign-up"
-                className={`btn ${plan.id === recommendedPlan ? "btn-secondary" : "btn-outline-gray-400"} fs-m fs-md-xl py-md-4 mt-auto w-100`}
+                className={`btn btn-outline-gray-400 fs-m fs-md-xl py-md-4 mt-auto w-100`}
               >
                 {plan.title === "Free" ? "立即註冊" : "升級方案"}
               </Link>
