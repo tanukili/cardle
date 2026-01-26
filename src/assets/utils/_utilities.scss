@@ -1,31 +1,31 @@
 $utilities: map-merge(
   $utilities,
   (
-    'font-size': map-merge(
-        map-get($utilities, 'font-size'),
+    "font-size": map-merge(
+        map-get($utilities, "font-size"),
         (
           responsive: true,
         )
       ),
-    'rounded': map-merge(
-        map-get($utilities, 'rounded'),
+    "rounded": map-merge(
+        map-get($utilities, "rounded"),
         (
           responsive: true,
         )
       ),
-    'line-height': map-merge(
-        map-get($utilities, 'line-height'),
+    "line-height": map-merge(
+        map-get($utilities, "line-height"),
         (
           responsive: true,
         )
       ),
-    'font-weight': map-merge(
-        map-get($utilities, 'font-weight'),
+    "font-weight": map-merge(
+        map-get($utilities, "font-weight"),
         (
           responsive: true,
         )
       ),
-    'width': (
+    "width": (
       responsive: true,
       property: width,
       class: w,
@@ -41,19 +41,25 @@ $utilities: map-merge(
         auto: auto,
       ),
     ),
+    "border": map-merge(
+        map-get($utilities, "border"),
+        (
+          responsive: true,
+        )
+      ),
   )
 );
 
 .material-symbols-outlined.fill {
   font-variation-settings:
-    'FILL' 1,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 24;
+    "FILL" 1,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
 }
 
 .font-Manrope {
-  font-family: 'Manrope', 'sans-serif';
+  font-family: "Manrope", "sans-serif";
 }
 
 // letter spacing 字距
