@@ -115,10 +115,8 @@ export default function Plan() {
               </button>
               <div className="collapse show" id="payment-record-collapse">
                 <div className="my-6">
-                  {/* <div className="border border-gray-200 rounded-2 overflow-hidden">
-                    <div className="table-scroll scrollbar-none"> */}
                   <div className="table-scroll scrollbar-none">
-                    <div className="payment-table-frame border border-gray-200 rounded-2 overflow-hidden">
+                    <div className="payment-table-frame border border-gray-200 rounded-2 w-100 overflow-hidden">
                       <table className="table align-middle mb-0 payment-record">
                         <thead>
                           <tr>
