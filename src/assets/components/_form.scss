@@ -1,30 +1,145 @@
-.was-validated .was-validated .form-control:valid:focus,
-.form-control.is-valid:focus {
-  border-color: $secondary-400;
+// form-switch 客製化
+.form-switch {
+  .form-check-input {
+    height: 2rem;
+    border-color: $primary-600;
+    border-width: 2px;
+    margin-top: 0;
+
+    &:focus {
+      box-shadow: none;
+    }
+    &:checked {
+      background-color: $primary-600;
+    }
+    &:disabled {
+      --bs-form-switch-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='%23D2D2D2'/></svg>");
+      background-color: $gray-100;
+      border-color: $gray-100;
+    }
+  }
 }
 
-.was-validated {
-  .form-check-input:valid,
-  .form-check-input.is-valid,
-  .form-check-input:invalid,
-  .form-check-input.is-invalid {
-    & ~ .form-check-label {
-      color: $gray-900;
+// input 通用樣式
+.form-control {
+  &:hover {
+    --bs-border-color: #{$primary-600};
+  }
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    box-shadow: none;
+  }
+}
+
+// form-control 客製化
+.form-control-container {
+  position: relative;
+
+  // 清除按鈕
+  .input-clearup {
+    display: none;
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    line-height: 1;
+    color: $primary-600;
+    background-color: rgba($gray-0, 0.8);
+  }
+  .form-control {
+    &:not(:placeholder-shown) + .input-clearup {
+      display: block;
+    }
+    &:disabled + .input-clearup {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
     }
   }
 
-  .form-check-input:invalid,
-  .form-check-input.is-invalid {
-    --bs-form-check-bg: #{$primary-100};
-  }
+  // 帶有 icon （預設 search icon）
+  &.with-icon {
+    .form-control {
+      padding-left: 44px;
+    }
 
-  .form-control:valid:focus,
-  .form-control.is-valid:focus {
-    border-color: $secondary-400;
-  }
-  .form-check-input:valid,
-  .form-check-input.is-valid,
-  .form-check-input:checked {
-    border-color: $secondary-400;
+    &:before {
+      --icon-color: #{$gray-500};
+      --icon-code-point: "\e8b6";
+      content: var(--icon-code-point);
+      font-family: "Material Symbols Outlined";
+      position: absolute;
+      display: block;
+      top: 50%;
+      left: 12px;
+      transform: translateY(-50%);
+      font-size: 24px;
+      line-height: 1;
+      color: var(--icon-color);
+    }
+    &:has(
+        .form-control:hover,
+        .form-control:focus,
+        .form-control:disabled
+      ):before {
+      --icon-color: #{$primary-600};
+    }
   }
 }
+
+// form-select 客製化
+.form-select-container {
+  position: relative;
+  .form-select {
+    background-image: unset;
+  }
+  &:after {
+    content: "\e313";
+    font-family: "Material Symbols Outlined";
+    position: absolute;
+    pointer-events: none;
+    top: 50%;
+    left: calc(50% + 56px);
+    transform: translate(-50%, -50%);
+    display: block;
+    font-size: 24px;
+    line-height: 1;
+    color: $primary-600;
+  }
+  &:focus {
+    --bs-border-color: #{$primary-600};
+  }
+}
+
+// 驗證樣式
+.was-validated .form-control:valid:focus,
+.form-control.is-valid:focus {
+  --bs-border-color: #{$primary-600} !important;
+}
+
+// .was-validated {
+//   .form-check-input:valid,
+//   .form-check-input.is-valid,
+//   .form-check-input:invalid,
+//   .form-check-input.is-invalid {
+//     & ~ .form-check-label {
+//       color: $gray-900;
+//     }
+//   }
+
+//   .form-check-input:invalid,
+//   .form-check-input.is-invalid {
+//     --bs-form-check-bg: #{$primary-100};
+//   }
+
+//   .form-control:valid:focus,
+//   .form-control.is-valid:focus {
+//     border-color: $secondary-400;
+//   }
+//   .form-check-input:valid,
+//   .form-check-input.is-valid,
+//   .form-check-input:checked {
+//     border-color: $secondary-400;
+//   }
+// }
