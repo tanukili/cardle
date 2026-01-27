@@ -213,3 +213,54 @@ $shadow-expanded: 0 4px 12px rgba(0, 0, 0, 0.15);
 //   outline: 2px solid green;
 // }
 // 
+
+/* 移除摺疊按鈕點擊時的藍色光暈 */
+.accordion-button:focus {
+  box-shadow: none;
+  border-color: rgba(0,0,0,.125);
+}
+
+/* 調整摺疊按鈕背景為透明 */
+.accordion-button:not(.collapsed) {
+  background-color: transparent;
+  box-shadow: none;
+  color: inherit;
+}
+
+/* 列表項目的文字顏色 */
+.plan-list-item {
+  color: #444;
+}
+/* 最外層div樣式 */
+.custom-focus-group {
+  border: 1px solid #bdbdbd;
+  border-radius: 0.75rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+/* 移除input focus時的預設邊框與陰影 */
+.custom-focus-group .form-control:focus {
+  border-color: #bdbdbd;
+  box-shadow: none;      /* 移除藍色陰影 */
+}
+
+/* 當input元素獲得焦點時，外層div產生焦點效果 */
+.custom-focus-group:focus-within {
+  border-color: #88acdf !important; /* input藍色邊框 */
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(57, 116, 202, 0.25);
+}
+
+.custom-focus-group.is-invalid {
+    border-color: var(--bs-form-invalid-border-color);
+    padding-right: calc(1.5em + 2rem);
+    background-image: none;
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.5rem) center;
+    background-size: calc(0.75em + 1rem) calc(0.75em + 1rem);
+}
+/* 微調圖示與輸入框的連體效果 */
+.custom-focus-group .input-group-text,
+.custom-focus-group .form-control {
+    border: none; /* 移除內部邊框，靠父容器顯示邊框 */
+}
