@@ -1,17 +1,60 @@
-export default function CardBox({ cardBox }) {
+export default function CardBox({ cardBox, isSelectMode = false, isSelected = false, onSelect, isFavorite = false, onToggleFavorite }) {
+  const cardBoxClass = ["card", "card-box", isSelectMode && "select-mode", isSelected && "is-selected", isFavorite && "is-favorite"].filter(Boolean).join(" ");
+
   return (
-    <div
-      className={`card rounded-4 bg-gray-0 border-2 border-tag-${cardBox.ui.color}-bg`}
+    <div className={cardBoxClass}
+      onClick={isSelectMode ? () => onSelect?.(cardBox.id) : undefined}
     >
-      <div className="card-body p-xl-6">
+      <div className="position-relative">
         <img
-          className="cover-img mb-4 rounded-1"
+          className="card-img-top"
           src={cardBox.cover_url}
           alt={`${cardBox.title}-封面`}
-        />
-        <h3 className="fs-m lh-base tracking-2 text-center fs-lg-xl">
+          />
+        {/* 最愛按鈕 */}
+        <button
+          className="card-box-favorite"
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleFavorite?.(cardBox.id);
+          }}
+          >
+          <span className="material-symbols-outlined">
+            star
+          </span>
+        </button>
+          {/* 選擇標示 */}
+        <div className="card-box-select">
+          <span className="material-symbols-outlined">
+            check
+          </span>
+        </div>
+      </div>
+      <div className="card-body">
+        <h3 className="card-title">
           {cardBox.title}
         </h3>
+        {/* {!cardBox.cover_url && (
+          <div
+            className="position-absolute w-100 h-100 d-flex align-items-center justify-content-center"
+            style={{
+              fontFamily: "monospace",
+              fontSize: "12px",
+              color: "#4a9eff",
+              opacity: 0.6,
+              lineHeight: "1.6",
+              padding: "20px",
+            }}
+          >
+            <pre style={{ margin: 0, color: "#4a9eff" }}>
+              {`class ${cardBox.title?.replace(/\s/g, "")} {
+  constructor() {
+    this.data = [];
+  }
+}`}
+            </pre>
+          </div>
+        )} */}
       </div>
     </div>
   );

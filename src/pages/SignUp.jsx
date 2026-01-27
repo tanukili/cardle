@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Modal } from "bootstrap";
 import { useEffect, useRef, useState } from "react";
@@ -7,14 +7,17 @@ import axios from "axios";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
 const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+
 const DEFAULT_AVATAR_URL =
   "https://res.cloudinary.com/dt24k06gm/image/upload/v1768755900/uncd8bdsxzci1yj3aeho.png";
+const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
 
 export default function SignUp() {
   const signUpModalElRef = useRef(null);
   const signUpModalInstanceRef = useRef(null);
 
   const [imgUrl, setImgUrl] = useState("");
+  const [imgError, setImgError] = useState("");
 
   const {
     register,
@@ -30,17 +33,33 @@ export default function SignUp() {
     signUpModalInstanceRef.current = new Modal(signUpModalElRef.current);
 
     // Modal 關閉時移除焦點
-    document
-      .querySelector("#registerModal")
-      .addEventListener("hide.bs.modal", () => {
-        if (document.activeElement instanceof HTMLElement) {
-          document.activeElement.blur();
-        }
-      });
+    const registerModalElement = document.querySelector("#registerModal");
+    const registerModalHandler = () => {
+      if (document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur();
+      }
+    };
+    registerModalElement?.addEventListener(
+      "hide.bs.modal",
+      registerModalHandler,
+    );
+
+    return () => {
+      registerModalElement?.removeEventListener(
+        "hide.bs.modal",
+        registerModalHandler,
+      );
+    };
   }, []);
 
   const openSignUpModal = () => {
     signUpModalInstanceRef.current?.show();
+  };
+
+  const navigate = useNavigate();
+  const closeSignUpModal = () => {
+    signUpModalInstanceRef.current?.hide();
+    navigate("/login");
   };
 
   const uploadImage = async (file) => {
@@ -63,6 +82,13 @@ export default function SignUp() {
   const handleImageChange = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    setImgError("");
+
+    if (file.size > MAX_FILE_SIZE) {
+      setImgError("圖片大小不可超過 2MB");
+      return;
+    }
 
     // 上傳到 Cloudinary 拿網址
     const url = await uploadImage(file);
@@ -95,6 +121,7 @@ export default function SignUp() {
 
       reset();
       setImgUrl(DEFAULT_AVATAR_URL);
+      setImgError("");
       openSignUpModal();
     } catch (error) {
       alert("註冊失敗，帳號已存在");
@@ -249,7 +276,7 @@ export default function SignUp() {
                     <input
                       type="file"
                       accept="image/*"
-                      className="form-control d-none"
+                      className={`form-control d-none ${imgError ? "is-invalid" : ""}`}
                       name="profile"
                       id="inputProfile"
                       onChange={handleImageChange}
@@ -262,7 +289,7 @@ export default function SignUp() {
                     />
                   </div>
                 </div>
-                <div className="invalid-feedback">檔案過大或格式不支援。</div>
+                <div className="invalid-feedback d-block">{imgError}</div>
               </div>
               <div className="col-12 mb-4">
                 <label htmlFor="inputAddress" className="form-label">
@@ -324,12 +351,7 @@ export default function SignUp() {
                 </div>
               </div>
               <div className="col-12">
-                <button
-                  type="submit"
-                  className="btn btn-primary py-md-4 w-100"
-                  // data-bs-toggle="modal"
-                  // data-bs-target="#registerModal"
-                >
+                <button type="submit" className="btn btn-primary py-md-4 w-100">
                   註冊
                 </button>
               </div>
@@ -359,7 +381,6 @@ export default function SignUp() {
         <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
           <div className="modal-content">
             <div className="modal-header border-bottom-0">
-              {/* <h1 className="modal-title fs-3xl" id="exampleModalLabel">Modal title</h1> */}
               <button
                 type="button"
                 className="btn-close p-2_5"
@@ -431,12 +452,11 @@ export default function SignUp() {
                 </span>
                 註冊成功！
               </h1>
-              {/* <a href="<%= HERF_BASE %>login.html" className="btn-close p-2_5"></a> */}
               <button
                 type="button"
                 className="btn-close p-2_5"
-                data-bs-dismiss="modal"
                 aria-label="Close"
+                onClick={closeSignUpModal}
               ></button>
             </div>
             <div className="modal-body">
@@ -450,16 +470,10 @@ export default function SignUp() {
               </div>
             </div>
             <div className="modal-footer border-top-0">
-              {/* <a
-                href="<%= HERF_BASE %>login.html"
-                className="btn btn-primary py-md-4 w-100"
-              >
-                確認
-              </a> */}
               <button
                 type="button"
                 className="btn btn-primary py-md-4 w-100"
-                data-bs-dismiss="modal"
+                onClick={closeSignUpModal}
               >
                 確認
               </button>
