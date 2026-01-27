@@ -1,0 +1,108 @@
+// card 元件延伸：卡片盒樣式
+.card-box {
+  --bs-border-radius: 1rem;
+  --bs-card-border-color: #{$gray-500};
+  --bs-card-bg: #{$gray-0};
+
+  .card-img-top {
+    height: 124px;
+    object-fit: cover;
+    border-bottom-left-radius: var(--bs-border-radius-sm);
+    border-bottom-right-radius: var(--bs-border-radius-sm);
+  }
+
+  &-favorite {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 1;
+    border-radius: 50%;
+    background-color: $white;
+    padding: 8px;
+    border: unset;
+
+    .material-symbols-outlined {
+      display: block;
+      font-size: 24px;
+      font-variation-settings: "FILL" 1;
+      color: $gray-200;
+    }
+  }
+
+  &-select {
+    display: none;
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    z-index: 1;
+    border-radius: 50%;
+    background-color: $white;
+    padding: 4px;
+    border: 2px solid $gray-200;
+
+    .material-symbols-outlined {
+      display: block;
+      font-size: 14.4px;
+      color: $gray-200;
+    }
+  }
+
+  .card-title {
+    --bs-card-title-spacer-y: 0;
+    --bs-card-title-color: #{$gray-800};
+    text-align: center;
+    font-size: $font-size-m;
+    font-weight: $font-weight-normal;
+    line-height: $line-height-base;
+  }
+
+  // 最愛
+  &.is-favorite .card-box-favorite {
+    .material-symbols-outlined {
+      color: $color-star;
+    }
+  }
+  // 選擇模式
+  &.select-mode {
+    cursor: pointer;
+    .card-box-select {
+      display: block;
+    }
+
+    &.is-selected {
+      border-color: $primary-400;
+      outline: 3px solid $primary-400;
+      .card-box-select {
+        background-color: $primary-400;
+        border-color: $primary-400;
+        .material-symbols-outlined {
+          color: $gray-0;
+        }
+      }
+    }
+  }
+
+  // 響應式
+  @include media-breakpoint-up(lg) {
+    --bs-card-spacer-y: 24px;
+    --bs-card-spacer-x: 24px;
+    .card-img-top {
+      height: 144px;
+    }
+    &-select {
+      top: -20px;
+      left: -20px;
+      padding: 7px;
+      .material-symbols-outlined {
+        font-size: 24px;
+      }
+    }
+  }
+}
+
+// card 元件延伸：卡片
+// card-title 詳細模式多的樣式 其他一樣
+// .card-title {
+//   font-weight: $font-weight-bold;
+//   letter-spacing: .02em;
+// }
