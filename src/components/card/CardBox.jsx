@@ -16,7 +16,7 @@ export default function CardBox({ cardBox, isSelectMode = false, isSelected = fa
           className="card-box-favorite"
           onClick={(e) => {
             e.stopPropagation();
-            onToggleFavorite?.(cardBox.id);
+            onToggleFavorite?.(cardBox.id, cardBox.is_favorite);
           }}
           >
           <span className="material-symbols-outlined">
