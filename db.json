@@ -180,5 +180,9 @@
         "progressTracking": true
       }
     }
+  ],
+  "orders": [
+  ],
+  "paymentMethods": [
   ]
 }
