@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "deploy": "gh-pages -d dist",
-    "backend": "json-server-auth db.json",
+    "backend": "json-server-auth db.json --port 4000",
     "start": "node server.js"
   },
   "dependencies": {

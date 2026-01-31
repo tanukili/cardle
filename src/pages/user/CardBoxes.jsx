@@ -85,6 +85,21 @@ export default function CardBoxs() {
   };
 
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
+  const switchShowFavoritesOnly = (e) => {
+    const { checked: isToShowFavorites } = e.target;
+    setShowFavoritesOnly(isToShowFavorites);
+
+    setSelectedIds((prev) => {
+      if (prev.size === 0 || !isToShowFavorites) return prev;
+
+      const filteredSelectedIds = [...prev].filter((id) => {
+        const targetCard = cardBoxes.find((cb) => cb.id === id);
+        return targetCard && targetCard.is_favorite;
+      });
+
+      return new Set(filteredSelectedIds);
+    });
+  };
 
   const filteredCardBoxes = showFavoritesOnly
     ? cardBoxes.filter((cb) => cb.is_favorite)
@@ -107,12 +122,10 @@ export default function CardBoxs() {
     }
   };
 
-  // 以下未處理
-  const [selectedCount, setSelectedCount] = useState(0);
-  const [isSelectMode, setIsSelectMode] = useState(false);
-  // Set（集合，不重複）
-  const [selectedIds, setSelectedIds] = useState(new Set());
   const [searchValue, setSearchValue] = useState("");
+
+  const [isSelectMode, setIsSelectMode] = useState(false);
+  const [selectedIds, setSelectedIds] = useState(new Set()); // Set（集合，不重複）
 
   const handleSelect = (id) => {
     const newSelected = new Set(selectedIds);
@@ -122,13 +135,27 @@ export default function CardBoxs() {
       newSelected.add(id);
     }
     setSelectedIds(newSelected);
-    setSelectedCount(newSelected.size);
   };
 
-  const handleDeselect = () => {
+  const toggleSelectMode = () => {
+    setIsSelectMode(!isSelectMode);
     setSelectedIds(new Set());
-    setSelectedCount(0);
-    setIsSelectMode(false);
+  };
+
+  const deleteSelectedCardBoxes = async () => {
+    try {
+      const ids = Array.from(selectedIds);
+      // Promise 請求陣列
+      const deletePromises = ids.map((id) =>
+        axios.delete(`${baseUrl}cardBoxes/${id}`)
+      );
+      await Promise.all(deletePromises);
+
+      setSelectedIds(new Set());
+      getCardBoxes();
+    } catch (error) {
+      console.error("Error deleting card boxes:", error);
+    }
   };
 
   return (
@@ -155,7 +182,7 @@ export default function CardBoxs() {
               role="switch"
               id="favoriteSwitch"
               checked={showFavoritesOnly}
-              onChange={(e) => setShowFavoritesOnly(e.target.checked)}
+              onChange={switchShowFavoritesOnly}
             />
             <label
               className="form-check-label text-primary"
@@ -192,7 +219,7 @@ export default function CardBoxs() {
                   <span className="material-symbols-outlined">close</span>
                 </a>
               </div>
-              <p className="text-gray-700 mt-6 my-md-auto ms-md-3 ms-xl-8">
+              <p className="text-gray-700 mt-6 text-nowrap my-md-auto ms-md-4 ms-xl-8">
                 共
                 <span className="mx-1 fw-bold tracking-2">
                   {filteredCardBoxes.length}
@@ -201,61 +228,64 @@ export default function CardBoxs() {
               </p>
             </div>
           </div>
-          {/* <div className="col-md-4 col-lg-3">
-            <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center gap-3 gap-md-4">
-              <div className="d-flex flex-column flex-md-row gap-2 gap-md-3">
-
-                {isSelectMode && selectedCount > 0 && (
-                  <span className="text-gray-700">已選取 {selectedCount} 個卡片盒</span>
-                )}
+          {isSelectMode ? (
+            // 選取刪除
+            <div className="col-lg-auto mt-6 mt-lg-3 ms-lg-auto">
+              <div className="d-flex align-items-center justify-content-between">
+                <p className="text-gray-700 me-6">
+                  已選取
+                  <span className="fw-bold mx-1 tracking-2">
+                    {selectedIds.size}
+                  </span>
+                  個卡片盒
+                </p>
+                <button
+                  className="btn btn-primary d-flex align-items-center"
+                  type="button"
+                  onClick={deleteSelectedCardBoxes}
+                  disabled={selectedIds.size === 0}
+                >
+                  <span className="material-icons-outlined me-3">delete</span>
+                  刪除
+                </button>
               </div>
-              {isSelectMode && selectedCount > 0 && (
-                <div className="d-flex gap-2">
-                  <button
-                    className="btn btn-outline-danger btn-sm"
-                    type="button"
-                    onClick={handleDeselect}
-                  >
-                    取消選取
-                  </button>
-                  <button className="btn btn-danger btn-sm" type="button">
-                    <span className="material-symbols-outlined me-1" style={{ fontSize: "18px" }}>
-                      delete
-                    </span>
-                    刪除
-                  </button>
-                </div>
-              )}
             </div>
-          </div> */}
-          <div className="col-6 col-lg-auto mt-6 mt-lg-3 order-lg-1">
+          ) : (
+            <>
+              <div className="col-6 col-lg-auto mt-6 mt-lg-3 order-lg-1">
+                <button
+                  className="btn btn-outline-primary w-100"
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#createCardBoxModal"
+                  onClick={() => {
+                    setNewCardBox(defaultCardBox);
+                  }}
+                >
+                  新增卡片盒
+                </button>
+              </div>
+              <div className="col-6 col-lg-auto mt-6 mt-lg-3 order-lg-2">
+                <button className="btn btn-outline-primary w-100" type="button">
+                  新增卡片
+                </button>
+              </div>
+            </>
+          )}
+          <div className={`col-lg-auto  ${isSelectMode ? "" : "ms-auto"}`}>
             <button
               className="btn btn-outline-primary w-100"
               type="button"
-              data-bs-toggle="modal"
-              data-bs-target="#createCardBoxModal"
-              onClick={() => {
-                setNewCardBox(defaultCardBox);
-              }}
+              onClick={toggleSelectMode}
             >
-              新增卡片盒
+              {isSelectMode ? "取消選取" : "選取"}
             </button>
           </div>
-          <div className="col-6 col-lg-auto mt-6 mt-lg-3 order-lg-2">
-            <button className="btn btn-outline-primary w-100" type="button">
-              新增卡片
-            </button>
-          </div>
-          <div className="col-lg-auto ms-auto">
-            <button
-              className="btn btn-outline-primary w-100"
-              type="button"
-              onClick={() => setIsSelectMode(!isSelectMode)}
-            >
-              選取
-            </button>
-          </div>
-          <div className="col-lg-auto order-lg-3">
+          <div
+            className={`col-lg-auto order-lg-3 ${
+              isSelectMode ? "d-lg-none" : ""
+            }`}
+          >
             <div className="form-select-container">
               <a
                 className="position-absolute top-50 translate-middle text-primary lh-1"
@@ -283,24 +313,30 @@ export default function CardBoxs() {
         <span className="d-block border-bottom border-gray-200 mt-6"></span>
       </section>
       {/* 卡片盒列表 */}
-      <div className="container">
-        <div className="row gy-6">
-          {filteredCardBoxes.map((cardBox) => (
-            <div key={cardBox.id} className="col-md-6 col-lg-4 col-xl-3">
-              <CardBox
-                cardBox={cardBox}
-                isSelectMode={isSelectMode}
-                isSelected={selectedIds.has(cardBox.id)}
-                onSelect={handleSelect}
-                isFavorite={cardBox.is_favorite}
-                onToggleFavorite={handleToggleFavorite}
-              />
-            </div>
-          ))}
-        </div>
+      <div className="container pb-14 pb-lg-20">
+        {filteredCardBoxes.length ? (
+          <div className="row gy-6">
+            {filteredCardBoxes.map((cardBox) => (
+              <div key={cardBox.id} className="col-md-6 col-lg-4 col-xl-3">
+                <CardBox
+                  cardBox={cardBox}
+                  isSelectMode={isSelectMode}
+                  isSelected={selectedIds.has(cardBox.id)}
+                  onSelect={handleSelect}
+                  isFavorite={cardBox.is_favorite}
+                  onToggleFavorite={handleToggleFavorite}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="alert alert-light mb-4 text-center" role="alert">
+            { cardBoxes.length ? '沒有符合條件的卡片盒' : '目前沒有任何卡片盒'}
+          </div>
+        )}
       </div>
 
-      {/* 新增卡片盒 Moda */}
+      {/* 新增卡片盒 Modal */}
       <div
         className="modal fade"
         id="createCardBoxModal"

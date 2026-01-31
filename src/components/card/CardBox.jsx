@@ -6,11 +6,18 @@ export default function CardBox({ cardBox, isSelectMode = false, isSelected = fa
       onClick={isSelectMode ? () => onSelect?.(cardBox.id) : undefined}
     >
       <div className="position-relative">
-        <img
-          className="card-img-top"
-          src={cardBox.cover_url}
-          alt={`${cardBox.title}-封面`}
+        {cardBox.cover_url ? (
+          <img
+            className="card-img-top"
+            src={cardBox.cover_url}
+            alt={`${cardBox.title }-封面`}
           />
+        ) : (
+          <div className="card-img-top bg-primary-100 d-flex"
+          >
+            <h3 className="text-primary m-auto">{cardBox.title}</h3>
+          </div>
+        )}
         {/* 最愛按鈕 */}
         <button
           className="card-box-favorite"
