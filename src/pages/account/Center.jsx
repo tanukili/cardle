@@ -1,6 +1,24 @@
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { formatDate } from "../../utils/filter";
+
+const PAYMENT_MAP = {
+  credit_card: {
+    iconName: "credit_card",
+    text: "信用卡",
+  },
+  mobile: {
+    iconName: "mobile_arrow_right",
+    text: "行動支付",
+  },
+};
 
 export default function Center() {
+  const userInfo = useSelector((state) => state.user.userInfo);
+  const activeOrder = useSelector((state) => state.user.activeOrder);
+  const plan = useSelector((state) => state.user.plan);
+  const paymentMethod = useSelector((state) => state.user.paymentMethod);
+
   return (
     <>
       <div className="px-1 px-xl-6 pt-6 pb-10">
@@ -25,19 +43,30 @@ export default function Center() {
             <div className="card-body p-md-6">
               <h2 className="fs-xl mb-6">訂閱內容</h2>
               <p className="mb-3">
-                <span className="fw-bold text-gray-600">User Name</span>{" "}
+                <span className="fw-bold text-gray-600 me-1">
+                  {userInfo.username}
+                </span>
                 您好，您目前的方案為：
               </p>
-              <h3 className="mb-2 fs-2xl text-primary mb-5">Pro 月繳方案</h3>
+              <h3 className="mb-2 fs-2xl text-primary mb-5">
+                {plan ? `${plan.title} ${plan.subtitle}` : "Free 免費方案"}
+              </h3>
               <ul className="list-unstyled mb-4">
                 <li className="mb-1">
-                  下次付款日期：<span>2025 年 08 月 09 日</span>
+                  下次付款日期：
+                  <span>
+                    {formatDate(activeOrder?.nextBillingDate) || "--"}
+                  </span>
                 </li>
                 <li className="mb-1">
-                  費用：<span>NT$120 / 月</span>
+                  費用：
+                  <span>
+                    {plan ? `NT$${plan.price} / ${plan?.billing?.unit}` : "--"}
+                  </span>
                 </li>
                 <li className="mb-1">
-                  付款方式：<span>信用卡</span>
+                  付款方式：
+                  <span>{PAYMENT_MAP[paymentMethod?.type]?.text || "--"}</span>
                 </li>
               </ul>
               <div className="d-flex justify-content-end">
