@@ -11,6 +11,19 @@
       "newsletterSubscribed": true,
       "createdAt": 1766637020,
       "updatedAt": 1766637020
+    },
+
+    {
+      "email": "demo2@example.com",
+      "password": "$2a$10$1mZ04gC89dEbvCEbmHtbw.nuHnB3RzifMPaLMcKSfB3eUPwCkP86u",
+      "username": "demouser2",
+      "phone": "0911111111",
+      "avatarImage": "",
+      "address": "台北市",
+      "newsletterSubscribed": true,
+      "createdAt": 1769860016,
+      "updatedAt": 1769860016,
+      "id": "pBiSInw"
     }
   ],
   "plans": [
@@ -181,8 +194,6 @@
       }
     }
   ],
-  "orders": [
-  ],
-  "paymentMethods": [
-  ]
+  "orders": [],
+  "paymentMethods": []
 }
