@@ -4,7 +4,33 @@ import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import PlanSwiper from "../components/swiper/PlanSwiper";
 
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { loadProfile } from "../store/slices/userSlice";
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 export default function Home() {
+  // 測試用
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.userInfo);
+  const activeOrder = useSelector((state) => state.user.activeOrder);
+  const plan = useSelector((state) => state.user.plan);
+  const paymentMethod = useSelector((state) => state.user.paymentMethod);
+  const historyOrders = useSelector((state) => state.user.historyOrders);
+  // 測試用
+  const handleLogin = async () => {
+    try {
+      await dispatch(
+        loadProfile({
+          email: "marry123@gmail.com",
+          password: "123456a",
+        }),
+      ).unwrap();
+    } catch (err) {
+      alert(err);
+    }
+  };
+
   return (
     <>
       {/* hero 區塊 */}
@@ -21,14 +47,23 @@ export default function Home() {
             >
               把靈感拆解、連結、重組，打造專屬你的知識地圖。
             </p>
-            <Link
+            {/* <Link
               to="/sign-up"
               className="btn btn-primary align-self-md-start fs-md-xl py-md-4 px-md-6"
               data-aos="fade-up"
               data-aos-delay="200"
             >
               立即開始
-            </Link>
+            </Link> */}
+            <button
+              type="button"
+              className="btn btn-primary align-self-md-start fs-md-xl py-md-4 px-md-6"
+              data-aos="fade-up"
+              data-aos-delay="200"
+              onClick={handleLogin}
+            >
+              立即開始
+            </button>
           </div>
         </div>
       </section>
