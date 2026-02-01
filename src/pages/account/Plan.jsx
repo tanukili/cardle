@@ -161,7 +161,7 @@ export default function Plan() {
                           </thead>
                           <tbody>
                             {historyOrders.map((order) => (
-                              <tr>
+                              <tr key={order.id}>
                                 <td>
                                   {formatDate(order.subscribeDate, "slash")}
                                 </td>

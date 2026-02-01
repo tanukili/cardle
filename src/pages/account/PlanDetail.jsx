@@ -30,7 +30,7 @@ export default function PlanDetail() {
         <section>
           <div className="card border-gray-200 mb-10">
             <div className="card-body p-6 p-md-8">
-              <h3 className="fs-2xl pb-4 mb-6 border-bottom">Pro 月繳方案</h3>
+              <h3 className="fs-2xl pb-4 mb-6 border-bottom">{`${plan.title} ${plan.subtitle}`}</h3>
               <ul className="list-unstyled mb-10">
                 <li className="mb-2">
                   加入日期：

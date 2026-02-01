@@ -6,9 +6,11 @@ import "./assets/index.scss";
 import { Provider } from "react-redux";
 import { store } from "./store/index";
 
-import "./assets/index.scss";
-
 import App from "./App.jsx";
+
+import AOS from "aos";
+import "aos/dist/aos.css";
+AOS.init();
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
