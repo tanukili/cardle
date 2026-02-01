@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { formatDate } from "../../utils/filter";
 
 export default function PlanDetail() {
+  const activeOrder = useSelector((state) => state.user.activeOrder);
+  const plan = useSelector((state) => state.user.plan);
+
   return (
     <>
       <div className="px-1 px-xl-6 pt-6 pb-10">
@@ -28,13 +33,20 @@ export default function PlanDetail() {
               <h3 className="fs-2xl pb-4 mb-6 border-bottom">Pro 月繳方案</h3>
               <ul className="list-unstyled mb-10">
                 <li className="mb-2">
-                  加入日期：<span>2020 年 08 月 09 日</span>
+                  加入日期：
+                  <span>{formatDate(activeOrder?.subscribeDate) || "--"}</span>
                 </li>
                 <li className="mb-2">
-                  自動續訂日期：<span>2025 年 08 月 09 日</span>
+                  自動續訂日期：
+                  <span>
+                    {formatDate(activeOrder?.nextBillingDate) || "--"}
+                  </span>
                 </li>
                 <li>
-                  費用：NT$ <span>120 / 月</span>
+                  費用：
+                  <span>
+                    {plan ? `NT$${plan.price} / ${plan?.billing?.unit}` : "--"}
+                  </span>
                 </li>
               </ul>
 
@@ -43,24 +55,11 @@ export default function PlanDetail() {
                   方案功能與上限說明
                 </h4>
                 <ol className="mb-12">
-                  <li className="mb-1">
-                    無限制建立筆記卡片：沒有張數限制，靈感再多也能全部記下來，打造屬於你的知識庫。
-                  </li>
-                  <li className="mb-1">
-                    無限制建立書單：想追的書、學的主題再多都沒問題，隨心所欲整理你的閱讀計畫。
-                  </li>
-                  <li className="mb-1">
-                    標籤分類：支援 標籤分類管理，簡單歸納每一筆知識。
-                  </li>
-                  <li className="mb-1">
-                    視覺化關聯地圖：將筆記之間的連結一目了然，幫助你建立屬於自己的知識網絡。
-                  </li>
-                  <li className="mb-1">
-                    進度追蹤與提醒：一起養成穩定學習習慣！追蹤閱讀進度，還能設定提醒不怕忘記。
-                  </li>
-                  <li>
-                    隨時取消：無綁約壓力，可隨時取消訂閱，依照你的學習節奏自由彈性使用。
-                  </li>
+                  {plan?.featuresDetail.map((feature) => (
+                    <li key={feature.key} className="mb-1">
+                      {`${feature.title}：${feature.description}`}
+                    </li>
+                  ))}
                 </ol>
               </div>
               <div className="d-flex justify-content-end align-items-center gap-2">

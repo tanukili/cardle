@@ -1,31 +1,46 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import PersonalPlanSwiper from "../../components/swiper/PersonalPlanSwiper";
 
-import { useEffect, useState } from "react";
 import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import { formatDate, getOrderPeriodText } from "../../utils/filter";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
+const PAYMENT_MAP = {
+  credit_card: {
+    iconName: "credit_card",
+    text: "信用卡",
+  },
+  mobile: {
+    iconName: "mobile_arrow_right",
+    text: "行動支付",
+  },
+};
+
 export default function Plan() {
-  const [plans, setPlans] = useState([]);
-  const [recommendedPlan, setRecommendedPlan] = useState("");
-  const [currentPlan, setCurrentPlan] = useState("plan_pro_month");
+  const historyOrders = useSelector((state) => state.user.historyOrders);
+  const activeOrder = useSelector((state) => state.user.activeOrder);
+  const plan = useSelector((state) => state.user.plan);
+  const paymentMethod = useSelector((state) => state.user.paymentMethod);
 
-  const getPlans = async () => {
-    try {
-      const res = await axios.get(`${BASE_URL}plans`);
-      setPlans(res.data);
-      // console.log(res.data);
-    } catch (error) {
-      alert(error.response?.data.message || "無法取得訂閱方案");
-    }
-  };
+  // const [plans, setPlans] = useState([]);
 
-  useEffect(() => {
-    getPlans();
-  }, []);
+  // const getPlans = async () => {
+  //   try {
+  //     const res = await axios.get(`${BASE_URL}plans`);
+  //     setPlans(res.data);
+  //   } catch (error) {
+  //     alert(error.response?.data.message || "無法取得訂閱方案");
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getPlans();
+  // }, []);
 
   return (
     <>
@@ -42,16 +57,18 @@ export default function Plan() {
           </Link>
           <div className="d-flex align-items-center pb-6 border-bottom border-gray-200">
             <h1 className="fs-2xl fs-md-3xl me-2 me-md-6">個人方案</h1>
-            <p className="d-flex fs-xs fs-md-m text-gray-600">
-              <span className="fw-bold text-secondary me-1">Pro 年繳方案</span>
+            <div className="d-flex fs-xs fs-md-m text-gray-600">
+              <span className="fw-bold text-secondary me-1">
+                {plan ? `${plan.title} ${plan.subtitle}` : "Free 免費方案"}
+              </span>
               <div className="d-none d-md-block">
                 於
                 <span className="fw-bold text-secondary mx-1">
-                  2025年08月09日
+                  {formatDate(activeOrder?.nextBillingDate) || "-"}
                 </span>
                 自動續訂
               </div>
-            </p>
+            </div>
 
             <Link
               to="/account/plan/detail"
@@ -78,17 +95,31 @@ export default function Plan() {
                 付款資訊
               </h2>
               <p className="text-gray-600 mb-3">
-                下次付款日期：<span>2025 年 08 月 31日</span>
+                下次付款日期：
+                <span>
+                  {activeOrder?.isAutoRenew
+                    ? formatDate(activeOrder?.nextBillingDate)
+                    : "--"}
+                </span>
               </p>
               <div className="d-flex flex-column flex-md-row align-items-md-center gap-3 pb-6 border-bottom mb-6">
-                <div className="text-gray-600 mb-3 d-flex flex-column flex-md-row gap-3">
+                <div
+                  className={`text-gray-600 mb-3 d-flex flex-column flex-md-row ${paymentMethod && "gap-3"}`}
+                >
                   <div>付款方式：</div>
                   <div>
-                    <span className="material-symbols-outlined align-bottom me-1">
-                      credit_card
-                    </span>
-                    <span className="me-2">MasterCard</span>
-                    <span>**** **** 1234</span>
+                    {paymentMethod && (
+                      <>
+                        <span className="material-symbols-outlined align-bottom me-1">
+                          {PAYMENT_MAP[paymentMethod.type]?.iconName}
+                        </span>
+                        <span className="me-2">
+                          {PAYMENT_MAP[paymentMethod.type]?.text ||
+                            paymentMethod.type}
+                        </span>
+                        <span>{`**** **** ${paymentMethod.last4}`}</span>
+                      </>
+                    )}
                   </div>
                 </div>
                 <button type="button" className="btn btn-outline-primary">
@@ -115,118 +146,51 @@ export default function Plan() {
               </button>
               <div className="collapse show" id="payment-record-collapse">
                 <div className="my-6">
-                  <div className="table-scroll scrollbar-none">
-                    <div className="payment-table-frame border border-gray-200 rounded-2 w-100 overflow-hidden">
-                      <table className="table align-middle mb-0 payment-record">
-                        <thead>
-                          <tr>
-                            <th scope="col">付款日期</th>
-                            <th scope="col">付款內容</th>
-                            <th scope="col">付款方式</th>
-                            <th scope="col">發票</th>
-                            <th scope="col">帳單金額</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>2025/07/09</td>
-                            <td>2025/07/09 - 2025/08/08 Pro 月繳</td>
-                            <td>
-                              <span className="material-symbols-outlined align-bottom me-1">
-                                credit_card
-                              </span>
-                              信用卡
-                            </td>
-                            <td>
-                              <button
-                                type="button"
-                                className="btn btn-outline-primary"
-                              >
-                                檢視
-                              </button>
-                            </td>
-                            <td>NT$ 120</td>
-                          </tr>
-                          <tr>
-                            <td>2024/07/09</td>
-                            <td>2024/07/09 - 2025/07/08 Pro 年繳</td>
-                            <td>
-                              <span className="material-symbols-outlined align-bottom me-1">
-                                credit_card
-                              </span>
-                              信用卡
-                            </td>
-                            <td>
-                              <button
-                                type="button"
-                                className="btn btn-outline-primary"
-                              >
-                                檢視
-                              </button>
-                            </td>
-                            <td>NT$ 1,200</td>
-                          </tr>
-                          <tr>
-                            <td>2404/06/09</td>
-                            <td>2025/06/09 - 2025/07/08 Pro 月繳</td>
-                            <td>
-                              <span className="material-symbols-outlined align-bottom me-1">
-                                mobile_arrow_right
-                              </span>
-                              行動支付
-                            </td>
-                            <td>
-                              <button
-                                type="button"
-                                className="btn btn-outline-primary"
-                              >
-                                檢視
-                              </button>
-                            </td>
-                            <td>NT$ 120</td>
-                          </tr>
-                          <tr>
-                            <td>2404/05/09</td>
-                            <td>2025/05/09 - 2025/06/08 Pro 月繳</td>
-                            <td>
-                              <span className="material-symbols-outlined align-bottom me-1">
-                                mobile_arrow_right
-                              </span>
-                              行動支付
-                            </td>
-                            <td>
-                              <button
-                                type="button"
-                                className="btn btn-outline-primary"
-                              >
-                                檢視
-                              </button>
-                            </td>
-                            <td>NT$ 120</td>
-                          </tr>
-                          <tr>
-                            <td>2404/04/09</td>
-                            <td>2025/04/09 - 2025/05/08 Pro 月繳</td>
-                            <td>
-                              <span className="material-symbols-outlined align-bottom me-1">
-                                credit_card
-                              </span>
-                              信用卡
-                            </td>
-                            <td>
-                              <button
-                                type="button"
-                                className="btn btn-outline-primary"
-                              >
-                                檢視
-                              </button>
-                            </td>
-                            <td>NT$ 120</td>
-                          </tr>
-                        </tbody>
-                      </table>
+                  {!!historyOrders.length && (
+                    <div className="table-scroll scrollbar-none">
+                      <div className="payment-table-frame border border-gray-200 rounded-2 w-100 overflow-hidden">
+                        <table className="table align-middle mb-0 payment-record">
+                          <thead>
+                            <tr>
+                              <th scope="col">付款日期</th>
+                              <th scope="col">付款內容</th>
+                              <th scope="col">付款方式</th>
+                              <th scope="col">發票</th>
+                              <th scope="col">帳單金額</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {historyOrders.map((order) => (
+                              <tr>
+                                <td>
+                                  {formatDate(order.subscribeDate, "slash")}
+                                </td>
+                                <td>{getOrderPeriodText(order)}</td>
+                                <td>
+                                  <span className="material-symbols-outlined align-bottom me-1">
+                                    {
+                                      PAYMENT_MAP[order.paymentMethod.type]
+                                        .iconName
+                                    }
+                                  </span>
+                                  {PAYMENT_MAP[order.paymentMethod.type].text}
+                                </td>
+                                <td>
+                                  <button
+                                    type="button"
+                                    className="btn btn-outline-primary"
+                                  >
+                                    檢視
+                                  </button>
+                                </td>
+                                <td>NT$ {order.plan.price}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
 
                 <p className="text-center text-gray-400">已無更早的付款紀錄</p>

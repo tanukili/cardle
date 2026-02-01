@@ -11,6 +11,18 @@
       "newsletterSubscribed": true,
       "createdAt": 1766637020,
       "updatedAt": 1766637020
+    },
+    {
+      "email": "marry123@gmail.com",
+      "password": "$2a$10$q1qfjbPwwpzRKFSghVQU9enIXv6D67/TthE87ybBzDpg6Ipzf9ntS",
+      "username": "Marry",
+      "phone": "0988888888",
+      "avatarImage": "https://res.cloudinary.com/dt24k06gm/image/upload/v1769867353/ha3mujvnqqjyzot5j4f7.png",
+      "address": "台北市圈圈區叉叉路 100號",
+      "newsletterSubscribed": false,
+      "createdAt": 1769842195,
+      "updatedAt": 1769842195,
+      "id": "iI8fDrM"
     }
   ],
   "plans": [
@@ -179,6 +191,100 @@
         "knowledgeGraph": true,
         "progressTracking": true
       }
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord-20240409-001",
+      "planId": "plan_pro_month",
+      "userId": "iI8fDrM",
+      "price": 120,
+      "subscribeDate": 1712592000,
+      "nextBillingDate": 1715184000,
+      "isAutoRenew": true,
+      "agreedToTerms": true,
+      "status": "active",
+      "paymentMethodId": "pm-001"
+    },
+    {
+      "id": "ord-20240509-001",
+      "planId": "plan_pro_month",
+      "userId": "iI8fDrM",
+      "price": 120,
+      "subscribeDate": 1715184000,
+      "nextBillingDate": 1717862400,
+      "isAutoRenew": true,
+      "agreedToTerms": true,
+      "status": "active",
+      "paymentMethodId": "pm-002"
+    },
+    {
+      "id": "ord-20240609-001",
+      "planId": "plan_pro_month",
+      "userId": "iI8fDrM",
+      "price": 120,
+      "subscribeDate": 1717862400,
+      "nextBillingDate": 1720454400,
+      "isAutoRenew": false,
+      "agreedToTerms": true,
+      "status": "inactive",
+      "paymentMethodId": "pm-001"
+    },
+    {
+      "id": "ord-20240701-001",
+      "planId": "plan_pro_year",
+      "userId": "iI8fDrM",
+      "price": 1200,
+      "subscribeDate": 1719763200,
+      "nextBillingDate": 1751299200,
+      "isAutoRenew": false,
+      "agreedToTerms": true,
+      "status": "active",
+      "paymentMethodId": "pm-002"
+    },
+    {
+      "id": "ord-20251121-001",
+      "planId": "plan_pro_month",
+      "userId": "iI8fDrM",
+      "price": 120,
+      "subscribeDate": 1763654400,
+      "nextBillingDate": 1766246400,
+      "isAutoRenew": false,
+      "agreedToTerms": true,
+      "status": "active",
+      "paymentMethodId": "pm-002"
+    },
+    {
+      "id": "ord-20260201-001",
+      "planId": "plan_pro_month",
+      "userId": "iI8fDrM",
+      "price": 120,
+      "subscribeDate": 1769875200,
+      "nextBillingDate": 1772294400,
+      "isAutoRenew": true,
+      "agreedToTerms": true,
+      "status": "active",
+      "paymentMethodId": "pm-002"
+    }
+  ],
+  "paymentMethods": [
+    {
+      "id": "pm-001",
+      "userId": "iI8fDrM",
+      "brand": "NewebPay",
+      "type": "mobile",
+      "cardHolder": "Amy Doe",
+      "last4": "1234",
+      "expDate": "12/28"
+    },
+    {
+      "id": "pm-002",
+      "userId": "iI8fDrM",
+      "brand": "VISA",
+      "type": "credit_card",
+      "cardHolder": "Amy Doe",
+      "last4": "1234",
+      "expDate": "12/28"
     }
   ]
 }
