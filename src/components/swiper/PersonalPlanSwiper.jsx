@@ -1,14 +1,24 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
+const BTN_TEXT_MAP = {
+  plan_free: ["目前方案", "升級方案", "升級方案"],
+  plan_pro_month: ["選取方案", "目前方案", "升級方案"],
+  plan_pro_year: ["選取方案", "選取方案", "目前方案"],
+};
+
 export default function PersonalPlanSwiper() {
+  const userPlan = useSelector((state) => state.user.plan);
+
   const [plans, setPlans] = useState([]);
-  const [currentPlan, setCurrentPlan] = useState("plan_pro_month");
+  const [currentPlan, setCurrentPlan] = useState(userPlan?.id || "plan_free");
+  const [btnText, setBtnText] = useState([]);
 
   const getPlans = async () => {
     try {
@@ -24,11 +34,17 @@ export default function PersonalPlanSwiper() {
     getPlans();
   }, []);
 
+  useEffect(() => {
+    setBtnText(
+      BTN_TEXT_MAP[currentPlan] ?? ["選取方案", "選取方案", "選取方案"],
+    );
+  }, [currentPlan]);
+
   return (
     <>
       {/* Swiper 主容器 */}
       <Swiper
-        className="plan-swiper h-100"
+        className="personal-plan-swiper h-100"
         // initialSlide={1}
         // centeredSlides={true}
         slidesPerView={"auto"}
@@ -40,12 +56,8 @@ export default function PersonalPlanSwiper() {
         breakpoints={{ 992: { spaceBetween: 40 } }}
       >
         {/* 多個 Slides */}
-        {plans.map((plan) => (
-          <SwiperSlide
-            key={plan.id}
-            className="swiper-slide h-auto"
-            style={{ width: "279.33px" }}
-          >
+        {plans.map((plan, index) => (
+          <SwiperSlide key={plan.id} className="swiper-slide h-auto">
             <div
               className={`bg-gray-0 p-6 border ${plan.id === currentPlan ? "border-2 border-primary" : "border-gray-100"} rounded-4 d-flex flex-column h-100`}
             >
@@ -90,7 +102,7 @@ export default function PersonalPlanSwiper() {
                 to="/sign-up"
                 className={`btn btn-outline-gray-400 fs-m fs-md-xl py-md-4 mt-auto w-100`}
               >
-                {plan.title === "Free" ? "立即註冊" : "升級方案"}
+                {btnText[index]}
               </Link>
             </div>
           </SwiperSlide>

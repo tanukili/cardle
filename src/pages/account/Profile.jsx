@@ -1,6 +1,12 @@
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+const DEFAULT_AVATAR_URL =
+  "https://res.cloudinary.com/dt24k06gm/image/upload/v1768755900/uncd8bdsxzci1yj3aeho.png";
 
 export default function Profile() {
+  const userInfo = useSelector((state) => state.user.userInfo);
+
   return (
     <>
       <div className="px-1 px-xl-6 pt-6 pb-10">
@@ -26,7 +32,10 @@ export default function Profile() {
                 <div className="col-md-5">
                   <div className="d-flex flex-column align-items-center mb-10 mb-md-0">
                     <div className="profile-image mb-4">
-                      <img src="user.png" alt="profile-image" />
+                      <img
+                        src={userInfo.avatarImage || DEFAULT_AVATAR_URL}
+                        alt="profile-image"
+                      />
                     </div>
                     <div className="d-flex gap-2 mb-10">
                       <button type="button" className="btn btn-primary">
@@ -39,7 +48,7 @@ export default function Profile() {
                     <div className="flex-grow-0">
                       <h2 className="fs-l mb-2">用戶名稱</h2>
                       <div className="d-flex align-items-center gap-3">
-                        <p>User Name</p>
+                        <p>{userInfo.username}</p>
                         <button
                           type="button"
                           className="btn btn-primary-100 p-1 rounded-circle"
@@ -56,14 +65,16 @@ export default function Profile() {
                   <div className="mb-6">
                     <div className="d-flex align-items-center gap-2">
                       <h2 className="fs-l mb-2">電子信箱</h2>
-                      <span class="fs-xs badge badge-secondary">已驗證</span>
+                      <span className="fs-xs badge badge-secondary">
+                        已驗證
+                      </span>
                     </div>
-                    <p>exampl23@mail.com</p>
+                    <p>{userInfo.email}</p>
                   </div>
                   <div className="mb-6">
                     <h2 className="fs-l mb-2">密碼</h2>
                     <div className="d-flex justify-content-between align-items-center">
-                      <p>**********</p>
+                      <p>*******</p>
                       <button type="button" className="btn btn-primary">
                         變更
                       </button>
@@ -71,7 +82,7 @@ export default function Profile() {
                   </div>
                   <div className="mb-6">
                     <div className="d-flex align-items-center gap-2 mb-2">
-                      <h2 className="fs-l">手機</h2>
+                      <h2 className="fs-l">電話</h2>
                       <a
                         href="#"
                         className="fs-xs link-primary text-decoration-underline link-offset-1"
@@ -80,7 +91,7 @@ export default function Profile() {
                       </a>
                     </div>
                     <div className="d-flex align-items-center gap-3">
-                      <p>0912345678</p>
+                      <p>{userInfo.phone}</p>
                       <button
                         type="button"
                         className="btn btn-primary-100 p-1 rounded-circle"
@@ -94,7 +105,7 @@ export default function Profile() {
                   <div>
                     <h2 className="fs-l mb-2">帳單地址</h2>
                     <div className="d-flex align-items-center gap-3">
-                      <p>台北市圈圈區叉叉路 100號</p>
+                      <p>{userInfo.address}</p>
                       <button
                         type="button"
                         className="btn btn-primary-100 p-1 rounded-circle"

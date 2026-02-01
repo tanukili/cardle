@@ -3,7 +3,7 @@
 }
 
 .account-aside {
-  width: 306px;
+  width: 196px;
   position: relative;
   z-index: 2;
   background-color: #fff;
@@ -39,6 +39,19 @@
 }
 
 // 個人方案 plan
+.swiper.personal-plan-swiper {
+  overflow: visible;
+  .swiper-slide {
+    width: 280px;
+  }
+
+  @include media-breakpoint-up(md) {
+    .swiper-slide {
+      width: 316px;
+    }
+  }
+}
+
 .icon-collapsed {
   display: inline-block;
 }

@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
+import PersonalPlanSwiper from "../../components/swiper/PersonalPlanSwiper";
 
 export default function PlanUpgrade() {
   return (
     <>
       <div className="px-1 px-xl-6 pt-6 pb-10">
-        <div className="mb-20">
+        <div className="mb-10">
           <Link
             to="/user"
             className="link-gray-600 fs-s fs-md-m py-1 py-md-2 ps-0 pe-2 px-md-4 mb-4 mb-md-10"
@@ -19,7 +20,7 @@ export default function PlanUpgrade() {
           </div>
         </div>
 
-        <section>
+        {/* <section>
           <div className="d-flex justify-content-center gap-4 mb-16">
             <input
               type="radio"
@@ -169,7 +170,8 @@ export default function PlanUpgrade() {
               升級方案
             </button>
           </div>
-        </section>
+        </section> */}
+        <PersonalPlanSwiper />
       </div>
     </>
   );
