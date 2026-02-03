@@ -7,7 +7,6 @@ import axios from "axios";
 import Validation from "../../components/checkout/Validation"
 // console.log(BASE_URLL);
 const BASE_URL = import.meta.env.VITE_BASE_URL;
-console.log(BASE_URL);
 
 const Checkout = () => {
   
@@ -31,29 +30,43 @@ const Checkout = () => {
     axios.get(`${BASE_URL}plans`).then(res => setPlans(res.data));
   }, []);
 
-  // --- 日期與格式工具 ---
-  const getDates = () => {
-    const now = new Date();
-    const next = new Date(now);
-    next.setMonth(now.getMonth() + 1);
-    if (next.getDate() !== now.getDate()) next.setDate(0); // 月底溢位修正
+  // 計算未來日期
+  const calculateNextDate = (id) => {
+  const now = new Date();
+  const next = new Date(now);
 
+  if (id === "1") {
+    next.setMonth(now.getMonth() + 1);
+  } else if (id === "2") {
+    next.setMonth(now.getMonth() + 12);
+  }
+
+  // 月底溢位修正 (例如 1/31 加一個月變 3/3，修正回 2/28)
+  if (next.getDate() !== now.getDate()) {
+    next.setDate(0);
+  }
+
+  return { now, next };
+};
+
+
+  // 轉換為 Timestamp
+  const getDates = (id) => {
+  const { now, next } = calculateNextDate(id);;
     return {
       subTS: Math.floor(now.getTime() / 1000),
       nextTS: Math.floor(next.getTime() / 1000),
-      // display: `${next.getFullYear()}年${next.getMonth() + 1}月${next.getDate()}日`,
     };
   };
 
+  // 換為中文格式
   const formatChineseDate = () => {
-    const now = new Date();
-    const next = new Date(now);
-    next.setMonth(now.getMonth() + 1);
-    if (next.getDate() !== now.getDate()) next.setDate(0);
+    const { now, next } = calculateNextDate(id);
+    const formatDate = (d) => `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
 
     return {
-      nextDay: `${next.getFullYear()}年${next.getMonth() + 1}月${next.getDate()}日`,
-      nowDay: `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日`
+      nextDay: formatDate(next),
+      nowDay: formatDate(now)
     };
   };
 const { nextDay, nowDay } = formatChineseDate();
@@ -134,22 +147,22 @@ const { nextDay, nowDay } = formatChineseDate();
   if (!plans[targetIndex]) return <div>載入中...</div>;
 
 return (
-  <div className="container">
-    <h1 className="fs-md-5xl fs-4 pb-6 border-bottom mb-6 text-center">方案明細{id}</h1>
+  <div className="container px-6 py-6">
+    <h1 className="fs-md-5xl fs-4 pb-6 border-bottom mb-6 text-center">方案明細</h1>
     <div className="row justify-content-center">
       <div className="col-md-8 mb-6">
         <div className="card shadow-sm border-0 custom-plan-card p-3">
-          <div className="card-body">
-            {/* {JSON.stringify(currentPlan)} */}
-            <h2 className="card-title fw-bold border-bottom mb-3">{currentPlan.title}{currentPlan.subtitle}</h2>
-            <p className="card-text">訂閱日期：{nowDay}</p>
-            {/* {JSON.stringify(formatChineseDate())} */}
-            <p className="card-text">自動續訂日期: {nextDay}</p>
-            <p className="card-text mb-2">費用：{`NT${currentPlan.price}/${currentPlan.billing?.unit}`}</p>
+          <div className="card-body p-6 p-md-8">
+            <h2 className="card-title fw-bold pb-4 mb-6 border-bottom">{currentPlan.title} {currentPlan.subtitle}</h2>
+            <div className="mb-10">
+              <p className="card-text mb-2">訂閱日期：{nowDay}</p>
+              <p className="card-text mb-2">自動續訂日期: {nextDay}</p>
+              <p className="card-text">費用：{`NT${currentPlan.price}/${currentPlan.billing?.unit}`}</p>
+            </div>
             <div className="accordion accordion-flush" id="planDetails">
               <div className="accordion-item">
                 <h2 className="accordion-header d-flex flex-column">
-                <button className="accordion-button px-0 py-0 fw-bold"  type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                <button className="accordion-button px-0 py-0 fw-bold mb-4"  type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
                   方案功能與上限說明
                 </button>
                 <hr className="my-0"/>
