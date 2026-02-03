@@ -80,7 +80,15 @@ const userSlice = createSlice({
   name: "user",
   initialState: {
     isLoggedIn: false,
-    userInfo: { name: "", avatarUrl: "" },
+    userInfo: {
+      id: "",
+      username: "",
+      email: "",
+      avatarUrl: "",
+      phone: "",
+      address: "",
+      newsletterSubscribed: false,
+    },
     historyOrders: [],
     activeOrder: null,
     plan: null,
@@ -94,7 +102,15 @@ const userSlice = createSlice({
     },
     logout: (state, action) => {
       state.isLoggedIn = false;
-      state.userInfo = { name: "", avatarUrl: "" };
+      state.userInfo = {
+        id: "",
+        username: "",
+        email: "",
+        avatarUrl: "",
+        phone: "",
+        address: "",
+        newsletterSubscribed: false,
+      };
     },
   },
   extraReducers: (builder) => {
