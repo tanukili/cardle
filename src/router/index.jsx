@@ -20,6 +20,7 @@ import UserCalendar from "@/pages/user/bookshelf/Calendar";
 import UserPomodoroTimer from "@/pages/user/bookshelf/PomodoroTimer";
 import UserLearningTopics from "@/pages/user/bookshelf/LearningTopics";
 import UserCardBoxes from "@/pages/user/CardBoxes";
+import UserCardBoxDetail from "@/pages/user/cardBox/CardBoxDetail";
 import UserBoardList from "@/pages/user/board/BoardList";
 import UserBoard from "@/pages/user/board/Board";
 import UserArticleList from "@/pages/user/article/ArticleList";
@@ -28,6 +29,8 @@ import UserArticleDetail from "@/pages/user/article/ArticleDetail";
 import HomeLayout from "@/layouts/HomeLayout";
 import AccountLayout from "@/layouts/account/AccountLayout";
 import UserLayout from "@/layouts/user/UserLayout";
+
+import { getCardBoxDetail } from "@/services/cardBoxService";
 
 const router = createHashRouter([
   {
@@ -130,6 +133,13 @@ const router = createHashRouter([
       {
         path: "card-boxes",
         element: <UserCardBoxes />,
+      },
+      {
+        path: "card-box/:cardBoxId",
+        loader: async ({ params }) => {
+          return getCardBoxDetail(params.cardBoxId);
+        },
+        element: <UserCardBoxDetail />,
       },
       {
         path: "boards",
