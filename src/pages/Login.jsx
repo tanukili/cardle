@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "@/store/slices/userSlice";
 import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
 
 export default function Login() {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
@@ -10,24 +11,53 @@ export default function Login() {
   const navigate = useNavigate();
 
   // 表單狀態
-  const [email, setEmail] = useState("fakemail@mail.com");
-  const [password, setPassword] = useState("123456");
+  const [email, setEmail] = useState("demo2@example.com");
+  const [password, setPassword] = useState("123456a");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  // 提交表單
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    setLoading(true);
 
-    //  暫時沿用假登入資料
-    const fakeUserInfo = {
-      name: email.split("@")[0],
-      avatarUrl: "./user.png",
-    };
+    try {
+      const res = await axios.post(`${import.meta.env.VITE_BASE_URL}login`, {
+        email,
+        password,
+      });
 
-    // Redux 登入
-    dispatch(login(fakeUserInfo));
+      const { accessToken, user } = res.data; // { accessToken, user }
 
-    // 登入後導頁
-    navigate("/user");
+      // Step A：存 token
+
+      document.cookie = `userToken=${accessToken}; path=/; max-age=86400;`;
+
+      axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+
+      // Step B：整理 userInfo（配合 slice）
+      const userInfo = {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        avatarUrl: user.avatarImage || "default-avatar.png",
+        phone: user.phone || "",
+        address: user.address || "",
+        newsletterSubscribed: user.newsletterSubscribed || false,
+      };
+
+      // Step C：Redux 登入
+      dispatch(login(userInfo));
+      localStorage.setItem("user", JSON.stringify(userInfo));
+
+      // Step D：導頁
+      navigate("/user");
+    } catch (err) {
+      const errorMsg = err.response?.data?.message || "帳號或密碼錯誤";
+      setError(errorMsg);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -45,6 +75,9 @@ export default function Login() {
             <p className="fw-medium mb-6 mb-md-10">
               歡迎回來，請輸入您的帳號及密碼。
             </p>
+
+            {/* 錯誤提示 */}
+            {error && <div className="alert alert-danger">{error}</div>}
 
             {/* 表單 */}
             <form className="was-validated" onSubmit={handleSubmit}>
@@ -83,8 +116,9 @@ export default function Login() {
               <button
                 type="submit"
                 className="btn btn-primary w-100 mt-10 mb-4"
+                disabled={loading}
               >
-                登入
+                {loading ? "登入中..." : "登入"}
               </button>
 
               <p>
