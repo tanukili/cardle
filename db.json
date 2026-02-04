@@ -36,7 +36,11 @@
         "unit": "月"
       },
       "status": "active",
-      "featuresShort": ["建立筆記卡片", "建立書單", "標籤分類"],
+      "featuresShort": [
+        "建立筆記卡片",
+        "建立書單",
+        "標籤分類"
+      ],
       "featuresDetail": [
         {
           "key": "cards",
@@ -286,5 +290,141 @@
       "last4": "1234",
       "expDate": "12/28"
     }
+  ],
+  "cardBoxes": [
+    {
+      "id": "card_box_3",
+      "title": "TypeScript 基礎",
+      "description": "",
+      "cover_url": "user/card-box-cover-1.png",
+      "type": "normal",
+      "is_inbox": false,
+      "is_archived": false,
+      "is_favorite": true,
+      "created_at": 1766833200,
+      "updated_at": 1769625486,
+      "ui": {
+        "color": "success"
+      }
+    },
+    {
+      "id": "card_box_4",
+      "title": "React 框架",
+      "description": "",
+      "cover_url": "user/card-box-cover-4.jpg",
+      "type": "normal",
+      "is_inbox": false,
+      "is_archived": false,
+      "is_favorite": true,
+      "ui": {
+        "color": "secondary"
+      },
+      "created_at": 1769625487,
+      "updated_at": 1769625489
+    },
+    {
+      "id": "card_box_5",
+      "title": "料理基礎",
+      "description": "",
+      "cover_url": "user/card-box-cover-5.jpg",
+      "type": "normal",
+      "is_inbox": false,
+      "is_archived": false,
+      "is_favorite": true,
+      "ui": {
+        "color": "secondary"
+      },
+      "created_at": 1769625487,
+      "updated_at": 1769625487
+    },
+    {
+      "title": "g????",
+      "description": "",
+      "cover_url": "https://images.unsplash.com/photo-1761839257287-3030c9300ece?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDF8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxfHx8ZW58MHx8fHx8",
+      "type": "normal",
+      "is_inbox": false,
+      "is_archived": false,
+      "is_favorite": true,
+      "ui": {
+        "color": "secondary"
+      },
+      "id": "card_box_1769625517",
+      "created_at": 1769625517,
+      "updated_at": 1769625521
+    },
+    {
+      "title": "ddfdfdsfd",
+      "description": "",
+      "cover_url": "",
+      "type": "normal",
+      "is_inbox": false,
+      "is_archived": false,
+      "is_favorite": false,
+      "ui": {
+        "color": "secondary"
+      },
+      "id": "card_box_1769868348",
+      "created_at": 1769868348,
+      "updated_at": 1769868348
+    }
+  ],
+  "cards": [
+    {
+      "id": "card_jfoeijoi",
+      "title": "Interface vs. Type 使用情境",
+      "user_id": "1",
+      "card_box_id": "card_box_3",
+      "tags": [
+        "TypeScript"
+      ],
+      "content": "使用抉擇取決於具體情況和個人偏好Interface：物件類別會經常擴充或改變時Type：固定的資料結構，或者需要聯合多個類型。",
+      "content_format": "plain",
+      "created_at": 1766833200,
+      "updated_at": 1766833200,
+      "status": "active"
+    },
+    {
+      "id": "card_1",
+      "title": "Interface vs. Type 使用情境",
+      "user_id": "1",
+      "card_box_id": "card_box_3",
+      "tags": [
+        "TypeScript"
+      ],
+      "content": "使用抉擇取決於具體情況和個人偏好Interface：物件類別會經常擴充或改變時Type：固定的資料結構，或者需要聯合多個類型。",
+      "content_format": "plain",
+      "created_at": 1766833200,
+      "updated_at": 1766833200,
+      "status": "active"
+    },
+    {
+      "id": "card_2",
+      "title": "麻婆豆腐食譜（2-3人份）",
+      "user_id": "1",
+      "card_box_id": "card_box_3",
+      "tags": [
+        "TypeScript"
+      ],
+      "content": "食材準備：\n* 嫩豆腐：1盒（約300g，建議用棉豆腐或北豆腐）\n* 牛／豬絞肉：100g\n* 蒜末：2瓣\n* 薑末：1小匙\n* 蔥花：適量（分開蔥白與蔥綠）\n* 豆瓣醬：1.5 大\n* 醬油：1 大匙\n* 料酒：1 大匙\n* 水：200ml\n* 太白粉水：1大匙粉＋1大匙水混合\n* 花椒粉／油：1/2 小匙\n* 辣椒粉或辣椒油：依個人口味\n* 香油：少許",
+      "content_format": "markdown",
+      "created_at": 1766833200,
+      "updated_at": 1766833200,
+      "status": "active"
+    },
+    {
+      "id": "card_3",
+      "title": "useState — 狀態管理入門",
+      "user_id": "1",
+      "card_box_id": "card_box_3",
+      "tags": [
+        "TypeScript"
+      ],
+      "content": "用來宣告與更新元件內的狀態\n```javascript\nconst [count, setCount] = useState(0);\nsetCount(count + 1);\n```\n每次 `setCount` 呼叫後元件會重新渲染。",
+      "content_format": "plain",
+      "created_at": 1766833200,
+      "updated_at": 1766833200,
+      "status": "active"
+    }
+    
   ]
 }
