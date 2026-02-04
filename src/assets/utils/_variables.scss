@@ -1163,7 +1163,8 @@ $form-check-label-color: null !default;
 $form-check-label-cursor: null !default;
 $form-check-transition: null !default;
 
-$form-check-input-active-filter: brightness(90%) !default;
+$form-check-input-active-filter: brightness(95%) !default;
+// $form-check-input-active-filter: brightness(90%) !default;
 
 $form-check-input-bg: $input-bg !default;
 $form-check-input-border: var(--#{$prefix}border-width) solid

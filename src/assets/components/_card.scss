@@ -101,8 +101,10 @@
 }
 
 // card 元件延伸：卡片
-// card-title 詳細模式多的樣式 其他一樣
-// .card-title {
-//   font-weight: $font-weight-bold;
-//   letter-spacing: .02em;
-// }
+.card-ul-style li{
+  &::before {
+    content: '\2022';
+    font-size: inherit;
+    margin-inline: 0.25rem;
+  }
+}
