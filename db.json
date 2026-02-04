@@ -23,6 +23,18 @@
       "createdAt": 1769842195,
       "updatedAt": 1769842195,
       "id": "iI8fDrM"
+    },
+    {
+      "email": "test@mail.com",
+      "password": "$2a$10$3ji57M.ZdrbZS9vCR7o1zuHdt/.Fn9QDZemv/GUqdZsC3jE96cP3i",
+      "username": "test",
+      "phone": "",
+      "avatarImage": "",
+      "address": "",
+      "newsletterSubscribed": true,
+      "createdAt": 1770215002,
+      "updatedAt": 1770215002,
+      "id": "X-gJy7b"
     }
   ],
   "plans": [
@@ -300,9 +312,9 @@
       "type": "normal",
       "is_inbox": false,
       "is_archived": false,
-      "is_favorite": true,
+      "is_favorite": false,
       "created_at": 1766833200,
-      "updated_at": 1769625486,
+      "updated_at": 1770215310,
       "ui": {
         "color": "success"
       }
@@ -425,6 +437,5 @@
       "updated_at": 1766833200,
       "status": "active"
     }
-    
   ]
 }

@@ -7,6 +7,7 @@ export default function CardBoxDetail() {
   const [searchValue, setSearchValue] = useState("");
   const [isSelectMode, setIsSelectMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState(new Set());
+  const [isBaseMode, setIsBaseMode] = useState(false);
 
   const toggleSelectMode = () => {
     setIsSelectMode(!isSelectMode);
@@ -16,8 +17,8 @@ export default function CardBoxDetail() {
   return (
     <>
       <section
-        className="container pt-6 position-sticky bg-white z-2 mb-10"
-        style={{ top: "74px" }}
+        style={{ top: "73px" }}
+        className="container position- pt-6 bg-white z-2 mb-6 "
       >
         <Link
           to="/user/card-boxes"
@@ -31,7 +32,12 @@ export default function CardBoxDetail() {
         <h1 className="fs-2xl fs-lg-3xl mb-4">{cardBox.title}</h1>
         <div className="position-relative mb-6 rounded-1 overflow-hidden">
           {cardBox.cover_url ? (
-            <img className="w-100 object-fit-cover" src={cardBox.cover_url} alt={cardBox.title} style={{ height: "120px" }} />
+            <img
+              className="w-100 object-fit-cover"
+              src={cardBox.cover_url}
+              alt={cardBox.title}
+              style={{ height: "120px" }}
+            />
           ) : null}
           <button className="btn btn-light p-2 rounded-circle position-absolute top-0 end-0 m-3">
             <span className="material-symbols-outlined d-block">edit</span>
@@ -39,20 +45,22 @@ export default function CardBoxDetail() {
         </div>
         <div className="row g-4 gx-lg-3">
           <div className="col-lg-auto mt-lg-3 order-lg-">
-          <div className="form-check form-switch d-flex align-items-center ">
-            <input
-              className="form-check-input ms-auto me-3"
-              type="checkbox"
-              role="switch"
-              id="cardModeSwitch"
-            />
-            <label
-              className="form-check-label text-primary"
-              htmlFor="cardModeSwitch"
-            >
-              詳細模式
-            </label>
-          </div>
+            <div className="form-check form-switch d-flex align-items-center ">
+              <input
+                className="form-check-input ms-auto me-3"
+                type="checkbox"
+                role="switch"
+                id="cardModeSwitch"
+                checked={isBaseMode}
+                onChange={() => setIsBaseMode(!isBaseMode)}
+              />
+              <label
+                className="form-check-label text-primary"
+                htmlFor="cardModeSwitch"
+              >
+                詳細模式
+              </label>
+            </div>
           </div>
           <div className="col-lg-5 me-n4">
             <div className="d-md-flex">
@@ -130,10 +138,18 @@ export default function CardBoxDetail() {
         </div>
         <span className="d-block border-bottom border-gray-200 mt-6"></span>
       </section>
-      <section className="container">
-        {cards.map((card) => (
-          <BaseCard key={card.id} card={card} badges={cardBox.badges} />
-        ))}
+      <section className="container pb-10">
+        <div className="row g-6">
+          {cards.map((card) => (
+            <div className="col-lg-4" key={card.id}>
+              <BaseCard
+                card={card}
+                badges={cardBox.badges}
+                mode={isBaseMode ? "base" : "titleOnly"}
+              />
+            </div>
+          ))}
+        </div>
       </section>
     </>
   );

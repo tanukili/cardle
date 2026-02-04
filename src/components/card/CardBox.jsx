@@ -1,9 +1,16 @@
+import { useNavigate } from "react-router-dom";
+
 export default function CardBox({ cardBox, isSelectMode = false, isSelected = false, onSelect, isFavorite = false, onToggleFavorite }) {
+  const navigate = useNavigate();
+
   const cardBoxClass = ["card", "card-box", isSelectMode && "select-mode", isSelected && "is-selected", isFavorite && "is-favorite"].filter(Boolean).join(" ");
 
   return (
     <div className={cardBoxClass}
-      onClick={isSelectMode ? () => onSelect?.(cardBox.id) : undefined}
+      onClick={isSelectMode ? () => onSelect?.(cardBox.id) : (e) => {
+        e.stopPropagation();
+        navigate(`/user/card-box/${cardBox.id}`);
+      }}
     >
       <div className="position-relative">
         {cardBox.cover_url ? (

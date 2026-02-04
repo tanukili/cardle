@@ -76,183 +76,218 @@ export default function Dashboard() {
     },
   ];
 
-  const lastestCards = [
+  const boxes = [
     {
-      badgeId: "1",
-      id: "1",
-      title: "**常見單位（px, %, rem）**",
-      content: `px：固定像素  
-%：相對於父元素  
-rem：相對於 root font size  
-使用 rem 可以更靈活響應式。`,
-    },
-    {
-      badgeId: "1",
-      id: "2",
-      title: "**實用建議**",
-      content: `* 響應式設計：建議優先使用 rem + % + vw/vh 的組合  
-* 元件內縮放：用 em 可以讓文字隨父層等比縮放  
-* 精準控制：設計系統中仍可用 px 做細節調整`,
-    },
-    {
-      badgeId: "2",
-      id: "3",
-      title: "**和風醬汁：醬油 × 味醂 × 高湯**",
-      content: `常見比例為：  
-1（醬油）：1（味醂）：2（高湯）  
-
----  
-
-可用於燉煮、壽喜燒、烏龍麵湯底，味醂帶甜味並增加照面光澤。`,
-    },
-    {
-      badgeId: "2",
-      id: "4",
-      title: "**黃金比例：醬油 × 糖 × 米酒**",
-      content: `適用於台式紅燒料理，常見比例為：  
-1（醬油）：1（糖）：1（米酒）  
-
----  
-
-醬油提鹹香、糖增加焦化風味、米酒去腥提味。  
-👉 也可加入少許水稀釋，適用於紅燒肉、紅燒豆腐等。`,
-    },
-    {
-      title: "**麻婆豆腐食譜（2-3人份）**",
-      content: `---  
-食材準備：  
-* 嫩豆腐：1盒（約300g，建議用棉豆腐或北豆腐）
-* 牛／豬絞肉：100g
-* 蒜末：2瓣
-* 薑末：1小匙
-* 蔥花：適量（分開蔥白與蔥綠）
-* 豆瓣醬：1.5 大
-* 醬油：1 大匙
-* 料酒：1 大匙
-* 水：200ml
-* 太白粉水：1大匙粉＋1大匙水混合
-* 花椒粉／油：1/2 小匙
-* 辣椒粉或辣椒油：依個人口味
-* 香油：少許`,
-      badgeId: "2",
-      id: "5",
-    },
-    {
-      title: "**props vs state**",
-      content: `props 是由父元件傳入的資料。  
-    state 是元件內部的狀態，可被修改。`,
-      badgeId: "3",
-      id: "6",
-    },
-    {
-      title: "**useState — 狀態管理入門**",
-      content: `用來宣告與更新元件內的狀態  
-\`\`\`javascript
-const [count, setCount] = useState(0);
-setCount(count + 1);
-\`\`\`  
-每次 \`setCount\` 呼叫後元件會重新渲染。`,
-      badgeId: "3",
-      id: "9",
-    },
-    {
-      title: "**Flexbox（彈性盒子）**",
-      content: `\`display: flex;\`  
-    是現代網頁常用的排版方式之一，能夠快速讓元素水平或垂直對齊`,
-      badgeId: "1",
-      id: "7",
-    },
-    {
-      title: "**Box Model（盒模型）**",
-      content: `CSS 的每個元素都像一個盒子，由以下幾個部分構成（由內而外）：  
-\`[margin] [border] [padding] [content]\`  
-
----
-
-* \`content\`元素實際內容，如文字、圖片等
-* \`padding\`內容與邊框之間的間距
-* \`border\`元素的邊框
-* \`margin\`元素與外部其他元素之間的距離`,
-      badgeId: "1",
-      id: "8",
-    },
-
-    {
-      title: "**《我得了不想上班的病》- 倦怠 3 種類型：**",
-      content: `1. 過勞
-2. 社交疲憊
-3. 無聊萎靡
-`,
-      badgeId: "4",
-      id: "10",
-    },
-    {
-      title: "**過勞型倦怠**",
-      content: `一直處與工作狀態、全職育兒的人的身上。過度努力、有責任感。
-
----
-常見跡象： 
-1. 主客觀來看都很忙
-2. 時間總是不夠
-3. 跟不上的焦慮或內疚
-4. 這陣子忙完就好
-`,
-      badgeId: "4",
-      id: "11",
-    },
-    {
-      title: "**歌劇院蛋糕 Opera Cake**",
-      content: `1. 杏仁海綿蛋糕 Joconde
-   * 杏仁粉 – 80g
-   * 低筋麵粉 – 20g
-   * 全蛋 – 2顆
-   * 糖粉 – 50g
-   * 蛋白 – 3顆
-   * 砂糖 – 20g
-   * 無鹽奶油 – 20g
-2. 咖啡糖液 Coffee Syrup
-   * 即溶咖啡 – 5g
-   * 砂糖 – 30g
-   * 熱水 – 100g
-3. 法式奶油霜 French Buttercream
-   * 無鹽奶油 – 120g
-   * 蛋黃 – 3顆
-   * 砂糖 – 60g
-   * 水 – 25g
-4. 甘納許 Ganache
-   * 黑巧克力 – 75g
-   * 鮮奶油 – 75g
-`,
-      badgeId: "2",
-      id: "12",
+      id: "card_box_3",
+      title: "TypeScript 基礎",
+      description: "",
+      cover_url: "user/card-box-cover-1.png",
+      type: "normal",
+      is_inbox: false,
+      is_archived: false,
+      is_favorite: false,
+      created_at: 1766833200,
+      updated_at: 1770215310,
+      ui: {
+        color: "success",
+      },
     },
   ];
+
+  const lastestCards = [
+    {
+      id: "card_001",
+      title: "常見單位（px, %, rem）",
+      user_id: "X-gJy7b",
+      card_box_id: "card_box_3",
+      tags: [],
+      content:
+        "px：固定像素  \n%：相對於父元素  \nrem：相對於 root font size  \n使用 rem 可以更靈活響應式。",
+      content_format: "plain",
+      created_at: 1738675200,
+      updated_at: 1738761600,
+      status: "active",
+    },
+    {
+      id: "card_002",
+      title: "實用建議",
+      user_id: "X-gJy7b",
+      card_box_id: "card_box_3",
+      tags: [],
+      content:
+        "* 響應式設計：建議優先使用 rem + % + vw/vh 的組合  \n* 元件內縮放：用 em 可以讓文字隨父層等比縮放  \n* 精準控制：設計系統中仍可用 px 做細節調整",
+      content_format: "plain",
+      created_at: 1738675200,
+      updated_at: 1738675200,
+      status: "active",
+    },
+    {
+      id: "card_003",
+      title: "和風醬汁：醬油 × 味醂 × 高湯",
+      user_id: "X-gJy7b",
+      card_box_id: "card_box_3",
+      tags: [],
+      content:
+        "常見比例為：  \n1（醬油）：1（味醂）：2（高湯）  \n\n---  \n\n可用於燉煮、壽喜燒、烏龍麵湯底，味醂帶甜味並增加照面光澤。",
+      content_format: "plain",
+      created_at: 1738675200,
+      updated_at: 1738848000,
+      status: "active",
+    },
+    {
+      id: "card_004",
+      title: "黃金比例：醬油 × 糖 × 米酒",
+      user_id: "X-gJy7b",
+      card_box_id: "card_box_3",
+      tags: [],
+      content:
+        "適用於台式紅燒料理，常見比例為：  \n1（醬油）：1（糖）：1（米酒）  \n\n---  \n\n醬油提鹹香、糖增加焦化風味、米酒去腥提味。  \n👉 也可加入少許水稀釋，適用於紅燒肉、紅燒豆腐等。",
+      content_format: "plain",
+      created_at: 1738675200,
+      updated_at: 1738675200,
+      status: "active",
+    },
+    {
+      id: "card_005",
+      title: "麻婆豆腐食譜（2-3人份）",
+      user_id: "X-gJy7b",
+      card_box_id: "card_box_3",
+      tags: [],
+      content:
+        "食材準備：  \n* 嫩豆腐：1盒（約300g，建議用棉豆腐或北豆腐）\n* 牛／豬絞肉：100g\n* 蒜末：2瓣\n* 薑末：1小匙\n* 蔥花：適量（分開蔥白與蔥綠）\n* 豆瓣醬：1.5 大\n* 醬油：1 大匙\n* 料酒：1 大匙\n* 水：200ml\n* 太白粉水：1大匙粉＋1大匙水混合\n* 花椒粉／油：1/2 小匙\n* 辣椒粉或辣椒油：依個人口味\n* 香油：少許",
+      content_format: "plain",
+      created_at: 1738675200,
+      updated_at: 1738934400,
+      status: "active",
+    },
+    {
+      id: "card_006",
+      title: "props vs state",
+      user_id: "X-gJy7b",
+      card_box_id: "card_box_3",
+      tags: [],
+      content:
+        "props 是由父元件傳入的資料。  \n    state 是元件內部的狀態，可被修改。",
+      content_format: "plain",
+      created_at: 1738675200,
+      updated_at: 1738675200,
+      status: "active",
+    },
+    {
+      id: "card_007",
+      title: "useState — 狀態管理入門",
+      user_id: "X-gJy7b",
+      card_box_id: "card_box_3",
+      tags: [],
+      content:
+        "用來宣告與更新元件內的狀態  \n```javascript\nconst [count, setCount] = useState(0);\nsetCount(count + 1);\n```  \n每次 `setCount` 呼叫後元件會重新渲染。",
+      content_format: "plain",
+      created_at: 1738675200,
+      updated_at: 1739020800,
+      status: "active",
+    },
+    {
+      id: "card_008",
+      title: "Flexbox（彈性盒子）",
+      user_id: "X-gJy7b",
+      card_box_id: "card_box_3",
+      tags: [],
+      content:
+        "`display: flex;`  \n    是現代網頁常用的排版方式之一，能夠快速讓元素水平或垂直對齊",
+      content_format: "plain",
+      created_at: 1738675200,
+      updated_at: 1738675200,
+      status: "active",
+    },
+    {
+      id: "card_009",
+      title: "Box Model（盒模型）",
+      user_id: "X-gJy7b",
+      card_box_id: "card_box_3",
+      tags: [],
+      content:
+        "CSS 的每個元素都像一個盒子，由以下幾個部分構成（由內而外）：  \n`[margin] [border] [padding] [content]`  \n\n---\n\n* `content`元素實際內容，如文字、圖片等\n* `padding`內容與邊框之間的間距\n* `border`元素的邊框\n* `margin`元素與外部其他元素之間的距離",
+      content_format: "plain",
+      created_at: 1738675200,
+      updated_at: 1739107200,
+      status: "active",
+    },
+    {
+      id: "card_010",
+      title: "《我得了不想上班的病》- 倦怠 3 種類型：",
+      user_id: "X-gJy7b",
+      card_box_id: "card_box_3",
+      tags: [],
+      content: "1. 過勞\n2. 社交疲憊\n3. 無聊萎靡\n",
+      content_format: "plain",
+      created_at: 1738675200,
+      updated_at: 1738675200,
+      status: "active",
+    },
+    {
+      id: "card_011",
+      title: "過勞型倦怠",
+      user_id: "X-gJy7b",
+      card_box_id: "card_box_3",
+      tags: [],
+      content:
+        "一直處與工作狀態、全職育兒的人的身上。過度努力、有責任感。\n\n---\n常見跡象： \n1. 主客觀來看都很忙\n2. 時間總是不夠\n3. 跟不上的焦慮或內疚\n4. 這陣子忙完就好\n",
+      content_format: "plain",
+      created_at: 1738675200,
+      updated_at: 1739193600,
+      status: "active",
+    },
+    {
+      id: "card_012",
+      title: "歌劇院蛋糕 Opera Cake",
+      user_id: "X-gJy7b",
+      card_box_id: "card_box_3",
+      tags: [],
+      content:
+        "1. 杏仁海綿蛋糕 Joconde\n   * 杏仁粉 – 80g\n   * 低筋麵粉 – 20g\n   * 全蛋 – 2顆\n   * 糖粉 – 50g\n   * 蛋白 – 3顆\n   * 砂糖 – 20g\n   * 無鹽奶油 – 20g\n2. 咖啡糖液 Coffee Syrup\n   * 即溶咖啡 – 5g\n   * 砂糖 – 30g\n   * 熱水 – 100g\n3. 法式奶油霜 French Buttercream\n   * 無鹽奶油 – 120g\n   * 蛋黃 – 3顆\n   * 砂糖 – 60g\n   * 水 – 25g\n4. 甘納許 Ganache\n   * 黑巧克力 – 75g\n   * 鮮奶油 – 75g\n",
+      content_format: "plain",
+      created_at: 1738675200,
+      updated_at: 1738675200,
+      status: "active",
+    },
+  ];
+
+  const formatedCards = lastestCards.map((card) => {
+    const targetbox = boxes.find((box) => box.id === card.card_box_id);
+    return {
+      ...card,
+      cardBox: {
+        color: targetbox.ui.color,
+        title: targetbox.title,
+      },
+    };
+  });
 
   const countRows = (content) => (content.match(/\n/g) || []).length + 1;
 
   const organizeCardSwiper = (cards) => {
     const result = [];
     const maxRows = 9;
-
+    console.log(cards);
     let i = 0;
     while (i < cards.length) {
       const currentCard = cards[i];
       const currentRowCount = countRows(currentCard.content);
 
+      // 長卡片單獨一組
       if (currentRowCount > maxRows) {
-        // 情況 A：它是長卡片，單獨一組
         result.push(currentCard);
         i++;
       } else {
-        // 情況 B：它是短卡片，嘗試抓下一張
+        // 短卡片嘗試抓下一張
         const nextCard = cards[i + 1];
 
         if (nextCard && countRows(nextCard.content) <= maxRows) {
-          // 下一張也是短卡片，合併！
+          // 也是短卡片，合併
           result.push([currentCard, nextCard]);
-          i += 2; // 跳過下一張
+          i += 2;
         } else {
-          // 沒有下一張，或是下一張是長卡片，則這張單獨一組（格式統一為 [card]）
+          // 沒有下一張，或是下一張是長卡片
           result.push([currentCard]);
           i++;
         }
@@ -261,8 +296,7 @@ setCount(count + 1);
     return result;
   };
 
-  const displayCardSwiper = organizeCardSwiper(lastestCards);
-  console.log(displayCardSwiper);
+  const displayCardSwiper = organizeCardSwiper(formatedCards);
 
   const cardBoxes = [
     {
@@ -361,7 +395,7 @@ setCount(count + 1);
           <h2 className="fs-xl text-gray-700 mb-4 fs-md-3xl">
             哈囉！
             <span className="badge badge-lg badge-secondary fs-xl mx-2 lh-base lh-md-sm fs-md-3xl">
-              {userInfo.name}
+              {userInfo.username}
             </span>
             ！
           </h2>
@@ -476,7 +510,10 @@ setCount(count + 1);
                     </h3>
                   </div>
                   <div className="card-body d-flex flex-column flex-sm-row justify-content-center align-items-center py-0 py-sm-4 py-xl-6">
-                    <div className="pie-container pe-sm-3" style={{ height: "200px", width: "200px" }}>
+                    <div
+                      className="pie-container pe-sm-3"
+                      style={{ height: "200px", width: "200px" }}
+                    >
                       <ResponsivePie
                         data={pieData}
                         margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
@@ -549,7 +586,10 @@ setCount(count + 1);
                         學習時間 (分)
                       </h3>
                     </div>
-                    <div className="bar-container card-body d-flex flex-column p-xl-6" style={{ height: "300px" }}>
+                    <div
+                      className="bar-container card-body d-flex flex-column p-xl-6"
+                      style={{ height: "300px" }}
+                    >
                       <ResponsiveBar
                         data={barData}
                         keys={["學習時間"]}
@@ -576,9 +616,11 @@ setCount(count + 1);
                         animate={true}
                         motionConfig="gentle"
                         role="application"
-                        barAriaLabel={(e) => `${e.id}: ${e.formattedValue} 分鐘`}
+                        barAriaLabel={(e) =>
+                          `${e.id}: ${e.formattedValue} 分鐘`
+                        }
                         ariaLabel="學習時間長條圖"
-                        />
+                      />
                     </div>
                   </div>
                 </div>
@@ -653,7 +695,10 @@ setCount(count + 1);
         <Swiper
           className="current-cards-swiper overflow-visible"
           modules={[Scrollbar]}
-          spaceBetween={24}
+          spaceBetween={16}
+          breakpoints={{
+            1200: { spaceBetween: 40 },
+          }}
           slidesPerView={"auto"}
           slidesOffsetBefore={0}
           slidesOffsetAfter={0}
@@ -664,17 +709,19 @@ setCount(count + 1);
           }}
         >
           {displayCardSwiper.map((swiperItem) => (
-            <SwiperSlide style={{ width: "300px" }}>
+            <SwiperSlide
+              style={{ width: "300px" }}
+              className="d-flex flex-column gap-4"
+            >
               {Array.isArray(swiperItem) ? (
                 swiperItem.map((card) => (
-                  // countRows(card.content)
-                  <BaseCard card={card} badges={badges} key={card.id} />
+                  <BaseCard card={card} key={card.id} mode="withBadge" />
                 ))
               ) : (
                 <BaseCard
                   card={swiperItem}
-                  badges={badges}
                   key={swiperItem.id}
+                  mode="withBadge"
                 />
               )}
             </SwiperSlide>
