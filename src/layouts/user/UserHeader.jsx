@@ -1,8 +1,9 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect, useRef, Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "@/store/slices/userSlice";
+import { login, logout } from "@/store/slices/userSlice";
 import { Offcanvas } from "bootstrap";
+import axios from "axios";
 
 export default function BaseHeader() {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
@@ -13,6 +14,27 @@ export default function BaseHeader() {
   const location = useLocation();
   const offcanvasRef = useRef(null);
 
+  // Step 1：頁面初始化時讀取 cookie token + localStorage user
+  useEffect(() => {
+    const token = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("userToken="))
+      ?.split("=")[1];
+    const user = localStorage.getItem("user");
+
+    if (token && user && !isLoggedIn) {
+      const parsedUser = JSON.parse(user);
+      // 確保 avatarUrl 有值，否則用預設頭像
+      if (!parsedUser.avatarUrl) {
+        parsedUser.avatarUrl = "default-avatar.png";
+      }
+      // 恢復 axios header
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+      dispatch(login(parsedUser));
+    }
+  }, [dispatch, isLoggedIn]);
+
+  // Offcanvas & Cleanup
   useEffect(() => {
     const el = offcanvasRef.current;
     if (!el) return;
@@ -35,6 +57,9 @@ export default function BaseHeader() {
 
   const handleLogout = () => {
     dispatch(logout());
+    // 刪除 cookie token
+    document.cookie = "userToken=; path=/; max-age=0";
+    localStorage.removeItem("user");
     navigate("/");
   };
 
@@ -63,7 +88,7 @@ export default function BaseHeader() {
                         alt="個人頭像"
                       />
                     )}
-                    <span className="mx-2">{userInfo.name}</span>
+                    <span className="mx-2">{userInfo.username}</span>
                     <span className="material-symbols-outlined">
                       keyboard_arrow_down
                     </span>

@@ -114,7 +114,8 @@ $secondarys: (
 $blue: #0d6efd !default;
 $indigo: #6610f2 !default;
 $purple: #6f42c1 !default;
-$pink: #d63384 !default;
+$pink: $primary-600 !default; // custom
+// $pink: #d63384 !default;
 $red: #dc3545 !default;
 $orange: #fd7e14 !default;
 $yellow: #ffc107 !default;
@@ -742,8 +743,10 @@ $font-family-sans-serif: "Noto Sans TC", system-ui, -apple-system, "Segoe UI",
   Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif,
   "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default; // custom
 // $font-family-sans-serif:      system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
-$font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
-  "Liberation Mono", "Courier New", monospace !default;
+$font-family-monospace: "IBM Plex Mono", SFMono-Regular, Menlo, Monaco, Consolas,
+  "Liberation Mono", "Courier New", monospace !default;  // custom
+// $font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
+//   "Liberation Mono", "Courier New", monospace !default;
 // stylelint-enable value-keyword-case
 $font-family-base: var(--#{$prefix}font-sans-serif) !default;
 $font-family-code: var(--#{$prefix}font-monospace) !default;
@@ -1631,9 +1634,11 @@ $card-inner-border-radius: subtract(
   $card-border-radius,
   $card-border-width
 ) !default;
-$card-cap-padding-y: $card-spacer-y * 0.5 !default;
+$card-cap-padding-y: $card-spacer-y !default; // custom
+// $card-cap-padding-y: $card-spacer-y * 0.5 !default; 
 $card-cap-padding-x: $card-spacer-x !default;
-$card-cap-bg: rgba(var(--#{$prefix}body-color-rgb), 0.03) !default;
+$card-cap-bg: inherit !default; // custom
+// $card-cap-bg: rgba(var(--#{$prefix}body-color-rgb), 0.03) !default;
 $card-cap-color: null !default;
 $card-height: null !default;
 $card-color: $gray-900 !default; // custom
