@@ -16,7 +16,6 @@ export default function BaseCard({
     titleOnly: "base-card card rounded-4 bg-gray-0",
     withBadge: "base-card card rounded-4 bg-gray-0 border-gray-200",
   };
-  console.log(isSelectMode);
 
   const selectStyle = [
     isSelectMode && "select-mode",

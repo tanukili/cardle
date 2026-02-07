@@ -331,14 +331,14 @@ export default function CardBoxs() {
           </div>
         ) : (
           <div className="alert alert-light mb-4 text-center" role="alert">
-            { cardBoxes.length ? '沒有符合條件的卡片盒' : '目前沒有任何卡片盒'}
+            {cardBoxes.length ? "沒有符合條件的卡片盒" : "目前沒有任何卡片盒"}
           </div>
         )}
       </div>
 
       {/* 新增卡片盒 Modal */}
       <div
-        className="modal fade"
+        className="modal-reset modal fade"
         id="createCardBoxModal"
         tabIndex="-1"
         aria-labelledby="createCardBoxModalLabel"
@@ -348,7 +348,7 @@ export default function CardBoxs() {
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
-              <h2 className="modal-title fs-lg-l" id="createCardBoxModalLabel">
+              <h2 className="modal-title fs-l" id="createCardBoxModalLabel">
                 新增卡片盒
               </h2>
               <button
@@ -370,38 +370,62 @@ export default function CardBoxs() {
                   <label htmlFor="cardBoxTitle" className="form-label">
                     卡片盒名稱
                   </label>
-                  <input
-                    id="cardBoxTitle"
-                    className="form-control"
-                    type="text"
-                    placeholder="請輸入卡片盒名稱"
-                    value={newCardBox.title}
-                    onChange={(e) =>
-                      setNewCardBox((prev) => ({
-                        ...prev,
-                        title: e.target.value,
-                      }))
-                    }
-                    required
-                  />
+                  <div className="form-control-container">
+                    <input
+                      id="cardBoxTitle"
+                      className="form-control"
+                      type="text"
+                      placeholder="請輸入卡片盒名稱"
+                      value={newCardBox.title}
+                      onChange={(e) =>
+                        setNewCardBox((prev) => ({
+                          ...prev,
+                          title: e.target.value,
+                        }))
+                      }
+                      required
+                    />
+                    <a
+                      href="#"
+                      className="input-clearup"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setNewCardBox((prev) => ({ ...prev, title: "" }));
+                      }}
+                    >
+                      <span className="material-symbols-outlined">close</span>
+                    </a>
+                  </div>
                 </div>
                 <div className="mb-4">
                   <label htmlFor="cardBoxCoverUrl" className="form-label">
                     封面圖片
                   </label>
-                  <input
-                    id="cardBoxCoverUrl"
-                    className="form-control"
-                    type="text"
-                    placeholder="請輸入封面圖片網址"
-                    value={newCardBox.cover_url}
-                    onChange={(e) =>
-                      setNewCardBox((prev) => ({
-                        ...prev,
-                        cover_url: e.target.value,
-                      }))
-                    }
-                  />
+                  <div className="form-control-container">
+                    <input
+                      id="cardBoxCoverUrl"
+                      className="form-control"
+                      type="text"
+                      placeholder="請輸入封面圖片網址"
+                      value={newCardBox.cover_url}
+                      onChange={(e) =>
+                        setNewCardBox((prev) => ({
+                          ...prev,
+                          cover_url: e.target.value,
+                        }))
+                      }
+                    />
+                    <a
+                      href="#"
+                      className="input-clearup"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setNewCardBox((prev) => ({ ...prev, cover_url: "" }));
+                      }}
+                    >
+                      <span className="material-symbols-outlined">close</span>
+                    </a>
+                  </div>
                 </div>
                 <div className="mt-4">
                   <div className="form-check">
@@ -440,7 +464,14 @@ export default function CardBoxs() {
                   className="btn btn-primary"
                   disabled={isCreating}
                 >
-                  {isCreating ? "新增中..." : "新增"}
+                  {isCreating && (
+                    <span
+                      className="spinner-border spinner-border-sm me-2"
+                      role="status"
+                      aria-hidden="true"
+                    />
+                  )}
+                  新增
                 </button>
               </div>
             </form>

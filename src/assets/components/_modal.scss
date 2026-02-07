@@ -28,3 +28,55 @@
     padding: 32px 48px 24px;
   }
 }
+
+// 使用 bootstrap 預設樣式
+.modal-reset {
+  .modal-header {
+    padding: var(--bs-modal-header-padding);
+    .btn-close {
+      position: unset;
+    }
+  }
+  .modal-body {
+    padding: var(--bs-modal-padding);
+  }
+  .modal-footer {
+    padding: calc(var(--bs-modal-padding) - var(--bs-modal-footer-gap) * 0.5);
+  }
+}
+
+// SweetAlert2 toast：右側滑入滑出 + .bg-primary .text-white
+.swal2-popup.swal-toast-slide.bg-primary {
+  background-color: var(--bs-primary) !important;
+  color: var(--bs-white) !important;
+}
+
+@keyframes swal-toast-slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes swal-toast-slide-out-right {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.swal-toast-slide-in {
+  animation: swal-toast-slide-in-right 0.3s ease-out;
+}
+
+.swal-toast-slide-out {
+  animation: swal-toast-slide-out-right 0.25s ease-in forwards;
+}

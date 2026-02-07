@@ -1,22 +1,18 @@
 import { useLoaderData, Link, useRevalidator } from "react-router-dom";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { Modal } from "bootstrap";
+import { showSwalToast } from "@/utils/swalSetting";
 import BaseCard from "@/components/card/BaseCard";
-import { deleteCards, getCards } from "@/services/cardService";
+import { deleteCards, createCard } from "@/services/cardService";
 
 export default function CardBoxDetail() {
   const { cardBox, cards } = useLoaderData();
   const revalidator = useRevalidator();
   const [searchValue, setSearchValue] = useState("");
+  const [isBaseCardMode, setIsBaseCardMode] = useState(false);
+
   const [isSelectMode, setIsSelectMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState(new Set());
-  const [isBaseMode, setIsBaseMode] = useState(false);
-
-  const deleteSelectedCards = async () => {
-    await deleteCards(selectedIds);
-    setSelectedIds(new Set());
-    setIsSelectMode(false);
-    revalidator.revalidate();
-  };
 
   const toggleSelectMode = () => {
     setIsSelectMode(!isSelectMode);
@@ -30,6 +26,56 @@ export default function CardBoxDetail() {
       else next.add(id);
       return next;
     });
+  };
+
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDeleteCards = async () => {
+    setIsDeleting(true);
+    try {
+      await deleteCards(selectedIds);
+      showSwalToast({ title: "刪除成功" });
+      setSelectedIds(new Set());
+      revalidator.revalidate();
+    } catch (err) {
+      const errorMsg = `${err.response.status} ${err.response.statusText}`;
+      showSwalToast({ title: `刪除失敗，${errorMsg}`, variant: "error" });
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  const [newCard, setNewCard] = useState({ title: "", content: "" });
+  const createCardModalRef = useRef(null);
+  const [isCreating, setIsCreating] = useState(false);
+
+  const handleCreateCard = async (e) => {
+    e.preventDefault();
+    setIsCreating(true);
+
+    const cardContent = {
+      title: newCard.title.trim(),
+      content: newCard.content,
+      tags: [`${cardBox.title}`],
+    };
+
+    try {
+      await createCard(cardContent, cardBox.id);
+      showSwalToast({ title: "新增成功" });
+      setNewCard({ title: "", content: "" });
+
+      if (createCardModalRef.current) {
+        Modal.getOrCreateInstance(createCardModalRef.current).hide();
+      }
+      revalidator.revalidate();
+    } catch (err) {
+      const errorMsg = err?.response
+        ? `${err.response.status} ${err.response.statusText}`
+        : "請稍後再試";
+      showSwalToast({ title: `新增失敗，${errorMsg}`, variant: "error" });
+    } finally {
+      setIsCreating(false);
+    }
   };
 
   return (
@@ -65,8 +111,8 @@ export default function CardBoxDetail() {
                 type="checkbox"
                 role="switch"
                 id="cardModeSwitch"
-                checked={isBaseMode}
-                onChange={() => setIsBaseMode(!isBaseMode)}
+                checked={isBaseCardMode}
+                onChange={() => setIsBaseCardMode(!isBaseCardMode)}
               />
               <label
                 className="form-check-label text-primary"
@@ -127,15 +173,27 @@ export default function CardBoxDetail() {
               <button
                 className="btn btn-primary"
                 type="button"
-                onClick={deleteSelectedCards}
-                disabled={selectedIds.size === 0}
+                onClick={handleDeleteCards}
+                disabled={selectedIds.size === 0 || isDeleting}
               >
+                {isDeleting && (
+                  <span
+                    className="spinner-border spinner-border-sm me-2"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                )}
                 刪除卡片
               </button>
             </div>
           ) : (
             <div className="col-md-auto order-md-1">
-              <button className="btn btn-outline-primary w-100" type="button">
+              <button
+                className="btn btn-outline-primary w-100"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#createCardModal"
+              >
                 新增卡片
               </button>
             </div>
@@ -159,7 +217,7 @@ export default function CardBoxDetail() {
               <BaseCard
                 card={card}
                 badges={cardBox.badges}
-                mode={isBaseMode ? "base" : "titleOnly"}
+                mode={isBaseCardMode ? "base" : "titleOnly"}
                 isSelectMode={isSelectMode}
                 isSelected={selectedIds.has(card.id)}
                 onSelect={handleSelectCard}
@@ -168,6 +226,125 @@ export default function CardBoxDetail() {
           ))}
         </div>
       </section>
+
+      {/* 新增卡片 Modal */}
+      <div
+        className="modal-reset modal fade"
+        id="createCardModal"
+        tabIndex="-1"
+        aria-labelledby="createCardModalLabel"
+        aria-hidden="true"
+        ref={createCardModalRef}
+      >
+        <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h2
+                className="modal-title fs-l fs-lg-2xl"
+                id="createCardModalLabel"
+              >
+                新增卡片
+              </h2>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              />
+            </div>
+            <form onSubmit={handleCreateCard}>
+              <div className="modal-body">
+                <p className="mb-4 d-flex align-items-center">
+                  所屬卡片盒
+                  <span
+                    className={`badge badge-${
+                      cardBox.color ?? "secondary"
+                    } lh-base ms-2`}
+                  >
+                    {cardBox.title}
+                  </span>
+                </p>
+                <div className="mb-4">
+                  <label htmlFor="cardTitle" className="form-label fs-m">
+                    卡片標題
+                  </label>
+                  <div className="form-control-container">
+                    <input
+                      id="cardTitle"
+                      className="form-control"
+                      type="text"
+                      placeholder="請輸入卡片標題"
+                      value={newCard.title}
+                      onChange={(e) =>
+                        setNewCard((prev) => ({
+                          ...prev,
+                          title: e.target.value,
+                        }))
+                      }
+                      required
+                    />
+                    <a
+                      href="#"
+                      className="input-clearup"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setNewCard((prev) => ({ ...prev, title: "" }));
+                      }}
+                    >
+                      <span className="material-symbols-outlined">close</span>
+                    </a>
+                  </div>
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="cardContent" className="form-label fs-m">
+                    卡片內容
+                  </label>
+                  <div className="border rounded overflow-hidden">
+                    <textarea
+                      id="cardContent"
+                      className="form-control border-0 rounded-0"
+                      placeholder="請輸入內容..."
+                      rows={10}
+                      style={{ minHeight: 200, resize: "none" }}
+                      value={newCard.content}
+                      onChange={(e) =>
+                        setNewCard((prev) => ({
+                          ...prev,
+                          content: e.target.value,
+                        }))
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-outline-primary"
+                  data-bs-dismiss="modal"
+                  disabled={isCreating}
+                >
+                  取消
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  disabled={isCreating}
+                >
+                  {isCreating && (
+                    <span
+                      className="spinner-border spinner-border-sm me-2"
+                      role="status"
+                      aria-hidden="true"
+                    />
+                  )}
+                  新增
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </>
   );
 }
