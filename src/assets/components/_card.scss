@@ -3,6 +3,7 @@
   --bs-border-radius: 1rem;
   --bs-card-border-color: #{$gray-500};
   --bs-card-bg: #{$gray-0};
+  cursor: pointer;
 
   .card-img-top {
     height: 124px;
@@ -17,7 +18,6 @@
     right: 16px;
     z-index: 1;
     border-radius: 50%;
-    background-color: $white;
     padding: 8px;
     border: unset;
 
@@ -25,25 +25,12 @@
       display: block;
       font-size: 24px;
       font-variation-settings: "FILL" 1;
-      color: $gray-200;
     }
-  }
-
-  &-select {
-    display: none;
-    position: absolute;
-    top: -12px;
-    left: -12px;
-    z-index: 1;
-    border-radius: 50%;
-    background-color: $white;
-    padding: 4px;
-    border: 2px solid $gray-200;
-
-    .material-symbols-outlined {
-      display: block;
-      font-size: 14.4px;
-      color: $gray-200;
+    &.active {
+      color: $color-star;
+      &:hover {
+        background-color: $primary-100;
+      }
     }
   }
 
@@ -54,32 +41,6 @@
     font-size: $font-size-m;
     font-weight: $font-weight-normal;
     line-height: $line-height-base;
-  }
-
-  // 最愛
-  &.is-favorite .card-box-favorite {
-    .material-symbols-outlined {
-      color: $color-star;
-    }
-  }
-  // 選擇模式
-  &.select-mode {
-    cursor: pointer;
-    .card-box-select {
-      display: block;
-    }
-
-    &.is-selected {
-      border-color: $primary-400;
-      outline: 3px solid $primary-400;
-      .card-box-select {
-        background-color: $primary-400;
-        border-color: $primary-400;
-        .material-symbols-outlined {
-          color: $gray-0;
-        }
-      }
-    }
   }
 
   // 響應式
@@ -101,10 +62,86 @@
 }
 
 // card 元件延伸：卡片
-.card-ul-style li{
-  &::before {
-    content: '\2022';
-    font-size: inherit;
-    margin-inline: 0.25rem;
+.base-card {
+  border-color: $gray-500;
+  cursor: pointer;
+  
+  .card-ul-style li {
+    &::before {
+      content: "\2022";
+      font-size: inherit;
+      margin-inline: 0.25rem;
+    }
+  }
+}
+
+// 共用選取模式
+.base-card,
+.card-box {
+  position: relative;
+  &-select {
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    z-index: 1;
+    border-radius: 50%;
+    background-color: $white;
+    padding: 4px;
+    border: 2px solid $gray-200;
+
+    .material-symbols-outlined {
+      display: block;
+      font-size: 14.4px;
+      color: $gray-200;
+    }
+  }
+
+  // 選擇模式
+  &.select-mode {
+    .card-box-select,
+    .base-card-select {
+      display: block;
+    }
+
+    &.is-selected {
+      border-color: $primary-400;
+      outline: 3px solid $primary-400;
+      .card-box-select,
+      .base-card-select {
+        background-color: $primary-400;
+        border-color: $primary-400;
+        .material-symbols-outlined {
+          color: $gray-0;
+        }
+      }
+    }
+  }
+
+  // 響應式
+  @include media-breakpoint-up(lg) {
+    &-select {
+      top: -20px;
+      left: -20px;
+      padding: 7px;
+      .material-symbols-outlined {
+        font-size: 24px;
+      }
+    }
+  }
+}
+
+.card-box-detail {
+  top: 21px;
+  @include media-breakpoint-up(lg) {
+    top: -6px;
+  }
+
+  &-cover {
+    height: 120px;
+    object-fit: cover;
+    width: 100%;
+    @include media-breakpoint-up(lg) {
+      height: 240px;
+    }
   }
 }

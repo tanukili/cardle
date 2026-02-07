@@ -20,14 +20,14 @@ export default function CardBox({ cardBox, isSelectMode = false, isSelected = fa
             alt={`${cardBox.title }-封面`}
           />
         ) : (
-          <div className="card-img-top bg-primary-100 d-flex"
+          <div className="card-img-top bg-primary-0 d-flex"
           >
-            <h3 className="text-primary m-auto">{cardBox.title}</h3>
+            <h3 className="text-primary-500 m-auto">{cardBox.title}</h3>
           </div>
         )}
         {/* 最愛按鈕 */}
         <button
-          className="card-box-favorite"
+          className={`btn btn-gray-0 btn-icon-star card-box-favorite ${cardBox.is_favorite ? " active" : ""}`}
           onClick={(e) => {
             e.stopPropagation();
             onToggleFavorite?.(cardBox.id, cardBox.is_favorite);
@@ -48,27 +48,6 @@ export default function CardBox({ cardBox, isSelectMode = false, isSelected = fa
         <h3 className="card-title">
           {cardBox.title}
         </h3>
-        {/* {!cardBox.cover_url && (
-          <div
-            className="position-absolute w-100 h-100 d-flex align-items-center justify-content-center"
-            style={{
-              fontFamily: "monospace",
-              fontSize: "12px",
-              color: "#4a9eff",
-              opacity: 0.6,
-              lineHeight: "1.6",
-              padding: "20px",
-            }}
-          >
-            <pre style={{ margin: 0, color: "#4a9eff" }}>
-              {`class ${cardBox.title?.replace(/\s/g, "")} {
-  constructor() {
-    this.data = [];
-  }
-}`}
-            </pre>
-          </div>
-        )} */}
       </div>
     </div>
   );

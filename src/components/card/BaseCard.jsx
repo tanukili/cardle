@@ -2,13 +2,28 @@ import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { prism } from "react-syntax-highlighter/dist/esm/styles/prism";
 
-export default function BaseCard({ card, badges, mode = "base" }) {
+export default function BaseCard({
+  card,
+  badges,
+  mode = "base",
+  isSelectMode = false,
+  isSelected = false,
+  onSelect,
+}) {
   // 卡片三種顯示模式：base、titleOnly、withBadge
   const cardStyle = {
-    base: " border-gray-500",
-    titleOnly: "border-gray-500",
-    withBadge: "border-gray-200",
+    base: "base-card card rounded-4 bg-gray-0",
+    titleOnly: "base-card card rounded-4 bg-gray-0",
+    withBadge: "base-card card rounded-4 bg-gray-0 border-gray-200",
   };
+  console.log(isSelectMode);
+
+  const selectStyle = [
+    isSelectMode && "select-mode",
+    isSelected && "is-selected",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   const brandTheme = {
     'code[class*="language-"]': { color: "var(--bs-gray-900)" },
@@ -26,8 +41,10 @@ export default function BaseCard({ card, badges, mode = "base" }) {
     };
 
     return (
-      <div className={`card-header ${titleOnlyClass.header}`}>
-        <h3 className={`fs-m text-center lh-base tracking-2 ${titleOnlyClass.title}`}>
+      <div className={`card-header p-lg-6 ${titleOnlyClass.header}`}>
+        <h3
+          className={`fs-m text-center lh-base tracking-2 ${titleOnlyClass.title}`}
+        >
           {card.title}
         </h3>
       </div>
@@ -60,7 +77,7 @@ export default function BaseCard({ card, badges, mode = "base" }) {
     },
   };
 
-  const codeSettings = ({node, className, children, ...props }) => {
+  const codeSettings = ({ node, className, children, ...props }) => {
     const language = className?.replace("language-", "") || "";
 
     if (!language) {
@@ -93,9 +110,7 @@ export default function BaseCard({ card, badges, mode = "base" }) {
             ul: ({ node, ...props }) => (
               <ul className="list-unstyled card-ul-style mb-0" {...props} />
             ),
-            ol: ({ node, ...props }) => (
-              <ol className="mb-0 ps-6" {...props} />
-            ),
+            ol: ({ node, ...props }) => <ol className="mb-0 ps-6" {...props} />,
             // 取消外層預設的 pre 標籤
             pre: ({ children }) => <>{children}</>,
             code: codeSettings,
@@ -109,7 +124,6 @@ export default function BaseCard({ card, badges, mode = "base" }) {
 
   // withBadge only
   const BadgeContent = ({ cardBox }) => {
-    console.log(cardBox);
     return (
       <>
         <span className={`badge badge-${cardBox.color} lh-base mb-4`}>
@@ -121,7 +135,17 @@ export default function BaseCard({ card, badges, mode = "base" }) {
   };
 
   return (
-    <div className={`${cardStyle[mode]} card rounded-4 bg-gray-0`}>
+    <div
+      className={`${cardStyle[mode]} ${selectStyle}`}
+      onClick={isSelectMode ? () => onSelect?.(card.id) : undefined}
+    >
+      {/* 選擇標示 */}
+      {isSelectMode && (
+        <div className="base-card-select">
+          <span className="material-symbols-outlined">check</span>
+        </div>
+      )}
+      {/* 卡片內容 */}
       {mode !== "withBadge" && <CardHeader mode={mode} />}
       {mode !== "titleOnly" && (
         <div className="card-body p-lg-6">

@@ -312,9 +312,9 @@
       "type": "normal",
       "is_inbox": false,
       "is_archived": false,
-      "is_favorite": false,
+      "is_favorite": true,
       "created_at": 1766833200,
-      "updated_at": 1770215310,
+      "updated_at": 1770440232,
       "ui": {
         "color": "success"
       }
@@ -362,7 +362,7 @@
       },
       "id": "card_box_1769625517",
       "created_at": 1769625517,
-      "updated_at": 1769625521
+      "updated_at": 1770440074
     },
     {
       "title": "ddfdfdsfd",
@@ -371,13 +371,13 @@
       "type": "normal",
       "is_inbox": false,
       "is_archived": false,
-      "is_favorite": false,
+      "is_favorite": true,
       "ui": {
         "color": "secondary"
       },
       "id": "card_box_1769868348",
       "created_at": 1769868348,
-      "updated_at": 1769868348
+      "updated_at": 1770440303
     }
   ],
   "cards": [
