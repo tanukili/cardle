@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { formatDate } from "../../utils/filter";
 
 export default function PlanDetail() {
-  const activeOrder = useSelector((state) => state.user.activeOrder);
-  const plan = useSelector((state) => state.user.plan);
+  const activeOrder = useSelector((state) => state.subscription.activeOrder);
+  const plan = useSelector((state) => state.subscription.plan);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -30,7 +31,7 @@ export default function PlanDetail() {
         <section>
           <div className="card border-gray-200 mb-10">
             <div className="card-body p-6 p-md-8">
-              <h3 className="fs-2xl pb-4 mb-6 border-bottom">{`${plan.title} ${plan.subtitle}`}</h3>
+              <h3 className="fs-2xl pb-4 mb-6 border-bottom">{`${plan?.title} ${plan?.subtitle}`}</h3>
               <ul className="list-unstyled mb-10">
                 <li className="mb-2">
                   加入日期：
@@ -54,7 +55,7 @@ export default function PlanDetail() {
                 <h4 className="fs-l pb-4 border-bottom mb-6">
                   方案功能與上限說明
                 </h4>
-                <ol className="mb-12">
+                <ol className="mb-12 feature-list">
                   {plan?.featuresDetail.map((feature) => (
                     <li key={feature.key} className="mb-1">
                       {`${feature.title}：${feature.description}`}
@@ -72,7 +73,11 @@ export default function PlanDetail() {
           </div>
 
           <div className="d-flex justify-content-center gap-4">
-            <button type="button" className="btn btn-outline-primary">
+            <button
+              type="button"
+              className="btn btn-outline-primary"
+              onClick={() => navigate(-1)}
+            >
               返回
             </button>
             <button type="button" className="btn btn-outline-primary">

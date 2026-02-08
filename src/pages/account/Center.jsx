@@ -15,9 +15,11 @@ const PAYMENT_MAP = {
 
 export default function Center() {
   const userInfo = useSelector((state) => state.user.userInfo);
-  const activeOrder = useSelector((state) => state.user.activeOrder);
-  const plan = useSelector((state) => state.user.plan);
-  const paymentMethod = useSelector((state) => state.user.paymentMethod);
+  const activeOrder = useSelector((state) => state.subscription.activeOrder);
+  const plan = useSelector((state) => state.subscription.plan);
+  const paymentMethod = useSelector(
+    (state) => state.subscription.paymentMethod,
+  );
 
   return (
     <>
@@ -55,7 +57,9 @@ export default function Center() {
                 <li className="mb-1">
                   下次付款日期：
                   <span>
-                    {formatDate(activeOrder?.nextBillingDate) || "--"}
+                    {activeOrder?.isAutoRenew
+                      ? formatDate(activeOrder?.nextBillingDate)
+                      : "--"}
                   </span>
                 </li>
                 <li className="mb-1">

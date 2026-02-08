@@ -130,3 +130,20 @@ input[type="radio"]:checked {
     transform: translateX(-50%);
   }
 }
+
+// 方案明細 plan detail
+.feature-list {
+  list-style: none;
+  padding: 0;
+  counter-reset: item;
+
+  li {
+    display: flex;
+
+    &::before {
+      content: counter(item) ".";
+      counter-increment: item;
+      margin-right: 0.5rem;
+    }
+  }
+}
