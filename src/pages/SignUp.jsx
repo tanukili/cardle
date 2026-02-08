@@ -71,7 +71,6 @@ export default function SignUp() {
 
     try {
       const res = await axios.post(url, formData);
-      // console.log(res.data);
 
       return res.data.secure_url;
     } catch (error) {
@@ -98,9 +97,6 @@ export default function SignUp() {
   const handleSignUp = async (formData) => {
     try {
       const { password2, subscribe, agreeTerms, ...payload } = formData;
-      // console.log(payload);
-      // console.log(subscribe);
-
       const now = Math.floor(Date.now() / 1000);
 
       const data = {
@@ -114,10 +110,8 @@ export default function SignUp() {
         createdAt: now,
         updatedAt: now,
       };
-      // console.log(data);
 
       const res = await axios.post(`${BASE_URL}users`, data);
-      // console.log(res.data);
 
       reset();
       setImgUrl(DEFAULT_AVATAR_URL);
