@@ -413,6 +413,7 @@ $theme-colors: (
   "primary-100": $primary-100,
   "primary-200": $primary-200,
   "primary-400": $primary-400,
+  "primary-500": $primary-500,
   "primary-700": $primary-700,
   "primary-800": $primary-800,
   "primary-900": $primary-900,
@@ -1163,7 +1164,8 @@ $form-check-label-color: null !default;
 $form-check-label-cursor: null !default;
 $form-check-transition: null !default;
 
-$form-check-input-active-filter: brightness(90%) !default;
+$form-check-input-active-filter: brightness(95%) !default;
+// $form-check-input-active-filter: brightness(90%) !default;
 
 $form-check-input-bg: $input-bg !default;
 $form-check-input-border: var(--#{$prefix}border-width) solid
