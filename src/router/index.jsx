@@ -62,7 +62,7 @@ const router = createHashRouter([
             element: <SubscriptionCheckout />,
           },
           {
-            path: "success",
+            path: "success/:orderId",
             element: <SubscriptionSuccess />,
           },
         ],
