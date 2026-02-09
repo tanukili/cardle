@@ -7,7 +7,7 @@ const Validation = yup.object().shape({
   expDate: yup.string()
     .required('必填')
     .matches(/^(0[1-9]|1[0-2])\/?([0-9]{2})$/, '格式錯誤 (MM/YY)'),
-    cvv: yup.string().required('必填').matches(/^\d{3,4}$/, '3-4位數字'),
+    cvv: yup.string().required('必填').matches(/^\d{2,3}$/, '1-3位數字'),
     isAutoRenew: yup.boolean(),
     agreedToTerms: yup.boolean().oneOf([true], '您必須同意服務條款')
   });
