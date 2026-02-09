@@ -1,26 +1,35 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { PatternFormat } from "react-number-format";
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import axios from "axios";
 import Validation from "../../components/checkout/Validation"
+import { useSelector } from "react-redux";
 // console.log(BASE_URLL);
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const Checkout = () => {
+const navigate = useNavigate();
+const [plans, setPlans] = useState([]);
+const { id } = useParams(); 
+const [step, setStep] = useState(1);
+const {time, setTime} = useState([]);
+const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+const userInfo = useSelector((state) => state.user.userInfo);
+console.log(isLoggedIn,userInfo);
+
+// // 在組件內定義一個狀態來防止重複執行
+const [isProcessing, setIsProcessing] = useState(false);
   
-  const [plans, setPlans] = useState([]);
-  const { id } = useParams(); 
-  const [step, setStep] = useState(1);
-  const {time, setTime} = useState([]);
-
+  let targetIndex = id;
+  // targetIndex = 'plan_free' ;
   
-  // 取得 URL 參數 (例如 ?plan=1 顯示 data[0])
-  const targetIndex = parseInt(id, 10);
-  const currentPlan = plans[targetIndex];
+  const currentPlan = useMemo(() => {
+    return plans.find(p => p.id === targetIndex);
+  }, [plans, targetIndex]);
 
-
+  //驗證表單
   const { register, handleSubmit, control, formState: { errors, isSubmitting } } = useForm({
     resolver: yupResolver(Validation),
     defaultValues: { isAutoRenew: true, agreedToTerms: true }
@@ -31,13 +40,13 @@ const Checkout = () => {
   }, []);
 
   // 計算未來日期
-  const calculateNextDate = (id) => {
+  const calculateNextDate = (planId) => {
   const now = new Date();
   const next = new Date(now);
 
-  if (id === "1") {
+ if (planId === "plan_pro_month" || planId === "plan_free") {
     next.setMonth(now.getMonth() + 1);
-  } else if (id === "2") {
+  } else if (planId === "plan_pro_year") {
     next.setMonth(now.getMonth() + 12);
   }
 
@@ -63,69 +72,116 @@ const Checkout = () => {
   const formatChineseDate = () => {
     const { now, next } = calculateNextDate(id);
     const formatDate = (d) => `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
-
     return {
       nextDay: formatDate(next),
       nowDay: formatDate(now)
     };
   };
-const { nextDay, nowDay } = formatChineseDate();
-  // --- 統一結帳發送邏輯 ---
+    const { nextDay, nowDay } = formatChineseDate();
+    const getOrderHistory = async (orderId) => {
+      // 1. 取得訂單資料
+      const orderRes = await axios.get(`${BASE_URL}orders/${orderId}`);
+      const order = orderRes.data;
+      // 2. 根據訂單中的 paymentMethodId 取得卡片資訊
+      const pmRes = await axios.get(`${BASE_URL}paymentMethods/${order.paymentMethodId}`);
+      const payment = pmRes.data;
+      console.log(payment);
+      navigate(`/subscription/success/${orderId}`,{ state: { order: order, payment: payment } });
+    };
+// --- 結帳發送邏輯 ---
   const executeOrder = async (cardData, modeLabel) => {
-    const { subTS, nextTS, display } = getDates();
-    const pmId = `pm-${Date.now()}`;
-    const orderId = `ord-${new Date().toISOString().slice(0,10).replace(/-/g,'')}-${Math.floor(Math.random()*1000)}`;
+    // 1. 雙重防護：檢查自定義鎖與 Hook Form 的提交狀態
+    if (isProcessing || isSubmitting) return; 
+    
+    setIsProcessing(true); // 立即鎖定
 
     try {
-      // 1. 先建立支付方式 (paymentMethods)
-      const newPaymentMethod = {
-        id: pmId,
-        userId: 101, // 假設當前使用者 ID
-        brand: cardData.brand || "VISA",
-        type: "credit_card",
-        cardHolder: cardData.cardHolder || "使用者名稱",
-        last4: cardData.number.slice(-4),
-        expDate: cardData.expDate || "12/28"
-      };
-      await axios.post(`${BASE_URL}paymentMethods`, newPaymentMethod);
+      const { subTS, nextTS } = getDates(id);
+      const userId = "1";
+      const nowTS = subTS;
+      const newPrice = currentPlan?.price || 0;
+      const isNewPlanFree = newPrice === 0;
 
-      // 2. 再建立訂單紀錄 (orders)
+      // 2. 檢查舊訂單 (加上 limit=1 減少回應量)
+      const activeRes = await axios.get(`${BASE_URL}orders?userId=${userId}&status=active`);
+      // const activeOrders = activeRes.data;
+      const oldOrder = activeRes.data[0];
+      let refundInfo = null;
+      if (oldOrder) {
+        const oldPrice = oldOrder.price || 0;
+        // console.log(oldOrder,oldPrice,isNewPlanFree);
+        // 只有舊訂單是「有付錢的」，才需要計算退費
+        if (oldPrice > 0) {
+          const totalDuration = oldOrder.nextBillingDate - oldOrder.subscribeDate;
+          const remaining = oldOrder.nextBillingDate - subTS;
+          const amount = Math.max(0, Math.floor((oldPrice / totalDuration) * remaining));
+          
+          refundInfo = { amount, date: subTS };
+
+          await axios.patch(`${BASE_URL}orders/${oldOrder.id}`, {
+            status: "inactive",
+            refundDetail: { ...refundInfo, reason: "方案更換退費" }
+          });
+        } else {
+          // 如果舊的是免費方案，直接標註為取代
+          await axios.patch(`${BASE_URL}orders/${oldOrder.id}`, { status: "replaced" });
+        }
+      }
+
+      // 3. 建立支付方式 (ID 加上隨機數防止極短時間內產出的 ID 重複)
+      const pmId = `pm-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+      let paymentObj = { brand: "FREE", last4: "NONE", cardHolder: "Member" };
+      if (!isNewPlanFree) {
+        const paymentObj = {
+          id: pmId,
+          userId,
+          brand: cardData.brand || "VISA",
+          type: "credit_card",
+          cardHolder: cardData.cardHolder || "Member",
+          last4: cardData.number?.slice(-4) || "0000",
+          expDate: cardData.expDate
+        };
+        await axios.post(`${BASE_URL}paymentMethods`, paymentObj);
+      }
+
+      // 4. 建立新訂單
+      const orderId = `ord-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${Math.floor(Math.random() * 10000)}`;
       const newOrder = {
         id: orderId,
-        planId: plans[targetIndex]?.subtitle || "plan_pro_month",
-        userId: 101,
-        price: plans[targetIndex]?.price || 0,
+        planId: currentPlan?.id || "plan_pro_month",
+        userId,
+        price: currentPlan?.price || 0,
         subscribeDate: subTS,
         nextBillingDate: nextTS,
         isAutoRenew: true,
         agreedToTerms: true,
         status: "active",
-        paymentMethodId: pmId // 關聯剛剛建立的 PM ID
+        paymentMethodId: pmId
       };
-      await axios.post(`${BASE_URL}orders`, newOrder);
+      const orderRes = await axios.post(`${BASE_URL}orders`, newOrder);
 
-      getOrderHistory(newOrder.id)
-      // alert(`【${modeLabel}】付款成功！\n下次扣款日：${display}`);
+      const savedOrder = orderRes.data;
+      // 5. 成功後邏輯
+      alert(`【${modeLabel}】付款成功`);
+      if (refundInfo?.amount > 0) {
+        alert(`訂閱成功！舊方案剩餘的 $${refundInfo.amount} 元將退回您的帳戶。`);
+      } else {
+        alert(isNewPlanFree ? "免費方案已成功開通！" : "付費方案訂閱成功！");
+      }
+      navigate(`/subscription/success/${orderId}`, { 
+        state: { 
+          order: savedOrder,   // 新訂單資訊
+          payment: paymentObj  // 剛才組好的支付資訊
+        } 
+      });
+      // getOrderHistory(newOrder.id);
+
     } catch (err) {
-      console.error("交易失敗", err);
+      console.error("結帳失敗：", err);
+      alert("結帳過程發生錯誤，請稍後再試");
+      setIsProcessing(false); // 只有失敗才解鎖，成功就直接導走了
     }
   };
-
-  // 模擬：讀取訂單並顯示關聯的卡片末四碼
-  const getOrderHistory = async (orderId) => {
-    // 1. 取得訂單資料
-    const orderRes = await axios.get(`${BASE_URL}orders/${orderId}`);
-    const order = orderRes.data;
-
-    // 2. 根據訂單中的 paymentMethodId 取得卡片資訊
-    const pmRes = await axios.get(`${BASE_URL}paymentMethods/${order.paymentMethodId}`);
-    const payment = pmRes.data;
-
-    console.log(`訂單編號：${order.id}`);
-    console.log(`方案：${order.planId}`);
-    console.log(`支付卡片：${payment.brand} **** ${payment.last4}`);
-  };
-
   // --- 模式 A: 信用卡輸入 ---
   const handleManualPay = (data) => {
     const manualCard = { 
@@ -134,21 +190,21 @@ const { nextDay, nowDay } = formatChineseDate();
       brand: "credit_card",
       expDate: data.expDate 
     };
-    executeOrder(manualCard, "信用卡手動付款");
+    executeOrder(manualCard, "信用卡付款");
   };
 
   // --- 模式 B: 藍新模擬支付 ---
   const handleNewebPaySim = () => {
     // 藍新模擬：直接帶入預設資料
-    const mockNewebCard = { number: "4000221111111111", cardHolder: "NEWEBPAY USER", brand: "MASTERCARD", expDate: "12/28" };
-    executeOrder(mockNewebCard, "藍新支付模擬");
+    const mockNewebCard = { number: "4000221111111111", cardHolder: "NEWEBPAY USER", brand: "MASTERCARD1", expDate: "12/28" };
+    executeOrder(mockNewebCard, "藍新支付");
   };
 
-  if (!plans[targetIndex]) return <div>載入中...</div>;
+ if (!currentPlan) return <div>載入方案中...</div>;
 
 return (
   <div className="container px-6 py-6">
-    <h1 className="fs-md-5xl fs-4 pb-6 border-bottom mb-6 text-center">方案明細</h1>
+    <h1 className="fs-md-5xl fs-4 pb-6 border-bottom mb-6 text-center">方案明細{userInfo.name}</h1>
     <div className="row justify-content-center">
       <div className="col-md-8 mb-6">
         <div className="card shadow-sm border-0 custom-plan-card p-3">
@@ -159,7 +215,7 @@ return (
               <p className="card-text mb-2">自動續訂日期: {nextDay}</p>
               <p className="card-text">費用：{`NT${currentPlan.price}/${currentPlan.billing?.unit}`}</p>
             </div>
-            <div className="accordion accordion-flush" id="planDetails">
+           {currentPlan?.price !== 0?( <div className="accordion accordion-flush" id="planDetails">
               <div className="accordion-item">
                 <h2 className="accordion-header d-flex flex-column">
                 <button className="accordion-button px-0 py-0 fw-bold mb-4"  type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
@@ -181,7 +237,13 @@ return (
                 </div>
               </div>
               </div>
-            </div>
+            </div>):(<button 
+            className="btn btn-primary"
+            onClick={() => executeOrder({}, "免費開通")}
+            disabled={isProcessing}
+          >
+            {isProcessing ? "處理中..." : "確認轉換"}
+          </button>)}
           </div>
         </div>
       </div>
@@ -253,7 +315,7 @@ return (
                     </div>
                     <div className="col-6">
                       <label htmlFor="CVV" className="form-label fw-bold">CVV</label>
-                      <input {...register('cvv')} id="CVV" type="text" className={`form-control ${errors.cvv ? 'is-invalid' : ''}`} placeholder="e.g 1234"/>
+                      <input {...register('cvv')} id="CVV" type="text" className={`form-control ${errors.cvv ? 'is-invalid' : ''}`} placeholder="e.g 123"/>
                       {errors.expDate && (
                       <p className="invalid-feedback">{errors.cvv?.message}</p>
                       )}
@@ -271,7 +333,7 @@ return (
                     </div>
                   </div>
                   <div className="d-grid">
-                    <button disabled={isSubmitting} type="submit" className="btn btn-dark py-3 fw-bold">{isSubmitting ? '處理中...' : 'PAY NOW'}</button>
+                    <button disabled={isSubmitting || isProcessing} type="submit" className="btn btn-dark py-3 fw-bold">{(isSubmitting || isProcessing) ? '處理中...' : 'PAY NOW'}</button>
                   </div>
                 </form>
               </div>
@@ -279,14 +341,14 @@ return (
                 <h2>藍新 NewebPay</h2>
                 <div>
                   {step === 1 && (
-                    <button className="btn btn-primary" onClick={() => setStep(2)}>模擬跳轉藍新支付</button>
+                    <button type="button" className="btn btn-primary" onClick={() => setStep(2)}>模擬跳轉藍新支付</button>
                   )}
 
                   {step === 2 && (
                     <div>
                       <h3>模擬藍新信用卡支付</h3>
                       {/* <p>訂單編號: {subscription.id}</p> */}
-                      <button className="btn btn-primary" onClick={handleNewebPaySim}>確認刷卡 (Axios 觸發)</button>
+                      <button type="button" className="btn btn-primary" onClick={handleNewebPaySim}>確認刷卡 (Axios 觸發)</button>
                     </div>
                   )}
 
