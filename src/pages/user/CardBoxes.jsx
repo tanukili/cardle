@@ -52,7 +52,7 @@ export default function CardBoxs() {
 
     const title = newCardBox.title.trim();
     if (!title) {
-      setCreateError("請輸入卡片盒名稱");
+      // setCreateError("請輸入卡片盒名稱");
       return;
     }
 
@@ -77,8 +77,7 @@ export default function CardBoxs() {
 
       setNewCardBox(defaultCardBox);
     } catch (error) {
-      console.error("Error creating card box:", error);
-      setCreateError("新增失敗，請稍後再試");
+      // setCreateError("新增失敗，請稍後再試");
     } finally {
       setIsCreating(false);
     }
@@ -111,9 +110,7 @@ export default function CardBoxs() {
         is_favorite: !isFavorite,
         updated_at: Math.floor(Date.now() / 1000),
       });
-      if (statusText === "OK") {
         getCardBoxes();
-      }
     } catch (error) {
       console.error(
         "Error toggling favorite:",
