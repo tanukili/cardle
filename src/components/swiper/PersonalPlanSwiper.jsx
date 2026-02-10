@@ -221,9 +221,7 @@ export default function PersonalPlanSwiper() {
       }
 
       if (action.policy === "requires_payment") {
-        setAfterClose(
-          () => () => navigate(`/checkout/subscribe?plan=${targetPlanId}`),
-        );
+        setAfterClose(() => () => navigate(`/checkout/${targetPlanId}`));
         closeModal();
         return;
       }
