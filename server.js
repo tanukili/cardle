@@ -33,6 +33,26 @@ server.db = router.db;
 
 // 依序設定 預設中間件 => json-server-auth => 掛載資料路由
 server.use(middlewares);
+
+// 手動修正 CORS
+server.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://tanukili.github.io"); // 或是寫 '*' 允許全部
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+  );
+
+  // 處理瀏覽器的預檢請求 (Preflight)
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+  next();
+});
+
 server.use(jsonServer.bodyParser);
 server.use(auth);
 server.use(router);

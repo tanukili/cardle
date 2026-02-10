@@ -38,11 +38,13 @@ export default function CardBox({ cardBox, isSelectMode = false, isSelected = fa
           </span>
         </button>
           {/* 選擇標示 */}
-        <div className="card-box-select">
-          <span className="material-symbols-outlined">
-            check
-          </span>
-        </div>
+          {isSelectMode && (
+            <div className="card-box-select">
+              <span className="material-symbols-outlined">
+                check
+              </span>
+            </div>
+          )}
       </div>
       <div className="card-body">
         <h3 className="card-title">
