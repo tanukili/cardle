@@ -268,7 +268,6 @@ export default function Dashboard() {
   const organizeCardSwiper = (cards) => {
     const result = [];
     const maxRows = 9;
-    console.log(cards);
     let i = 0;
     while (i < cards.length) {
       const currentCard = cards[i];
