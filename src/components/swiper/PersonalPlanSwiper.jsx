@@ -12,6 +12,7 @@ import {
   upgradeMonthToYear,
 } from "../../store/slices/subscriptionSlice";
 import PlanActionModal from "../account/PlanActionModal";
+import { showSwalToast } from "../../utils/swalSetting";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -205,18 +206,23 @@ export default function PersonalPlanSwiper() {
       if (action.type === "change" && action.policy === "scheduled") {
         await dispatch(switchPaidToFree());
         closeModal();
+        showSwalToast({
+          title: "成功停止續訂",
+        });
         return;
       }
 
       if (action.reason === "year_to_month") {
         await dispatch(switchYearToMonth());
         closeModal();
+        showSwalToast({ title: "成功變更方案" });
         return;
       }
 
       if (action.reason === "month_to_year") {
         await dispatch(upgradeMonthToYear());
         closeModal();
+        showSwalToast({ title: "成功升級方案" });
         return;
       }
 
@@ -226,7 +232,7 @@ export default function PersonalPlanSwiper() {
         return;
       }
     } catch (error) {
-      alert("操作失敗，請稍後再試");
+      showSwalToast({ title: "操作失敗，請稍後再試", variant: "error" });
     } finally {
       setSubmitting(false);
     }
