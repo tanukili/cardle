@@ -6,11 +6,11 @@ export default function Success() {
   const location = useLocation();
   const { order, payment } = location.state || {};
   const { orderId } = useParams(); 
-  console.log(order.userId);
+  const isFree = order?.price === 0;
   
   const [orders, setOrders] = useState(null);
   const [Unfo, setUnfo] = useState(null);
-  // getOrder()
+
   useEffect(()=>{
     const getOrder = async()=>{
       try {
@@ -28,25 +28,32 @@ export default function Success() {
        alert("找不到user", err);
       }
     }
-    // http://localhost:4000/users/iI8fDrM
     getUserInfo()
     getOrder()
 },[])
-    //   console.log(`訂單編號：${order.id}`);
-    // console.log(`方案：${order.planId}`);
-    // console.log(`支付卡片：${payment.brand} **** ${payment.last4}`)
     if (!order) return <div>找不到訂單資訊......</div>;
   return (
-    <div className="container text-center py-16">
-      {/* {JSON.stringify(order)} */}
-      <span className="material-symbols-outlined display-1">
-        check_circle
-      </span>
-      <div className="d-flex flex-column align-items-center">
-        <h2 className="mb-2">付款成功！</h2>
-        <p className="mb-2">感謝您訂閱{order.planId}方案，我們已成功處理您的付款。<br />確認信件將寄送至{Unfo?.email}！</p>
-        <button type="button" className="btn btn-dark py-3 fw-bold">前往儀錶板</button>
-      </div>
+    <div className="d-flex flex-column min-vh-100">
+      <main className="flex-grow-1 d-flex align-items-center">
+        <div className="container text-center py-16">
+          {/* {JSON.stringify(order)} */}
+          <span className="material-symbols-outlined display-1">
+            check_circle
+          </span>
+          <div className="d-flex flex-column align-items-center">
+            <>
+            {!isFree ?(
+              <>
+              <p className="mb-2">感謝您訂閱{order.planId}方案，我們已成功處理您的付款。<br />確認信件將寄送至{Unfo?.email}！</p>
+              <button type="button" className="btn btn-dark py-3 fw-bold">前往儀錶板</button>
+              </>
+          ):(<><h2 className="mb-2">免費方案已啟用</h2>
+            <p>您現在使用的是免費方案，隨時可以升級。</p>
+          </>)}
+            </>
+          </div>
+        </div>
+      </main>
     </div>
 
   )

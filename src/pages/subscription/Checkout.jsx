@@ -23,7 +23,7 @@ console.log(isLoggedIn,userInfo);
 const [isProcessing, setIsProcessing] = useState(false);
   
   let targetIndex = id;
-  // targetIndex = 'plan_free' ;
+  //targetIndex = 'plan_free' ;測試免費方案
   
   const currentPlan = useMemo(() => {
     return plans.find(p => p.id === targetIndex);
@@ -250,6 +250,7 @@ return (
     </div>
     <div className="row justify-content-center">
       <div className="col-md-6">
+        {currentPlan?.price !== 0 ?(
         <div className="card border-0 shadow-sm mx-auto p-3">
           <div className="card-body">
             <h3 className="text-center mb-4 fw-bold">請輸入付款資訊</h3>
@@ -351,20 +352,16 @@ return (
                       <button type="button" className="btn btn-primary" onClick={handleNewebPaySim}>確認刷卡 (Axios 觸發)</button>
                     </div>
                   )}
-
-                  {step === 3 && (
-                    <div className="text-success">
-                      <h4>✅ 訂閱已成功</h4>
-                      <p>應付金額：{}</p>
-                      <p>方案：相關訂閱資訊已maill到使用者的信箱</p>
-                    </div>
-                  )}
                 </div>
                 {/* <p className="text-muted small">請點擊下方 Pay Now 按鈕，系統將引導至第三方支付頁面。</p> */}
               </div>
             </div>
           </div>
-        </div>
+        </div>):(
+          <>
+          <h3>您正準備切換至免費方案</h3>
+          <p>舊有的付費比例將自動退還至您的原帳戶。</p>
+          </>)}
       </div>
     </div>
   </div>)
