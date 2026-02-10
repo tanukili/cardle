@@ -99,37 +99,37 @@
 }
 
 // 升級方案 upgrade
-input[type="radio"]:checked {
-  + .card-label {
-    border: 2px solid $primary-400;
+// input[type="radio"]:checked {
+//   + .card-label {
+//     border: 2px solid $primary-400;
 
-    &::before {
-      content: "選擇中";
-      position: absolute;
-      left: 50%;
-      top: 100%;
-      font-size: 12px;
-      font-weight: bold;
-      transform: translate(-50%, -50%);
-      color: #fff;
-      background-color: $primary;
-      border-radius: 16px;
-      padding: 8px 16px;
-    }
-  }
-}
+//     &::before {
+//       content: "選擇中";
+//       position: absolute;
+//       left: 50%;
+//       top: 100%;
+//       font-size: 12px;
+//       font-weight: bold;
+//       transform: translate(-50%, -50%);
+//       color: #fff;
+//       background-color: $primary;
+//       border-radius: 16px;
+//       padding: 8px 16px;
+//     }
+//   }
+// }
 
-.card-label {
-  border: 2px solid $gray-100;
-  position: relative;
+// .card-label {
+//   border: 2px solid $gray-100;
+//   position: relative;
 
-  .current-plan {
-    position: absolute;
-    top: -30px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-}
+//   .current-plan {
+//     position: absolute;
+//     top: -30px;
+//     left: 50%;
+//     transform: translateX(-50%);
+//   }
+// }
 
 // 方案明細 plan detail
 .feature-list {

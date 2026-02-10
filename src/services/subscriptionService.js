@@ -15,11 +15,6 @@ export const getPaymentMethodsByUser = async (userId) => {
   return apiClient.get(`/paymentMethods?userId=${userId}`);
 };
 
-// 取得會員退費資料
-export const getRefundsByUser = async (userId) => {
-  return apiClient.get(`/refunds?userId=${userId}`);
-};
-
 // paid -> free (到期降級）：停止續訂
 export const stopAutoRenew = async (orderId, patchData = {}) => {
   return apiClient.patch(`/orders/${orderId}`, {
@@ -37,12 +32,7 @@ export const inactivateOrder = async (orderId, patchData = {}) => {
   });
 };
 
-// 新增一筆 active 訂單 (不改資料結構)
+// 新增一筆訂單
 export const createActiveOrder = async (order) => {
   return apiClient.post(`/orders`, order);
-};
-
-// 新增退款資料
-export const createRefund = async (refund) => {
-  return apiClient.post(`/refunds`, refund);
 };

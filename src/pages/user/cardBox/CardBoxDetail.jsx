@@ -1,7 +1,7 @@
 import { useLoaderData, Link, useRevalidator } from "react-router-dom";
 import { useState, useRef } from "react";
 import { Modal } from "bootstrap";
-import { showSwalToast } from "@/utils/swalSetting";
+import { showSwalToast } from "@/utils/swalToast";
 import BaseCard from "@/components/card/BaseCard";
 import { deleteCards, createCard } from "@/services/cardService";
 
