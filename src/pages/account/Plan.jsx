@@ -22,25 +22,14 @@ const PAYMENT_MAP = {
 };
 
 export default function Plan() {
-  const historyOrders = useSelector((state) => state.user.historyOrders);
-  const activeOrder = useSelector((state) => state.user.activeOrder);
-  const plan = useSelector((state) => state.user.plan);
-  const paymentMethod = useSelector((state) => state.user.paymentMethod);
-
-  // const [plans, setPlans] = useState([]);
-
-  // const getPlans = async () => {
-  //   try {
-  //     const res = await axios.get(`${BASE_URL}plans`);
-  //     setPlans(res.data);
-  //   } catch (error) {
-  //     alert(error.response?.data.message || "無法取得訂閱方案");
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getPlans();
-  // }, []);
+  const historyOrders = useSelector(
+    (state) => state.subscription.historyOrders,
+  );
+  const activeOrder = useSelector((state) => state.subscription.activeOrder);
+  const plan = useSelector((state) => state.subscription.plan);
+  const paymentMethod = useSelector(
+    (state) => state.subscription.paymentMethod,
+  );
 
   return (
     <>
@@ -61,13 +50,15 @@ export default function Plan() {
               <span className="fw-bold text-secondary me-1">
                 {plan ? `${plan.title} ${plan.subtitle}` : "Free 免費方案"}
               </span>
-              <div className="d-none d-md-block">
-                於
-                <span className="fw-bold text-secondary mx-1">
-                  {formatDate(activeOrder?.nextBillingDate) || "-"}
-                </span>
-                自動續訂
-              </div>
+              {activeOrder?.isAutoRenew && (
+                <div className="d-none d-md-block">
+                  於
+                  <span className="fw-bold text-secondary mx-1">
+                    {formatDate(activeOrder?.nextBillingDate) || "--"}
+                  </span>
+                  自動續訂
+                </div>
+              )}
             </div>
 
             <Link

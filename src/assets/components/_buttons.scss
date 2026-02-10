@@ -44,3 +44,25 @@
   --bs-btn-active-bg: #{$primary-200};
   --bs-btn-disabled-border-color: #{$gray-200};
 }
+
+// 編輯按鈕、最愛按鈕（base on btn-gray-0）
+.btn.btn-gray-0 {
+  &.btn-icon-primary {
+    --bs-btn-color: #{$primary-600};
+    --bs-btn-hover-color: #{$primary-600};
+    --bs-btn-hover-bg: #{$primary-100};
+    --bs-btn-active-color: #{$primary-0};
+    --bs-btn-active-bg: #{$primary-800};
+    --bs-btn-active-border-color: #{$primary-800};
+    --bs-btn-active-shadow: unset;
+  }
+  &.btn-icon-star {
+    --bs-btn-color: #{$gray-200};
+    --bs-btn-hover-color: #{$gray-200};
+    --bs-btn-hover-bg: #{$primary-100};
+    --bs-btn-active-color: #{$color-star};
+    --bs-btn-active-bg: #{$gray-0};
+    --bs-btn-active-border-color: #{$gray-0};
+    --bs-btn-active-shadow: unset;
+  }
+}
