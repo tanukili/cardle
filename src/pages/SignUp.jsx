@@ -77,7 +77,7 @@ export default function SignUp() {
       }
 
       // 上傳到 Cloudinary 拿網址
-      const url = await uploadImage(file);
+      const url = await uploadImage(file, "avatars");
       setImgUrl(url);
     } catch (error) {
     } finally {
