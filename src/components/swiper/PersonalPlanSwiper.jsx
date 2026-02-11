@@ -77,8 +77,18 @@ const getModalCopy = (
   if (action.type === "view") {
     return {
       title: "查看方案明細？",
-      description:
-        "你目前正在使用此方案。\n點擊「查看方案明細」前往方案明細頁。",
+      description: (
+        <>
+          你目前正在使用{" "}
+          <span className="text-primary">
+            {currentPlan?.title ?? "Free"} {currentPlan?.subtitle ?? "免費方案"}
+          </span>
+          。
+          <br />
+          點擊 <span className="text-primary">查看方案明細</span>{" "}
+          前往方案明細頁。
+        </>
+      ),
       confirmText: "查看方案明細",
       cancelText: "關閉",
     };
@@ -88,7 +98,20 @@ const getModalCopy = (
   if (action.policy === "requires_payment") {
     return {
       title: "確認升級方案",
-      description: `你即將從 ${currentPlan?.title ?? "Free"} ${currentPlan?.subtitle ?? "免費方案"} 升級為 ${targetPlan?.title ?? "Pro"} ${targetPlan?.subtitle ?? ""}。\n確認後將前往付款流程完成訂閱。`,
+      description: (
+        <>
+          你即將從{" "}
+          <span className="text-primary">
+            {currentPlan?.title ?? "Free"} {currentPlan?.subtitle ?? "免費方案"}
+          </span>{" "}
+          升級為{" "}
+          <span className="text-primary">
+            {targetPlan?.title ?? "Pro"} {targetPlan?.subtitle ?? ""}
+          </span>
+          。<br />
+          確認後將前往付款流程完成訂閱。
+        </>
+      ),
       confirmText: "前往付款",
       cancelText: "取消",
     };
@@ -98,7 +121,20 @@ const getModalCopy = (
   if (action.type === "change" && action.policy === "scheduled") {
     return {
       title: "確認變更方案",
-      description: `你即將從 ${currentPlan?.title ?? ""} ${currentPlan?.subtitle ?? ""} 變更為 ${targetPlan?.title ?? "Free"} ${targetPlan?.subtitle ?? "免費方案"}。\n目前方案仍可使用至到期日，不會再進行下一期扣款。`,
+      description: (
+        <>
+          你即將從{" "}
+          <span className="text-primary">
+            {currentPlan?.title ?? ""} {currentPlan?.subtitle ?? ""}
+          </span>{" "}
+          變更為{" "}
+          <span className="text-primary">
+            {targetPlan?.title ?? "Free"} {targetPlan?.subtitle ?? "免費方案"}
+          </span>
+          。<br />
+          目前方案仍可使用至到期日，不會再進行下一期扣款。
+        </>
+      ),
       confirmText: "確認變更",
       cancelText: "取消",
     };
@@ -108,7 +144,20 @@ const getModalCopy = (
   if (action.reason === "year_to_month") {
     return {
       title: "確認變更方案",
-      description: `你即將從 ${currentPlan?.title ?? ""} ${currentPlan?.subtitle ?? ""} 變更為 ${targetPlan?.title ?? ""} ${targetPlan?.subtitle ?? ""}。\n變更將立即生效，未使用的金額將退回。`,
+      description: (
+        <>
+          你即將從{" "}
+          <span className="text-primary">
+            {currentPlan?.title ?? ""} {currentPlan?.subtitle ?? ""}
+          </span>{" "}
+          變更為{" "}
+          <span className="text-primary">
+            {targetPlan?.title ?? ""} {targetPlan?.subtitle ?? ""}
+          </span>
+          。<br />
+          變更將立即生效，未使用的金額將退回。
+        </>
+      ),
       confirmText: "確認變更",
       cancelText: "取消",
     };
@@ -118,7 +167,20 @@ const getModalCopy = (
   if (action.reason === "month_to_year") {
     return {
       title: "確認升級方案",
-      description: `你即將從 ${currentPlan?.title ?? ""} ${currentPlan?.subtitle ?? ""} 升級為 ${targetPlan?.title ?? ""} ${targetPlan?.subtitle ?? ""}。\n升級將立即生效，未使用的金額將退回。`,
+      description: (
+        <>
+          你即將從{" "}
+          <span className="text-primary">
+            {currentPlan?.title ?? ""} {currentPlan?.subtitle ?? ""}
+          </span>{" "}
+          升級為{" "}
+          <span className="text-primary">
+            {targetPlan?.title ?? ""} {targetPlan?.subtitle ?? ""}
+          </span>
+          。<br />
+          升級將立即生效，未使用的金額將退回。
+        </>
+      ),
       confirmText: "確認升級",
       cancelText: "取消",
     };

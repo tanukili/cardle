@@ -52,18 +52,42 @@
   }
 }
 
-.icon-collapsed {
+.payment-toggle .icon-wrapper {
+  position: relative;
+  width: 24px;
+  height: 24px;
   display: inline-block;
-}
-.icon-expanded {
-  display: none;
 }
 
-.payment-toggle[aria-expanded="true"] .icon-collapsed {
-  display: none;
+.icon-collapsed,
+.icon-expanded {
+  position: absolute;
+  inset: 0;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
 }
+
+/* 收合 */
+.icon-collapsed {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+.icon-expanded {
+  opacity: 0;
+  transform: rotate(180deg);
+}
+
+/* 展開 */
+.payment-toggle[aria-expanded="true"] .icon-collapsed {
+  opacity: 0;
+  transform: rotate(-180deg);
+}
+
 .payment-toggle[aria-expanded="true"] .icon-expanded {
-  display: inline-block;
+  opacity: 1;
+  transform: rotate(0deg);
 }
 
 .table-scroll {
