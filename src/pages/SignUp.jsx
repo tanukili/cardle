@@ -3,10 +3,10 @@ import { useForm } from "react-hook-form";
 import { Modal } from "bootstrap";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import { uploadImage } from "@/utils/uploadImage";
+import { showSwalToast } from "../utils/swalSetting";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
-const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
-const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
 const DEFAULT_AVATAR_URL =
   "https://res.cloudinary.com/dt24k06gm/image/upload/v1768755900/uncd8bdsxzci1yj3aeho.png";
@@ -18,6 +18,7 @@ export default function SignUp() {
 
   const [imgUrl, setImgUrl] = useState("");
   const [imgError, setImgError] = useState("");
+  const [imgLoading, setImgLoading] = useState(false);
 
   const {
     register,
@@ -62,36 +63,26 @@ export default function SignUp() {
     navigate("/login");
   };
 
-  const uploadImage = async (file) => {
-    const url = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
-
-    const formData = new FormData();
-    formData.append("file", file); // 檔案本體
-    formData.append("upload_preset", UPLOAD_PRESET); // unsigned preset 必帶
-
-    try {
-      const res = await axios.post(url, formData);
-
-      return res.data.secure_url;
-    } catch (error) {
-      alert("上傳圖片失敗");
-    }
-  };
-
   const handleImageChange = async (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    setImgLoading(true);
+    try {
+      const file = e.target.files?.[0];
+      if (!file) return;
 
-    setImgError("");
+      setImgError("");
 
-    if (file.size > MAX_FILE_SIZE) {
-      setImgError("圖片大小不可超過 2MB");
-      return;
+      if (file.size > MAX_FILE_SIZE) {
+        setImgError("圖片大小不可超過 2MB");
+        return;
+      }
+
+      // 上傳到 Cloudinary 拿網址
+      const url = await uploadImage(file, "avatars");
+      setImgUrl(url);
+    } catch (error) {
+    } finally {
+      setImgLoading(false);
     }
-
-    // 上傳到 Cloudinary 拿網址
-    const url = await uploadImage(file);
-    setImgUrl(url);
   };
 
   const handleSignUp = async (formData) => {
@@ -118,7 +109,7 @@ export default function SignUp() {
       setImgError("");
       openSignUpModal();
     } catch (error) {
-      alert("註冊失敗，帳號已存在");
+      showSwalToast({ title: "註冊失敗，帳號已存在", variant: "error" });
     }
   };
 
@@ -265,7 +256,19 @@ export default function SignUp() {
                       htmlFor="inputProfile"
                       className="form-label btn btn-outline-primary me-4 mb-0"
                     >
-                      上傳頭貼
+                      {imgLoading ? (
+                        <div className="d-flex align-items-center gap-1">
+                          上傳中
+                          <div
+                            className="spinner-border spinner-border-sm text-primary"
+                            role="status"
+                          >
+                            <span className="visually-hidden">Loading...</span>
+                          </div>
+                        </div>
+                      ) : (
+                        "上傳頭貼"
+                      )}
                     </label>
                     <input
                       type="file"
