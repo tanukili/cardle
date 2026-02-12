@@ -99,7 +99,7 @@ export default function Detail() {
                     </li>
                   </ul>
                 </div>
-                <Link  href="#" className="btn btn-secondary py-md-4 mt-auto w-100 fs-md-5 fs-6" to={`/subscription/checkout/1`}>升級方案（推薦）</Link >
+                <Link  href="#" className="btn btn-secondary py-md-4 mt-auto w-100 fs-md-5 fs-6" to={`/subscription/checkout/plan_pro_month`}>升級方案（推薦）</Link >
               </div>
             </SwiperSlide>
             <SwiperSlide className="col-md-4 col-12 h-auto">
@@ -138,7 +138,7 @@ export default function Detail() {
                     </li>
                   </ul>
                 </div>
-                <Link href="#" className="btn btn-outline-gray-400 py-md-4 mt-auto w-100 fs-md-5 fs-6"  to={`/subscription/checkout/2`}>升級方案</Link>
+                <Link href="#" className="btn btn-outline-gray-400 py-md-4 mt-auto w-100 fs-md-5 fs-6"  to={`/subscription/checkout/plan_pro_year`}>升級方案</Link>
               </div>
             </SwiperSlide> 
         </Swiper>
