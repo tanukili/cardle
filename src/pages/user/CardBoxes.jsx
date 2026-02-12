@@ -30,7 +30,6 @@ export default function CardBoxs() {
       setIsLoading(true);
       const response = await axios.get(`${baseUrl}cardBoxes`);
       const data = response.data;
-      console.log(data);
       setCardBoxes(data);
     } catch (error) {
       console.error("Error fetching card boxes:", error);
