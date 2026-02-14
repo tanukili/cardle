@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "start json-server-auth db.json --port 4000 && vite",
-    "build": "vite build",
+    "build": "vite build --mode production",
     "lint": "eslint .",
     "preview": "vite preview",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "backend": "json-server-auth db.json --port 4000",
     "start": "node server.js"
