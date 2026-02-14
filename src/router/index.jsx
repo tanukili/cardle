@@ -30,7 +30,8 @@ import HomeLayout from "@/layouts/HomeLayout";
 import AccountLayout from "@/layouts/account/AccountLayout";
 import UserLayout from "@/layouts/user/UserLayout";
 
-import { getCardBoxDetail } from "@/services/cardBoxService";
+import { getCardBoxes, getCardBoxDetail } from "@/services/cardBoxService";
+import { protectedLoader } from "@/services/loader";
 
 const router = createHashRouter([
   {
@@ -76,6 +77,7 @@ const router = createHashRouter([
   {
     path: "/account",
     element: <AccountLayout />,
+    loader: protectedLoader(),
     children: [
       {
         index: true,
@@ -107,6 +109,7 @@ const router = createHashRouter([
   {
     path: "user",
     element: <UserLayout />,
+    loader: protectedLoader(),
     children: [
       {
         index: true,
