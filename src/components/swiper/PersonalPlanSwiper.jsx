@@ -289,7 +289,9 @@ export default function PersonalPlanSwiper() {
       }
 
       if (action.policy === "requires_payment") {
-        setAfterClose(() => () => navigate(`/checkout/${targetPlanId}`));
+        setAfterClose(
+          () => () => navigate(`/subscription/checkout/${targetPlanId}`),
+        );
         closeModal();
         return;
       }
