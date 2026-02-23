@@ -28,8 +28,6 @@ export default function BaseHeader() {
       if (!parsedUser.avatarUrl) {
         parsedUser.avatarUrl = "default-avatar.png";
       }
-      // 恢復 axios header
-      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
       dispatch(login(parsedUser));
     }
   }, [dispatch, isLoggedIn]);
