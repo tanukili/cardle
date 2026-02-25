@@ -1,9 +1,11 @@
 import { useState, useRef, useEffect, children } from 'react';
 import { Swiper, SwiperSlide  } from 'swiper/react';
 import { Link } from 'react-router-dom';
+import { useSelector } from "react-redux";
 import 'swiper/css';  
 import FAQItem from '../../components/FAQ/FAQItem';
 export default function Detail() {
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   // 記錄當前展開項目的 ID，null 表示全部收合
   const [activeKey, setActiveKey] = useState(null);
 
@@ -60,7 +62,9 @@ export default function Detail() {
                     </li>
                   </ul>
                 </div>
-                <Link href="#" className="btn btn-outline-gray-400 py-md-4 mt-auto w-100 fs-md-5 fs-6"to={`/sign-up`}>立即註冊</Link>
+
+                {isLoggedIn?(<><Link href="#" className="btn btn-outline-gray-400 py-md-4 mt-auto w-100 fs-md-5 fs-6"to={`/subscription/checkout/plan_free`}>選擇方案</Link></>):( <Link href="#" className="btn btn-outline-gray-400 py-md-4 mt-auto w-100 fs-md-5 fs-6"to={`/sign-up`}>立即註冊</Link>)
+               }
               </div>
             </SwiperSlide>
             <SwiperSlide className="col-md-4 col-12 h-auto">
