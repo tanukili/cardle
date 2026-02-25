@@ -127,11 +127,13 @@ export default function Plan() {
               >
                 <div className="text-gray-600 d-flex align-items-center gap-2">
                   <span>付款紀錄</span>
-                  <span className="material-symbols-outlined icon-collapsed">
-                    keyboard_arrow_down
-                  </span>
-                  <span className="material-symbols-outlined icon-expanded">
-                    keyboard_arrow_up
+                  <span className="icon-wrapper">
+                    <span className="material-symbols-outlined icon-collapsed">
+                      keyboard_arrow_down
+                    </span>
+                    <span className="material-symbols-outlined icon-expanded">
+                      keyboard_arrow_up
+                    </span>
                   </span>
                 </div>
               </button>

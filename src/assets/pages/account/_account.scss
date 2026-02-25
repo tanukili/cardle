@@ -52,18 +52,42 @@
   }
 }
 
-.icon-collapsed {
+.payment-toggle .icon-wrapper {
+  position: relative;
+  width: 24px;
+  height: 24px;
   display: inline-block;
-}
-.icon-expanded {
-  display: none;
 }
 
-.payment-toggle[aria-expanded="true"] .icon-collapsed {
-  display: none;
+.icon-collapsed,
+.icon-expanded {
+  position: absolute;
+  inset: 0;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
 }
+
+/* 收合 */
+.icon-collapsed {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+.icon-expanded {
+  opacity: 0;
+  transform: rotate(180deg);
+}
+
+/* 展開 */
+.payment-toggle[aria-expanded="true"] .icon-collapsed {
+  opacity: 0;
+  transform: rotate(-180deg);
+}
+
 .payment-toggle[aria-expanded="true"] .icon-expanded {
-  display: inline-block;
+  opacity: 1;
+  transform: rotate(0deg);
 }
 
 .table-scroll {
@@ -99,37 +123,37 @@
 }
 
 // 升級方案 upgrade
-input[type="radio"]:checked {
-  + .card-label {
-    border: 2px solid $primary-400;
+// input[type="radio"]:checked {
+//   + .card-label {
+//     border: 2px solid $primary-400;
 
-    &::before {
-      content: "選擇中";
-      position: absolute;
-      left: 50%;
-      top: 100%;
-      font-size: 12px;
-      font-weight: bold;
-      transform: translate(-50%, -50%);
-      color: #fff;
-      background-color: $primary;
-      border-radius: 16px;
-      padding: 8px 16px;
-    }
-  }
-}
+//     &::before {
+//       content: "選擇中";
+//       position: absolute;
+//       left: 50%;
+//       top: 100%;
+//       font-size: 12px;
+//       font-weight: bold;
+//       transform: translate(-50%, -50%);
+//       color: #fff;
+//       background-color: $primary;
+//       border-radius: 16px;
+//       padding: 8px 16px;
+//     }
+//   }
+// }
 
-.card-label {
-  border: 2px solid $gray-100;
-  position: relative;
+// .card-label {
+//   border: 2px solid $gray-100;
+//   position: relative;
 
-  .current-plan {
-    position: absolute;
-    top: -30px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-}
+//   .current-plan {
+//     position: absolute;
+//     top: -30px;
+//     left: 50%;
+//     transform: translateX(-50%);
+//   }
+// }
 
 // 方案明細 plan detail
 .feature-list {

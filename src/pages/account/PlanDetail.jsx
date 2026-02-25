@@ -1,11 +1,27 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { formatDate } from "../../utils/filter";
+import { useEffect, useMemo, useState } from "react";
+import { getPlans } from "../../services/subscriptionService";
 
 export default function PlanDetail() {
   const activeOrder = useSelector((state) => state.subscription.activeOrder);
   const plan = useSelector((state) => state.subscription.plan);
   const navigate = useNavigate();
+
+  const [plans, setPlans] = useState([]);
+  useEffect(() => {
+    (async () => {
+      const res = await getPlans();
+      setPlans(res || []);
+    })();
+  }, []);
+
+  const freePlan = useMemo(
+    () => plans.find((plan) => plan.id === "plan_free"),
+    [plans],
+  );
+  const displayPlan = plan || freePlan;
 
   return (
     <>
@@ -31,7 +47,9 @@ export default function PlanDetail() {
         <section>
           <div className="card border-gray-200 mb-10">
             <div className="card-body p-6 p-md-8">
-              <h3 className="fs-2xl pb-4 mb-6 border-bottom">{`${plan?.title} ${plan?.subtitle}`}</h3>
+              <h3 className="fs-2xl pb-4 mb-6 border-bottom">
+                {plan ? `${plan.title} ${plan.subtitle}` : "Free 免費方案"}
+              </h3>
               <ul className="list-unstyled mb-10">
                 <li className="mb-2">
                   加入日期：
@@ -56,7 +74,7 @@ export default function PlanDetail() {
                   方案功能與上限說明
                 </h4>
                 <ol className="mb-12 feature-list">
-                  {plan?.featuresDetail.map((feature) => (
+                  {displayPlan?.featuresDetail.map((feature) => (
                     <li key={feature.key} className="mb-1">
                       {`${feature.title}：${feature.description}`}
                     </li>

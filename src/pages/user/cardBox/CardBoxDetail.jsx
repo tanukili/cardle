@@ -3,6 +3,7 @@ import { useState, useRef } from "react";
 import { Modal } from "bootstrap";
 import { showSwalToast } from "@/utils/swalSetting";
 import BaseCard from "@/components/card/BaseCard";
+import MasonryCards from "@/components/card/MasonryCards";
 import { deleteCards, createCard } from "@/services/cardService";
 
 export default function CardBoxDetail() {
@@ -210,21 +211,38 @@ export default function CardBoxDetail() {
         </div>
         <span className="d-block border-bottom border-gray-200 mt-6 mt-lg-8"></span>
       </section>
+      {/* 卡片列表 */}
       <section className="container pb-10">
-        <div className="row g-6">
-          {cards.map((card) => (
-            <div className="col-md-6 col-lg-4 col-xl-3" key={card.id}>
+        {isBaseCardMode ? (
+          <MasonryCards
+            data={cards}
+            columnConfig={{ lg: 3, xl: 4 }}
+            renderCard={(card) => (
               <BaseCard
                 card={card}
                 badges={cardBox.badges}
-                mode={isBaseCardMode ? "base" : "titleOnly"}
+                mode="base"
                 isSelectMode={isSelectMode}
                 isSelected={selectedIds.has(card.id)}
                 onSelect={handleSelectCard}
               />
-            </div>
-          ))}
-        </div>
+            )}
+          />
+        ) : (
+          <div className="row g-6">
+            {cards.map((card) => (
+              <div className="col-md-6 col-lg-4 col-xl-3" key={card.id}>
+                <BaseCard
+                  mode="titleOnly"
+                  card={card}
+                  isSelectMode={isSelectMode}
+                  isSelected={selectedIds.has(card.id)}
+                  onSelect={handleSelectCard}
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* 新增卡片 Modal */}

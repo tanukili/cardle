@@ -65,6 +65,7 @@
 .base-card {
   border-color: $gray-500;
   cursor: pointer;
+  height: 100%;
   
   .card-ul-style li {
     &::before {

@@ -4,9 +4,7 @@ import {
   getOrdersByUser,
   getPaymentMethodsByUser,
   getPlans,
-  getRefundsByUser,
   createActiveOrder,
-  createRefund,
   inactivateOrder,
   stopAutoRenew,
 } from "../../services/subscriptionService";
@@ -75,7 +73,6 @@ export const getUserSubscription = createAsyncThunk(
         getOrdersByUser(userId),
         getPlans(),
         getPaymentMethodsByUser(userId),
-        // getRefundsByUser(userId),
       ]);
 
       // 目前的有效訂閱 (orders)
@@ -172,20 +169,6 @@ export const switchYearToMonth = createAsyncThunk(
         paymentMethodId: paymentMethod?.id || activeOrder.paymentMethodId,
       });
 
-      // 新增退費資料
-      // if (refundAmount > 0) {
-      //   await createRefund({
-      //     id: genRefundId(),
-      //     userId,
-      //     fromOrderId: activeOrder.id,
-      //     toOrderId: newOrderId,
-      //     amount: refundAmount,
-      //     currency: "TWD",
-      //     reason: "year_to_month_change",
-      //     createdAt: nowSec(),
-      //   });
-      // }
-
       thunkAPI.dispatch(getUserSubscription());
 
       return { refundAmount };
@@ -234,20 +217,6 @@ export const upgradeMonthToYear = createAsyncThunk(
         paymentMethodId: paymentMethod?.id || activeOrder.paymentMethodId,
       });
 
-      // 新增退費資料
-      // if (refundAmount > 0) {
-      //   await createRefund({
-      //     id: genRefundId(),
-      //     userId,
-      //     fromOrderId: activeOrder.id,
-      //     toOrderId: newOrderId,
-      //     amount: refundAmount,
-      //     currency: "TWD",
-      //     reason: "month_to_year_upgrade",
-      //     createdAt: nowSec(),
-      //   });
-      // }
-
       thunkAPI.dispatch(getUserSubscription());
 
       return { refundAmount };
@@ -262,7 +231,6 @@ const initialState = {
   plan: null,
   paymentMethod: null,
   historyOrders: [],
-  // refunds: [],
 };
 
 const subscriptionSlice = createSlice({
@@ -277,7 +245,6 @@ const subscriptionSlice = createSlice({
         state.plan = action.payload.plan;
         state.paymentMethod = action.payload.paymentMethod;
         state.historyOrders = action.payload.historyOrders;
-        // state.refunds = action.payload.refunds;
       });
   },
 });

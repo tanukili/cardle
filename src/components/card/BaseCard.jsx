@@ -34,9 +34,10 @@ export default function BaseCard({
   };
 
   const CardHeader = () => {
+    const isTitleOnly = mode === "titleOnly";
     const titleOnlyClass = {
-      header: mode === "titleOnly" ? "border-bottom-0" : "",
-      title: mode === "titleOnly" ? "fw-normal" : "",
+      header: isTitleOnly ? "border-bottom-0 m-auto" : "",
+      title: isTitleOnly ? "fw-normal text-truncate-2" : "",
     };
 
     return (

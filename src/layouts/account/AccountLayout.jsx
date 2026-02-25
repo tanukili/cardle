@@ -17,18 +17,10 @@ export default function AccountLayout() {
     (state) => state.subscription.historyOrders,
   );
 
-  // useEffect(() => {
-  //   dispatch(getUserSubscription());
-  // }, []);
-
   useEffect(() => {
     if (!user) return;
     dispatch(getUserSubscription());
   }, [dispatch, user]);
-
-  // useEffect(() => {
-  //   console.log(user, activeOrder, plan, paymentMethod, historyOrders);
-  // }, []);
 
   return (
     <>

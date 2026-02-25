@@ -36,7 +36,15 @@ server.use(middlewares);
 
 // 手動修正 CORS
 server.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://tanukili.github.io"); // 或是寫 '*' 允許全部
+  const { origin } = req.headers;
+
+  // 通過條件：正式網域、任何 localhost
+  if (
+    origin === "https://tanukili.github.io" ||
+    (origin && origin.startsWith("http://localhost"))
+  ) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
