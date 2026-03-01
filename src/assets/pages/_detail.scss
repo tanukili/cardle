@@ -10,7 +10,7 @@
   }
 }
 $smooth-bezier: cubic-bezier(0.2, 0.8, 0.4, 1);
-$duration: 0.3s; /* 稍微增加到 0.4s 增加「緩慢」感 */
+$duration: 0.3s; /* 稍微增加到 0.3s 增加「緩慢」感 */
 $bg-expanded: #EBF1FA;
 $shadow-default: 0 2px 8px rgba(0, 0, 0, 0.08);
 $shadow-expanded: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -114,9 +114,7 @@ $shadow-expanded: 0 4px 12px rgba(0, 0, 0, 0.15);
 /* 背景區塊 */
 .background-blocks {
   position: relative;
-  // min-height: 100vh;
   overflow: hidden;
-  // padding: 40px;
 }
 
 /* 色塊基本設定 */
@@ -209,10 +207,6 @@ $shadow-expanded: 0 4px 12px rgba(0, 0, 0, 0.15);
       padding: 64px 0;
     }
   }
-// *,*::before,*::after{
-//   outline: 2px solid green;
-// }
-// 
 
 /* 移除摺疊按鈕點擊時的藍色光暈 */
 .accordion-button:focus {
@@ -234,7 +228,7 @@ $shadow-expanded: 0 4px 12px rgba(0, 0, 0, 0.15);
 /* 最外層div樣式 */
 .custom-focus-group {
   border: 1px solid #bdbdbd;
-  border-radius: 0.75rem;
+  border-radius: 0.5rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
@@ -246,9 +240,9 @@ $shadow-expanded: 0 4px 12px rgba(0, 0, 0, 0.15);
 
 /* 當input元素獲得焦點時，外層div產生焦點效果 */
 .custom-focus-group:focus-within {
-  border-color: #88acdf !important; /* input藍色邊框 */
+  border-color: #c23739 !important; /* input紅色邊框 */
   outline: 0;
-  box-shadow: 0 0 0 0.25rem rgba(57, 116, 202, 0.25);
+  box-shadow: 0 0 0 1px #c23739;
 }
 
 .custom-focus-group.is-invalid {

@@ -5,8 +5,9 @@ import { PatternFormat } from "react-number-format";
 import { useEffect, useMemo, useState } from "react"
 import axios from "axios";
 import Validation from "../../components/checkout/Validation"
+import { showSwalToast } from "@/utils/swalSetting";
 import { useSelector } from "react-redux";
-// console.log(BASE_URLL);
+
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const Checkout = () => {
@@ -23,7 +24,6 @@ console.log(isLoggedIn,userInfo);
 const [isProcessing, setIsProcessing] = useState(false);
   
   let targetIndex = id;
-  //targetIndex = 'plan_free' ;測試免費方案
   
   const currentPlan = useMemo(() => {
     return plans.find(p => p.id === targetIndex);
@@ -35,6 +35,11 @@ const [isProcessing, setIsProcessing] = useState(false);
     defaultValues: { isAutoRenew: true, agreedToTerms: true }
   });
 
+  useEffect(() => {
+  if (!isLoggedIn) {
+    navigate('/sign-up', { state: { from: location.pathname } });
+  }
+}, [isLoggedIn, navigate, location]);
   useEffect(() => {
     axios.get(`${BASE_URL}plans`).then(res => setPlans(res.data));
   }, []);
@@ -97,7 +102,7 @@ const [isProcessing, setIsProcessing] = useState(false);
 
     try {
       const { subTS, nextTS } = getDates(id);
-      const userId = "1";
+      const userId = userInfo.id;
       const nowTS = subTS;
       const newPrice = currentPlan?.price || 0;
       const isNewPlanFree = newPrice === 0;
@@ -162,11 +167,11 @@ const [isProcessing, setIsProcessing] = useState(false);
 
       const savedOrder = orderRes.data;
       // 5. 成功後邏輯
-      alert(`【${modeLabel}】付款成功`);
+      showSwalToast({title:`${modeLabel}付款成功`})
       if (refundInfo?.amount > 0) {
-        alert(`訂閱成功！舊方案剩餘的 $${refundInfo.amount} 元將退回您的帳戶。`);
+        showSwalToast({ title: `訂閱成功！舊方案剩餘的 $${refundInfo.amount} 元將退回您的帳戶。`});
       } else {
-        alert(isNewPlanFree ? "免費方案已成功開通！" : "付費方案訂閱成功！");
+        showSwalToast({title: isNewPlanFree ? "免費方案已成功開通！" : "付費方案訂閱成功！"})
       }
       navigate(`/subscription/success/${orderId}`, { 
         state: { 
@@ -178,7 +183,7 @@ const [isProcessing, setIsProcessing] = useState(false);
 
     } catch (err) {
       console.error("結帳失敗：", err);
-      alert("結帳過程發生錯誤，請稍後再試");
+      showSwalToast("結帳過程發生錯誤，請稍後再試")
       setIsProcessing(false); // 只有失敗才解鎖，成功就直接導走了
     }
   };
@@ -348,12 +353,10 @@ return (
                   {step === 2 && (
                     <div>
                       <h3>模擬藍新信用卡支付</h3>
-                      {/* <p>訂單編號: {subscription.id}</p> */}
                       <button type="button" className="btn btn-primary" onClick={handleNewebPaySim}>確認刷卡 (Axios 觸發)</button>
                     </div>
                   )}
                 </div>
-                {/* <p className="text-muted small">請點擊下方 Pay Now 按鈕，系統將引導至第三方支付頁面。</p> */}
               </div>
             </div>
           </div>
