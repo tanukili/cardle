@@ -1,11 +1,17 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { formatDate } from "../../utils/filter";
-import { useEffect, useMemo, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect, useMemo } from "react";
 import { getPlans } from "../../services/subscriptionService";
+import { formatDate } from "../../utils/filter";
+import { getUserSubscription } from "@/store/slices/subscriptionSlice";
+import { inactivateOrder } from "@/services/subscriptionService";
+import PlanActionModal from "../../components/account/PlanActionModal";
 
 export default function PlanDetail() {
-  const activeOrder = useSelector((state) => state.subscription.activeOrder);
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const activeOrder = useSelector((s) => s.subscription.activeOrder);
   const plan = useSelector((state) => state.subscription.plan);
   const navigate = useNavigate();
 
@@ -22,6 +28,22 @@ export default function PlanDetail() {
     [plans],
   );
   const displayPlan = plan || freePlan;
+
+  const handleCancelNow = async () => {
+    setLoading(true);
+    try {
+      await inactivateOrder(activeOrder.id, {
+        cancelledAt: Math.floor(Date.now() / 1000),
+        cancellationReason: "user_cancel",
+      });
+      await dispatch(getUserSubscription()).unwrap();
+      setShowCancelModal(false);
+    } catch (err) {
+      alert("取消訂閱失敗");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -98,11 +120,34 @@ export default function PlanDetail() {
             >
               返回
             </button>
-            <button type="button" className="btn btn-outline-primary">
+            <button
+              className="btn btn-outline-danger"
+              onClick={() => setShowCancelModal(true)}
+              disabled={!activeOrder}
+            >
               取消訂閱
             </button>
           </div>
         </section>
+
+        <PlanActionModal
+          title="取消訂閱"
+          description={
+            <>
+              您確定要
+              <span className="text-primary">取消訂閱</span>目前方案嗎？
+              <br />
+              取消後將
+              <span className="text-primary">失去目前方案</span>的付費功能。
+            </>
+          }
+          confirmText={loading ? "處理中..." : "立即取消"}
+          cancelText="關閉"
+          submitting={loading}
+          onConfirm={handleCancelNow}
+          open={showCancelModal}
+          onClosed={() => setShowCancelModal(false)}
+        />
       </div>
     </>
   );
