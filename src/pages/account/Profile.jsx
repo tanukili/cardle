@@ -33,7 +33,7 @@ export default function Profile() {
                   <div className="d-flex flex-column align-items-center mb-10 mb-md-0">
                     <div className="profile-image mb-4">
                       <img
-                        src={userInfo.avatarImage || DEFAULT_AVATAR_URL}
+                        src={userInfo.avatarUrl || DEFAULT_AVATAR_URL}
                         alt="profile-image"
                       />
                     </div>

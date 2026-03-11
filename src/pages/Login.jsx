@@ -11,7 +11,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   // 表單狀態
-  const [email, setEmail] = useState("demo2@example.com");
+  const [email, setEmail] = useState("demo@example.com");
   const [password, setPassword] = useState("123456a");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -32,8 +32,6 @@ export default function Login() {
       // Step A：存 token
 
       document.cookie = `userToken=${accessToken}; path=/; max-age=86400;`;
-
-      axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 
       // Step B：整理 userInfo（配合 slice）
       const userInfo = {

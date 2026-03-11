@@ -36,7 +36,9 @@ server.use(middlewares);
 
 // 手動修正 CORS
 server.use((req, res, next) => {
-  // 動態檢查：如果是正式網域 OR 任何 localhost 開頭的網域，都給予通行
+  const { origin } = req.headers;
+
+  // 通過條件：正式網域、任何 localhost
   if (
     origin === "https://tanukili.github.io" ||
     (origin && origin.startsWith("http://localhost"))
