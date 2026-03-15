@@ -9,6 +9,7 @@ export default function BaseCard({
   isSelectMode = false,
   isSelected = false,
   onSelect,
+  onCardClick,
 }) {
   // 卡片三種顯示模式：base、titleOnly、withBadge
   const cardStyle = {
@@ -137,7 +138,7 @@ export default function BaseCard({
   return (
     <div
       className={`${cardStyle[mode]} ${selectStyle}`}
-      onClick={isSelectMode ? () => onSelect?.(card.id) : undefined}
+      onClick={isSelectMode ? () => onSelect?.(card.id) : () => onCardClick?.(card.id)}
     >
       {/* 選擇標示 */}
       {isSelectMode && (

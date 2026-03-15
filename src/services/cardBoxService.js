@@ -22,10 +22,10 @@ export const getCardBoxes = async () => {
 };
 
 // 新增卡片盒
-export const createCardBox = async (data) => {
+export const createCardBox = async (cardBox) => {
   const ts = Math.floor(Date.now() / 1000);
   const payload = {
-    ...data,
+    ...cardBox,
     id: `card_box_${ts}`,
     created_at: ts,
     updated_at: ts,
@@ -36,10 +36,10 @@ export const createCardBox = async (data) => {
 };
 
 // 更新卡片盒
-export const updateCardBox = async (id, data) => {
+export const updateCardBox = async (id, cardBox) => {
   const ts = Math.floor(Date.now() / 1000);
   const payload = {
-    ...data,
+    ...cardBox,
     updated_at: ts,
   };
   const response = await apiClient.patch(`/cardBoxes/${id}`, payload);

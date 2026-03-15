@@ -32,3 +32,13 @@ export const deleteCards = async (cardIdSet = new Set()) => {
 
   return response;
 };
+
+export const updateCard = async (card, cardId) => {
+  const ts = Math.floor(Date.now() / 1000);
+  const payload = {
+    ...card,
+    updated_at: ts,
+  };
+  const response = await apiClient.patch(`/cards/${cardId}`, payload);
+  return response;
+};

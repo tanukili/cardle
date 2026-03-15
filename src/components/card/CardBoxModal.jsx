@@ -1,5 +1,4 @@
 import { useRef, useState, useEffect } from "react";
-import { useRevalidator } from "react-router-dom";
 import { Modal } from "bootstrap";
 import { createCardBox, updateCardBox } from "@/services/cardBoxService";
 import { showSwalToast } from "@/utils/swalSetting";
@@ -24,14 +23,11 @@ export default function CardBoxModal({
   modalId = "cardBoxModal",
   onSuccess,
 }) {
-  const revalidator = useRevalidator();
-  const cardBoxModalRef = useRef(null);
   const [newCardBox, setNewCardBox] = useState(defaultCardBox);
   const [isLoading, setIsLoading] = useState(false);
   const modalAction = isCreateMode ? "新增" : "更新";
 
   useEffect(() => {
-    console.log("cardBox", cardBox);
     if (isCreateMode) {
       setNewCardBox(defaultCardBox);
     } else {
@@ -97,6 +93,8 @@ export default function CardBoxModal({
       setIsLoading(false);
     }
   };
+
+  const cardBoxModalRef = useRef(null);
 
   const closeModal = () => {
     if (cardBoxModalRef.current) {

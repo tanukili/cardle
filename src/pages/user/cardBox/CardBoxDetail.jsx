@@ -1,11 +1,11 @@
 import { useLoaderData, Link, useRevalidator } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
-import { Modal } from "bootstrap";
 import { showSwalToast } from "@/utils/swalSetting";
-import { deleteCards, createCard } from "@/services/cardService";
+import { deleteCards } from "@/services/cardService";
 import BaseCard from "@/components/card/BaseCard";
 import MasonryCards from "@/components/card/MasonryCards";
 import CardBoxModal from "@/components/card/CardBoxModal";
+import CardModal from "@/components/card/CardModal";
 
 export default function CardBoxDetail() {
   const { cardBox, cards } = useLoaderData();
@@ -47,6 +47,7 @@ export default function CardBoxDetail() {
     }
   };
 
+  // 卡片封面伸縮
   const [isCoverSmall, setIsCoverSmall] = useState(false);
   const coverSentinelRef = useRef(null);
   const isTransitioningRef = useRef(false);
@@ -61,7 +62,7 @@ export default function CardBoxDetail() {
         setIsCoverSmall(shouldBeSmall);
         isTransitioningRef.current = true;
 
-        // 冷卻時間 (等於 CSS transition)
+        // 冷卻時間 (大於等於 CSS transition)
         setTimeout(() => {
           isTransitioningRef.current = false;
         }, 500);
@@ -78,37 +79,22 @@ export default function CardBoxDetail() {
     return () => observer.disconnect();
   }, [isCoverSmall]);
 
-  const [newCard, setNewCard] = useState({ title: "", content: "" });
-  const createCardModalRef = useRef(null);
-  const [isCreating, setIsCreating] = useState(false);
+  // to do：統一使用 Spinner 元件
+  const Spinner = (showSpinner, extraClass = "") => {
+    return showSpinner ? (
+      <span
+        className={`spinner-border spinner-border-sm me-2 ${extraClass}`}
+        role="status"
+        aria-hidden="true"
+      />
+    ) : null;
+  };
 
-  const handleCreateCard = async (e) => {
-    e.preventDefault();
-    setIsCreating(true);
-
-    const cardContent = {
-      title: newCard.title.trim(),
-      content: newCard.content,
-      tags: [`${cardBox.title}`],
-    };
-
-    try {
-      await createCard(cardContent, cardBox.id);
-      showSwalToast({ title: "新增成功" });
-      setNewCard({ title: "", content: "" });
-
-      if (createCardModalRef.current) {
-        Modal.getOrCreateInstance(createCardModalRef.current).hide();
-      }
-      revalidator.revalidate();
-    } catch (err) {
-      const errorMsg = err?.response
-        ? `${err.response.status} ${err.response.statusText}`
-        : "請稍後再試";
-      showSwalToast({ title: `新增失敗，${errorMsg}`, variant: "error" });
-    } finally {
-      setIsCreating(false);
-    }
+  const cardModalRef = useRef(null);
+  const [editCard, setEditCard] = useState(null);
+  const openCardModal = (card = null) => {
+    setEditCard(card);
+    cardModalRef.current?.show();
   };
 
   return (
@@ -232,13 +218,7 @@ export default function CardBoxDetail() {
                 onClick={handleDeleteCards}
                 disabled={selectedIds.size === 0 || isDeleting}
               >
-                {isDeleting && (
-                  <span
-                    className="spinner-border spinner-border-sm me-2"
-                    role="status"
-                    aria-hidden="true"
-                  />
-                )}
+                {Spinner(isDeleting, "me-2")}
                 刪除卡片
               </button>
             </div>
@@ -247,8 +227,7 @@ export default function CardBoxDetail() {
               <button
                 className="btn btn-outline-primary w-100"
                 type="button"
-                data-bs-toggle="modal"
-                data-bs-target="#createCardModal"
+                onClick={() => openCardModal()}
               >
                 新增卡片
               </button>
@@ -270,8 +249,8 @@ export default function CardBoxDetail() {
       <section className="container pb-10">
         {cards.length === 0 && (
           <div className="alert alert-light mb-4 text-center" role="alert">
-          {cards.length ? "沒有符合條件的卡片" : "目前沒有任何卡片"}
-        </div>
+            {cards.length ? "沒有符合條件的卡片" : "目前沒有任何卡片"}
+          </div>
         )}
         {isBaseCardMode ? (
           <MasonryCards
@@ -285,6 +264,7 @@ export default function CardBoxDetail() {
                 isSelectMode={isSelectMode}
                 isSelected={selectedIds.has(card.id)}
                 onSelect={handleSelectCard}
+                onCardClick={() => openCardModal({id: card.id, title: card.title, content: card.content})}
               />
             )}
           />
@@ -298,6 +278,7 @@ export default function CardBoxDetail() {
                   isSelectMode={isSelectMode}
                   isSelected={selectedIds.has(card.id)}
                   onSelect={handleSelectCard}
+                  onCardClick={() => openCardModal({id: card.id, title: card.title, content: card.content})}
                 />
               </div>
             ))}
@@ -310,6 +291,13 @@ export default function CardBoxDetail() {
         cardBox={cardBox}
         isCreateMode={false}
         modalId="updateCardBoxModal"
+        onSuccess={revalidator.revalidate}
+      />
+      {/* 卡片 Modal */}
+      <CardModal
+        ref={cardModalRef}
+        editCard={editCard}
+        cardBox={cardBox}
         onSuccess={revalidator.revalidate}
       />
     </>
