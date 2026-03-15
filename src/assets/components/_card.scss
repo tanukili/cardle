@@ -141,8 +141,13 @@
     height: 120px;
     object-fit: cover;
     width: 100%;
+    transition: height 0.5s ease-in-out, margin-bottom 0.5s ease-in-out;
     @include media-breakpoint-up(lg) {
       height: 240px;
+    }
+
+    &.cover-small {
+      height: 0px;
     }
   }
 }

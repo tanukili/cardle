@@ -60,7 +60,11 @@
         "unit": "月"
       },
       "status": "active",
-      "featuresShort": ["建立筆記卡片", "建立書單", "標籤分類"],
+      "featuresShort": [
+        "建立筆記卡片",
+        "建立書單",
+        "標籤分類"
+      ],
       "featuresDetail": [
         {
           "key": "cards",
@@ -344,7 +348,7 @@
     },
     {
       "id": "card_box_5",
-      "title": "料理基礎",
+      "title": "規劃能力",
       "description": "",
       "cover_url": "user/card-box-cover-5.jpg",
       "type": "normal",
@@ -355,7 +359,7 @@
         "color": "secondary"
       },
       "created_at": 1769625487,
-      "updated_at": 1769625487
+      "updated_at": 1773592332
     },
     {
       "title": "g????",
@@ -379,13 +383,103 @@
       "type": "normal",
       "is_inbox": false,
       "is_archived": false,
-      "is_favorite": false,
+      "is_favorite": true,
       "ui": {
         "color": "secondary"
       },
       "id": "card_box_1769868348",
       "created_at": 1769868348,
-      "updated_at": 1770653261
+      "updated_at": 1773592573
+    },
+    {
+      "title": "狗狗",
+      "description": "",
+      "cover_url": "https://res.cloudinary.com/dt24k06gm/image/upload/v1773588893/covers/j6hioc7uwbewaum8ztkp.png",
+      "type": "normal",
+      "is_inbox": false,
+      "is_archived": false,
+      "is_favorite": true,
+      "ui": {
+        "color": "secondary"
+      },
+      "id": "card_box_1773588903",
+      "created_at": 1773588903,
+      "updated_at": 1773588903
+    },
+    {
+      "title": "日本旅遊",
+      "description": "",
+      "cover_url": "https://res.cloudinary.com/dt24k06gm/image/upload/v1773589901/covers/e2qscwdbtqkhbxdyoy12.png",
+      "type": "normal",
+      "is_inbox": false,
+      "is_archived": false,
+      "is_favorite": true,
+      "ui": {
+        "color": "secondary"
+      },
+      "id": "card_box_1773589907",
+      "created_at": 1773589907,
+      "updated_at": 1773589907
+    },
+    {
+      "title": "出遊計畫",
+      "description": "",
+      "cover_url": "https://images.unsplash.com/photo-1630244024081-dc4039254a46?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "type": "normal",
+      "is_inbox": false,
+      "is_archived": false,
+      "is_favorite": true,
+      "ui": {
+        "color": "secondary"
+      },
+      "id": "card_box_1773590733",
+      "created_at": 1773590733,
+      "updated_at": 1773591684
+    },
+    {
+      "title": "料理基礎",
+      "description": "",
+      "cover_url": "https://images.unsplash.com/photo-1653233797467-1a528819fd4f?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "type": "normal",
+      "is_inbox": false,
+      "is_archived": false,
+      "is_favorite": true,
+      "ui": {
+        "color": "secondary"
+      },
+      "id": "card_box_1773590789",
+      "created_at": 1773590789,
+      "updated_at": 1773590865
+    },
+    {
+      "title": "甜點地圖",
+      "description": "",
+      "cover_url": "https://images.unsplash.com/photo-1688981902751-8355c75bc0f2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "type": "normal",
+      "is_inbox": false,
+      "is_archived": false,
+      "is_favorite": false,
+      "ui": {
+        "color": "secondary"
+      },
+      "id": "card_box_1773591205",
+      "created_at": 1773591205,
+      "updated_at": 1773591205
+    },
+    {
+      "title": "測試",
+      "description": "",
+      "cover_url": "",
+      "type": "normal",
+      "is_inbox": false,
+      "is_archived": false,
+      "is_favorite": false,
+      "ui": {
+        "color": "secondary"
+      },
+      "id": "card_box_1773591456",
+      "created_at": 1773591456,
+      "updated_at": 1773591456
     }
   ],
   "cards": [
@@ -394,7 +488,9 @@
       "title": "Interface vs. Type 使用情境",
       "user_id": "1",
       "card_box_id": "card_box_3",
-      "tags": ["TypeScript"],
+      "tags": [
+        "TypeScript"
+      ],
       "content": "使用抉擇取決於具體情況和個人偏好Interface：物件類別會經常擴充或改變時Type：固定的資料結構，或者需要聯合多個類型。",
       "content_format": "plain",
       "created_at": 1766833200,
@@ -406,7 +502,9 @@
       "title": "Interface vs. Type 使用情境",
       "user_id": "1",
       "card_box_id": "card_box_3",
-      "tags": ["TypeScript"],
+      "tags": [
+        "TypeScript"
+      ],
       "content": "使用抉擇取決於具體情況和個人偏好Interface：物件類別會經常擴充或改變時Type：固定的資料結構，或者需要聯合多個類型。",
       "content_format": "plain",
       "created_at": 1766833200,
@@ -418,7 +516,9 @@
       "title": "麻婆豆腐食譜（2-3人份）",
       "user_id": "1",
       "card_box_id": "card_box_3",
-      "tags": ["TypeScript"],
+      "tags": [
+        "TypeScript"
+      ],
       "content": "食材準備：\n* 嫩豆腐：1盒（約300g，建議用棉豆腐或北豆腐）\n* 牛／豬絞肉：100g\n* 蒜末：2瓣\n* 薑末：1小匙\n* 蔥花：適量（分開蔥白與蔥綠）\n* 豆瓣醬：1.5 大\n* 醬油：1 大匙\n* 料酒：1 大匙\n* 水：200ml\n* 太白粉水：1大匙粉＋1大匙水混合\n* 花椒粉／油：1/2 小匙\n* 辣椒粉或辣椒油：依個人口味\n* 香油：少許",
       "content_format": "markdown",
       "created_at": 1766833200,
@@ -430,7 +530,9 @@
       "title": "useState — 狀態管理入門",
       "user_id": "1",
       "card_box_id": "card_box_3",
-      "tags": ["TypeScript"],
+      "tags": [
+        "TypeScript"
+      ],
       "content": "用來宣告與更新元件內的狀態\n```javascript\nconst [count, setCount] = useState(0);\nsetCount(count + 1);\n```\n每次 `setCount` 呼叫後元件會重新渲染。",
       "content_format": "plain",
       "created_at": 1766833200,
@@ -441,7 +543,9 @@
       "id": "card_1770457167",
       "title": "測試標題",
       "content": "## markdown",
-      "tags": ["TypeScript 基礎"],
+      "tags": [
+        "TypeScript 基礎"
+      ],
       "created_at": 1770457167,
       "updated_at": 1770457167,
       "card_box_id": "card_box_3",
@@ -451,7 +555,9 @@
     {
       "title": "測試",
       "content": "程式碼區塊\n```javascript\nconst text = \"string\"\n```",
-      "tags": ["TypeScript 基礎"],
+      "tags": [
+        "TypeScript 基礎"
+      ],
       "card_box_id": "card_box_3",
       "content_format": "markdown",
       "status": "active",
@@ -460,7 +566,9 @@
     {
       "title": "dddd",
       "content": "fffffff",
-      "tags": ["TypeScript 基礎"],
+      "tags": [
+        "TypeScript 基礎"
+      ],
       "id": "card_1770457914",
       "created_at": 1770457914,
       "updated_at": 1770457914,
@@ -471,7 +579,9 @@
     {
       "title": "cccc",
       "content": "ccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffdccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffdccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffdccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffdccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffdccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffdccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffdccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffdccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffdccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffdccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffdccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffdccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffd",
-      "tags": ["TypeScript 基礎"],
+      "tags": [
+        "TypeScript 基礎"
+      ],
       "id": "card_1770459247",
       "created_at": 1770459247,
       "updated_at": 1770459247,
@@ -482,7 +592,9 @@
     {
       "title": "dddd",
       "content": "ffffff",
-      "tags": ["TypeScript 基礎"],
+      "tags": [
+        "TypeScript 基礎"
+      ],
       "id": "card_1770459316",
       "created_at": 1770459316,
       "updated_at": 1770459316,
@@ -493,7 +605,9 @@
     {
       "title": "dddff",
       "content": "dfdfdf",
-      "tags": ["TypeScript 基礎"],
+      "tags": [
+        "TypeScript 基礎"
+      ],
       "id": "card_1770459332",
       "created_at": 1770459332,
       "updated_at": 1770459332,
@@ -504,7 +618,9 @@
     {
       "title": "dddd",
       "content": "fffff",
-      "tags": ["TypeScript 基礎"],
+      "tags": [
+        "TypeScript 基礎"
+      ],
       "id": "card_1770459350",
       "created_at": 1770459350,
       "updated_at": 1770459350,
@@ -515,7 +631,9 @@
     {
       "title": "dddd",
       "content": "ddddd",
-      "tags": ["TypeScript 基礎"],
+      "tags": [
+        "TypeScript 基礎"
+      ],
       "id": "card_1770459366",
       "created_at": 1770459366,
       "updated_at": 1770459366,
@@ -526,7 +644,9 @@
     {
       "title": "ddddd",
       "content": "dddd",
-      "tags": ["TypeScript 基礎"],
+      "tags": [
+        "TypeScript 基礎"
+      ],
       "id": "card_1770459436",
       "created_at": 1770459436,
       "updated_at": 1770459436,
@@ -537,7 +657,9 @@
     {
       "title": "dd",
       "content": "ffff",
-      "tags": ["TypeScript 基礎"],
+      "tags": [
+        "TypeScript 基礎"
+      ],
       "id": "card_1770459472",
       "created_at": 1770459472,
       "updated_at": 1770459472,
@@ -548,7 +670,9 @@
     {
       "title": "fff",
       "content": "dddd",
-      "tags": ["TypeScript 基礎"],
+      "tags": [
+        "TypeScript 基礎"
+      ],
       "id": "card_1770459546",
       "created_at": 1770459546,
       "updated_at": 1770459546,
@@ -559,7 +683,9 @@
     {
       "title": "ddd",
       "content": "dddfff",
-      "tags": ["TypeScript 基礎"],
+      "tags": [
+        "TypeScript 基礎"
+      ],
       "id": "card_1770459561",
       "created_at": 1770459561,
       "updated_at": 1770459561,
@@ -570,7 +696,9 @@
     {
       "title": "ddd",
       "content": "dfff",
-      "tags": ["TypeScript 基礎"],
+      "tags": [
+        "TypeScript 基礎"
+      ],
       "id": "card_1770459612",
       "created_at": 1770459612,
       "updated_at": 1770459612,
@@ -581,7 +709,9 @@
     {
       "title": "dddd",
       "content": "ffff",
-      "tags": ["TypeScript 基礎"],
+      "tags": [
+        "TypeScript 基礎"
+      ],
       "id": "card_1770460524",
       "created_at": 1770460524,
       "updated_at": 1770460524,
@@ -592,7 +722,9 @@
     {
       "title": "ddd",
       "content": "ssss",
-      "tags": ["TypeScript 基礎"],
+      "tags": [
+        "TypeScript 基礎"
+      ],
       "id": "card_1770460558",
       "created_at": 1770460558,
       "updated_at": 1770460558,
@@ -603,7 +735,9 @@
     {
       "title": "ffff",
       "content": "dddd",
-      "tags": ["TypeScript 基礎"],
+      "tags": [
+        "TypeScript 基礎"
+      ],
       "id": "card_1770460627",
       "created_at": 1770460627,
       "updated_at": 1770460627,

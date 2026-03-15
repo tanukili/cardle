@@ -14,3 +14,34 @@ export const getCardBoxDetail = async (cardBoxId) => {
     cards,
   };
 };
+
+// 取得所有
+export const getCardBoxes = async () => {
+  const response = await apiClient.get("/cardBoxes");
+  return response;
+};
+
+// 新增卡片盒
+export const createCardBox = async (data) => {
+  const ts = Math.floor(Date.now() / 1000);
+  const payload = {
+    ...data,
+    id: `card_box_${ts}`,
+    created_at: ts,
+    updated_at: ts,
+  };
+
+  const response = await apiClient.post("/cardBoxes", payload);
+  return response;
+};
+
+// 更新卡片盒
+export const updateCardBox = async (id, data) => {
+  const ts = Math.floor(Date.now() / 1000);
+  const payload = {
+    ...data,
+    updated_at: ts,
+  };
+  const response = await apiClient.patch(`/cardBoxes/${id}`, payload);
+  return response;
+};
