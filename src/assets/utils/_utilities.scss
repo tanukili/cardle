@@ -1,25 +1,29 @@
 $utilities: map-merge(
   $utilities,
   (
-    "font-size": map-merge(
+    "font-size":
+      map-merge(
         map-get($utilities, "font-size"),
         (
           responsive: true,
         )
       ),
-    "rounded": map-merge(
+    "rounded":
+      map-merge(
         map-get($utilities, "rounded"),
         (
           responsive: true,
         )
       ),
-    "line-height": map-merge(
+    "line-height":
+      map-merge(
         map-get($utilities, "line-height"),
         (
           responsive: true,
         )
       ),
-    "font-weight": map-merge(
+    "font-weight":
+      map-merge(
         map-get($utilities, "font-weight"),
         (
           responsive: true,
@@ -41,21 +45,30 @@ $utilities: map-merge(
         auto: auto,
       ),
     ),
-    "border": map-merge(
+    "border":
+      map-merge(
         map-get($utilities, "border"),
         (
           responsive: true,
         )
       ),
+    "bg-opacity": (
+      css-var: true,
+      class: bg-opacity,
+      values: (
+        10: 0.1,
+        25: 0.25,
+        50: 0.5,
+        70: 0.7,
+        75: 0.75,
+        100: 1,
+      ),
+    ),
   )
 );
 
 .material-symbols-outlined.fill {
-  font-variation-settings:
-    "FILL" 1,
-    "wght" 400,
-    "GRAD" 0,
-    "opsz" 24;
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
 }
 
 .font-Manrope {

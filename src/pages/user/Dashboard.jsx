@@ -1,9 +1,13 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
 import ProgressList from "@/components/bookshelf/ProgressList";
 import BaseCard from "@/components/card/BaseCard";
 import CardBox from "@/components/card/CardBox";
-import { getDefaultCardBox, createCardBox } from "@/services/cardBoxService";
+import { getDefaultCardBox, createCardBox, getLastestCardBoxes } from "@/services/cardBoxService";
+import { getLastestCards } from "@/services/cardService";
+import { getActivePlanByUser } from "@/services/subscriptionService";
+import { showSwalToast } from "@/utils/swalSetting";
 
 import { Scrollbar } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -15,6 +19,7 @@ import { ResponsiveBar } from "@nivo/bar";
 
 export default function Dashboard() {
   const userInfo = useSelector((state) => state.user.userInfo);
+  const navigate = useNavigate();
 
   // 前端處理預設卡片盒邏輯
   useEffect(() => {
@@ -44,7 +49,89 @@ export default function Dashboard() {
     };
   }, [userInfo?.id]);
 
-  // 以下程式碼待整理
+  // 取得所需資料
+  const [lastestCardBoxes, setLastestCardBoxes] = useState([]);
+  const [lastestCards, setLastestCards] = useState([]);
+  const [activePlan, setActivePlan] = useState(null);
+
+  useEffect(() => {
+    const userId = userInfo?.id;
+    if (!userId) return;
+
+    const getAllData = async () => {
+      try {
+        const [cardBoxes, cards, activePlan] = await Promise.all([getLastestCardBoxes(userId), getLastestCards(userId), getActivePlanByUser(userId)]);
+        setLastestCardBoxes(cardBoxes);
+        setLastestCards(cards);
+        setActivePlan(activePlan);
+      } catch (error) {
+        showSwalToast({ title: "取得資料失敗", variant: "error" });
+        console.error("Fetching data:", error);
+      }
+    };
+
+    getAllData();
+  }, [userInfo?.id]);
+
+  const formatedCards = lastestCards.map((card) => {
+    const targetbox = lastestCardBoxes.find((box) => box.id === card.card_box_id);
+    return {
+      ...card,
+      cardBox: {
+        color: targetbox.ui.color,
+        title: targetbox.title,
+      },
+    };
+  });
+
+  const organizeCardSwiper = (cards) => {
+    const result = [];
+    let i = 0;
+    while (i < cards.length) {
+      const currentCard = cards[i];
+      const contentLength = currentCard.content.length;
+      const contentLine = currentCard.content.split("\n").length;
+      const isLongCard = contentLength > 200 || contentLine > 12;
+
+      // 長卡片單獨一組
+      if (isLongCard) {
+        result.push(currentCard);
+        i++;
+      }
+      if (!isLongCard) {
+        // 短卡片抓下一張
+        const nextCard = cards[i + 1];
+        if (nextCard && !isLongCard) {       
+          result.push([currentCard, nextCard]);
+          i += 2;
+        } else {
+          // 沒有下一張，或是下一張是長卡片
+          result.push([currentCard]);
+          i++;
+        }
+      }
+    }
+    return result;
+  };
+
+  const displayCardSwiper = organizeCardSwiper(formatedCards);
+
+  // 免費會員遮罩
+  const DisableMask = () => {
+    console.log(activePlan);
+    if (activePlan?.price > 0) return null;
+
+    return (
+      <div className="position-absolute top-0 start-0 w-100 h-100 bg-gray-75 bg-opacity-70 rounded-4 p-4 d-flex flex-column align-items-center justify-content-center">
+        <p className="py-4 text-center fs-xl">升級方案後解鎖</p>
+        <button className="btn btn-primary" onClick={() => navigate("/account/plan/upgrade")}>
+        立即訂閱
+        </button>
+      </div>
+    );
+  };
+
+  // TO DO: 以下程式碼待整理
   const learningResources = [
     {
       type: "book",
@@ -105,273 +192,6 @@ export default function Dashboard() {
       iconName: "music_video",
     },
   ];
-
-  const boxes = [
-    {
-      id: "card_box_3",
-      title: "TypeScript 基礎",
-      description: "",
-      cover_url: "user/card-box-cover-1.png",
-      type: "normal",
-      is_inbox: false,
-      is_archived: false,
-      is_favorite: false,
-      created_at: 1766833200,
-      updated_at: 1770215310,
-      ui: {
-        color: "success",
-      },
-    },
-  ];
-
-  const lastestCards = [
-    {
-      id: "card_001",
-      title: "常見單位（px, %, rem）",
-      user_id: "X-gJy7b",
-      card_box_id: "card_box_3",
-      tags: [],
-      content: "px：固定像素  \n%：相對於父元素  \nrem：相對於 root font size  \n使用 rem 可以更靈活響應式。",
-      content_format: "plain",
-      created_at: 1738675200,
-      updated_at: 1738761600,
-      status: "active",
-    },
-    {
-      id: "card_002",
-      title: "實用建議",
-      user_id: "X-gJy7b",
-      card_box_id: "card_box_3",
-      tags: [],
-      content:
-        "* 響應式設計：建議優先使用 rem + % + vw/vh 的組合  \n* 元件內縮放：用 em 可以讓文字隨父層等比縮放  \n* 精準控制：設計系統中仍可用 px 做細節調整",
-      content_format: "plain",
-      created_at: 1738675200,
-      updated_at: 1738675200,
-      status: "active",
-    },
-    {
-      id: "card_003",
-      title: "和風醬汁：醬油 × 味醂 × 高湯",
-      user_id: "X-gJy7b",
-      card_box_id: "card_box_3",
-      tags: [],
-      content:
-        "常見比例為：  \n1（醬油）：1（味醂）：2（高湯）  \n\n---  \n\n可用於燉煮、壽喜燒、烏龍麵湯底，味醂帶甜味並增加照面光澤。",
-      content_format: "plain",
-      created_at: 1738675200,
-      updated_at: 1738848000,
-      status: "active",
-    },
-    {
-      id: "card_004",
-      title: "黃金比例：醬油 × 糖 × 米酒",
-      user_id: "X-gJy7b",
-      card_box_id: "card_box_3",
-      tags: [],
-      content:
-        "適用於台式紅燒料理，常見比例為：  \n1（醬油）：1（糖）：1（米酒）  \n\n---  \n\n醬油提鹹香、糖增加焦化風味、米酒去腥提味。  \n👉 也可加入少許水稀釋，適用於紅燒肉、紅燒豆腐等。",
-      content_format: "plain",
-      created_at: 1738675200,
-      updated_at: 1738675200,
-      status: "active",
-    },
-    {
-      id: "card_005",
-      title: "麻婆豆腐食譜（2-3人份）",
-      user_id: "X-gJy7b",
-      card_box_id: "card_box_3",
-      tags: [],
-      content:
-        "食材準備：  \n* 嫩豆腐：1盒（約300g，建議用棉豆腐或北豆腐）\n* 牛／豬絞肉：100g\n* 蒜末：2瓣\n* 薑末：1小匙\n* 蔥花：適量（分開蔥白與蔥綠）\n* 豆瓣醬：1.5 大\n* 醬油：1 大匙\n* 料酒：1 大匙\n* 水：200ml\n* 太白粉水：1大匙粉＋1大匙水混合\n* 花椒粉／油：1/2 小匙\n* 辣椒粉或辣椒油：依個人口味\n* 香油：少許",
-      content_format: "plain",
-      created_at: 1738675200,
-      updated_at: 1738934400,
-      status: "active",
-    },
-    {
-      id: "card_006",
-      title: "props vs state",
-      user_id: "X-gJy7b",
-      card_box_id: "card_box_3",
-      tags: [],
-      content: "props 是由父元件傳入的資料。  \n    state 是元件內部的狀態，可被修改。",
-      content_format: "plain",
-      created_at: 1738675200,
-      updated_at: 1738675200,
-      status: "active",
-    },
-    {
-      id: "card_007",
-      title: "useState — 狀態管理入門",
-      user_id: "X-gJy7b",
-      card_box_id: "card_box_3",
-      tags: [],
-      content:
-        "用來宣告與更新元件內的狀態  \n```javascript\nconst [count, setCount] = useState(0);\nsetCount(count + 1);\n```  \n每次 `setCount` 呼叫後元件會重新渲染。",
-      content_format: "plain",
-      created_at: 1738675200,
-      updated_at: 1739020800,
-      status: "active",
-    },
-    {
-      id: "card_008",
-      title: "Flexbox（彈性盒子）",
-      user_id: "X-gJy7b",
-      card_box_id: "card_box_3",
-      tags: [],
-      content: "`display: flex;`  \n    是現代網頁常用的排版方式之一，能夠快速讓元素水平或垂直對齊",
-      content_format: "plain",
-      created_at: 1738675200,
-      updated_at: 1738675200,
-      status: "active",
-    },
-    {
-      id: "card_009",
-      title: "Box Model（盒模型）",
-      user_id: "X-gJy7b",
-      card_box_id: "card_box_3",
-      tags: [],
-      content:
-        "CSS 的每個元素都像一個盒子，由以下幾個部分構成（由內而外）：  \n`[margin] [border] [padding] [content]`  \n\n---\n\n* `content`元素實際內容，如文字、圖片等\n* `padding`內容與邊框之間的間距\n* `border`元素的邊框\n* `margin`元素與外部其他元素之間的距離",
-      content_format: "plain",
-      created_at: 1738675200,
-      updated_at: 1739107200,
-      status: "active",
-    },
-    {
-      id: "card_010",
-      title: "《我得了不想上班的病》- 倦怠 3 種類型：",
-      user_id: "X-gJy7b",
-      card_box_id: "card_box_3",
-      tags: [],
-      content: "1. 過勞\n2. 社交疲憊\n3. 無聊萎靡\n",
-      content_format: "plain",
-      created_at: 1738675200,
-      updated_at: 1738675200,
-      status: "active",
-    },
-    {
-      id: "card_011",
-      title: "過勞型倦怠",
-      user_id: "X-gJy7b",
-      card_box_id: "card_box_3",
-      tags: [],
-      content:
-        "一直處與工作狀態、全職育兒的人的身上。過度努力、有責任感。\n\n---\n常見跡象： \n1. 主客觀來看都很忙\n2. 時間總是不夠\n3. 跟不上的焦慮或內疚\n4. 這陣子忙完就好\n",
-      content_format: "plain",
-      created_at: 1738675200,
-      updated_at: 1739193600,
-      status: "active",
-    },
-    {
-      id: "card_012",
-      title: "歌劇院蛋糕 Opera Cake",
-      user_id: "X-gJy7b",
-      card_box_id: "card_box_3",
-      tags: [],
-      content:
-        "1. 杏仁海綿蛋糕 Joconde\n   * 杏仁粉 – 80g\n   * 低筋麵粉 – 20g\n   * 全蛋 – 2顆\n   * 糖粉 – 50g\n   * 蛋白 – 3顆\n   * 砂糖 – 20g\n   * 無鹽奶油 – 20g\n2. 咖啡糖液 Coffee Syrup\n   * 即溶咖啡 – 5g\n   * 砂糖 – 30g\n   * 熱水 – 100g\n3. 法式奶油霜 French Buttercream\n   * 無鹽奶油 – 120g\n   * 蛋黃 – 3顆\n   * 砂糖 – 60g\n   * 水 – 25g\n4. 甘納許 Ganache\n   * 黑巧克力 – 75g\n   * 鮮奶油 – 75g\n",
-      content_format: "plain",
-      created_at: 1738675200,
-      updated_at: 1738675200,
-      status: "active",
-    },
-  ];
-
-  const formatedCards = lastestCards.map((card) => {
-    const targetbox = boxes.find((box) => box.id === card.card_box_id);
-    return {
-      ...card,
-      cardBox: {
-        color: targetbox.ui.color,
-        title: targetbox.title,
-      },
-    };
-  });
-
-  const countRows = (content) => (content.match(/\n/g) || []).length + 1;
-
-  const organizeCardSwiper = (cards) => {
-    const result = [];
-    const maxRows = 9;
-    let i = 0;
-    while (i < cards.length) {
-      const currentCard = cards[i];
-      const currentRowCount = countRows(currentCard.content);
-
-      // 長卡片單獨一組
-      if (currentRowCount > maxRows) {
-        result.push(currentCard);
-        i++;
-      } else {
-        // 短卡片嘗試抓下一張
-        const nextCard = cards[i + 1];
-
-        if (nextCard && countRows(nextCard.content) <= maxRows) {
-          // 也是短卡片，合併
-          result.push([currentCard, nextCard]);
-          i += 2;
-        } else {
-          // 沒有下一張，或是下一張是長卡片
-          result.push([currentCard]);
-          i++;
-        }
-      }
-    }
-    return result;
-  };
-
-  const displayCardSwiper = organizeCardSwiper(formatedCards);
-
-  const cardBoxes = [
-    {
-      id: "1",
-      title: "CSS 基礎",
-      cover_url: "user/card-box-cover-1.png",
-      ui: {
-        color: "success",
-      },
-    },
-    {
-      id: "3",
-      title: "React 框架",
-      cover_url: "user/card-box-cover-2.png",
-      ui: {
-        color: "orange",
-      },
-    },
-    {
-      id: "2",
-      title: "料理基礎",
-      cover_url: "user/card-box-cover-3.png",
-      ui: {
-        color: "secondary",
-      },
-    },
-    {
-      id: "4",
-      title: "認識自己",
-      cover_url: "user/card-box-cover-4.jpg",
-      ui: {
-        color: "success",
-      },
-    },
-    {
-      id: "5",
-      title: "規劃與管理",
-      cover_url: "user/card-box-cover-5.jpg",
-      ui: {
-        color: "orange",
-      },
-    },
-  ];
-
-  const badges = cardBoxes.map(({ id, title, ui }) => ({
-    id,
-    text: title,
-    ui: ui.color,
-  }));
 
   // 圓餅圖數據
   const pieData = [
@@ -510,7 +330,7 @@ export default function Dashboard() {
           <div className="container mb-lg-10">
             <div className="row gx-6">
               {/* <!-- 圓餅圖 --> */}
-              <div className="pie-chart col-12 col-lg-6 col-xl-5 mb-8 mb-lg-0">
+              <div className="pie-chart col-12 col-lg-6 col-xl-5 mb-8 mb-lg-0 position-relative">
                 <div className="card bg-gray-0 border-primary-100 rounded-4 h-100">
                   <div className="card-title p-4 mb-0 p-xl-6">
                     <h3 className="fs-l lh-base fw-normal text-primary-900 fs-xl-xl">本月學習主題</h3>
@@ -578,6 +398,7 @@ export default function Dashboard() {
                       </ul>
                     </div>
                   </div>
+                <DisableMask />
                 </div>
               </div>
               {/* <!-- 長條圖 --> */}
@@ -593,7 +414,7 @@ export default function Dashboard() {
                         keys={["學習時間"]}
                         indexBy="month"
                         margin={{ top: 20, right: 20, bottom: 50, left: 40 }}
-                        padding={0.3}
+                        padding={0.55}
                         valueScale={{ type: "linear" }}
                         indexScale={{ type: "band", round: true }}
                         colors="#4a90e2"
@@ -618,6 +439,7 @@ export default function Dashboard() {
                         ariaLabel="學習時間長條圖"
                       />
                     </div>
+                    <DisableMask />
                   </div>
                 </div>
               </div>
@@ -661,7 +483,7 @@ export default function Dashboard() {
             el: ".swiper-scrollbar",
           }}
         >
-          {cardBoxes.map((cardBox) => (
+          {lastestCardBoxes.map((cardBox) => (
             <SwiperSlide key={cardBox.id}>
               <CardBox cardBox={cardBox} />
             </SwiperSlide>
@@ -698,6 +520,16 @@ export default function Dashboard() {
               )}
             </SwiperSlide>
           ))}
+          {displayCardSwiper.length < 8 && (
+            <SwiperSlide className=" d-flex align-items-center h-auto" style={{ width: "300px" }}>
+              <div className="bg-primary-0 rounded-4 p-4 w-100 d-flex flex-column align-items-center justify-content-center h-75">
+                <p className="py-6 text-center text-gray-500">沒有更多卡片了。</p>
+                <button className="btn btn-outline-primary" onClick={() => navigate("/user/card-boxes")}>
+                  前往我的卡片盒
+                </button>
+              </div>
+            </SwiperSlide>
+          )}
           <div className="swiper-scrollbar scrollbar-primary mt-6 mt-md-10"></div>
         </Swiper>
       </section>

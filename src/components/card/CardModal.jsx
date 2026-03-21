@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { Modal } from "bootstrap";
 import { createCard, updateCard } from "@/services/cardService";
 import { showSwalToast } from "@/utils/swalSetting";
+import { useSelector } from "react-redux";
 
 const defaultCard = {
   title: "",
@@ -11,6 +12,7 @@ const defaultCard = {
 
 // forwardRef 提供父元件取得子元件的 ref
 export default forwardRef(function CardModal({ editCard=defaultCard, cardBox, modalId = "cardModal", onSuccess }, ref) {
+  const userInfo = useSelector((state) => state.user.userInfo);
   const modalRef = useRef(null);
   const isEditMode = Boolean(editCard?.id);
   const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +36,7 @@ export default forwardRef(function CardModal({ editCard=defaultCard, cardBox, mo
     },
     content: {
       required: "內容為必填",
-      maxLength: { value: 1000, message: "內容最多 1000 個字" },
+      maxLength: { value: 500, message: "內容最多 500 個字" },
     },
   };
 
@@ -72,6 +74,7 @@ export default forwardRef(function CardModal({ editCard=defaultCard, cardBox, mo
       title: formData.title.trim(),
       content: formData.content.trim(),
       tags: [`${cardBox.title}`],
+      user_id: userInfo.id,
     };
 
     try {

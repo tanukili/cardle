@@ -36,3 +36,16 @@ export const inactivateOrder = async (orderId, patchData = {}) => {
 export const createActiveOrder = async (order) => {
   return apiClient.post(`/orders`, order);
 };
+
+// 取得會員訂閱中方案
+export const getActivePlanByUser = async (userId) => {
+  const params = {
+    user_id: userId,
+    status: "active",
+    _limit: 1,
+    _sort: "subscribeDate",
+    _order: "desc",
+  };
+  const response = await apiClient.get(`/orders`, { params });
+  return response[0] || null;
+};

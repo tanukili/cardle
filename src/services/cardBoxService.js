@@ -27,14 +27,23 @@ export const getCardBoxDetail = async (cardBoxId) => {
   };
 };
 
+// 取得預設
 export const getDefaultCardBox = async (userId) => {
   const response = await apiClient.get("/cardBoxes", { params: { user_id: userId, type: "default" } });
   return response;
 };
 
+// 取得最新
+export const getLastestCardBoxes = async (userId, limit = 5) => {
+  const response = await apiClient.get("/cardBoxes", {
+    params: { user_id: userId, _limit: limit, _sort: "updated_at", _order: "desc" },
+  });
+  return response;
+};
+
 // 取得所有
-export const getCardBoxes = async () => {
-  const response = await apiClient.get("/cardBoxes");
+export const getCardBoxes = async (userId) => {
+  const response = await apiClient.get("/cardBoxes", { params: { user_id: userId } });
   return response;
 };
 

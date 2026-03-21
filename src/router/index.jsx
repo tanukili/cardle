@@ -30,7 +30,7 @@ import HomeLayout from "@/layouts/HomeLayout";
 import AccountLayout from "@/layouts/account/AccountLayout";
 import UserLayout from "@/layouts/user/UserLayout";
 
-import { getCardBoxes, getCardBoxDetail } from "@/services/cardBoxService";
+import { getCardBoxDetail } from "@/services/cardBoxService";
 import { protectedLoader } from "@/services/loader";
 
 const router = createHashRouter([

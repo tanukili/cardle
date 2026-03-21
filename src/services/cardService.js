@@ -1,8 +1,15 @@
 import { apiClient } from "@/services/apiClient";
 
 export const getCards = async (cardBoxId) => {
-  const response = await apiClient.get(`/cards/`, {
+  const response = await apiClient.get(`/cards`, {
     params: { card_box_id: cardBoxId },
+  });
+  return response;
+};
+
+export const getLastestCards = async (userId, limit = 16) => {
+  const response = await apiClient.get("/cards", {
+    params: { user_id: userId, _limit: limit, _sort: "updated_at", _order: "desc" },
   });
   return response;
 };

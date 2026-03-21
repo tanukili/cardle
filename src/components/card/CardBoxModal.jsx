@@ -4,6 +4,7 @@ import { Modal } from "bootstrap";
 import { createCardBox, updateCardBox } from "@/services/cardBoxService";
 import { showSwalToast } from "@/utils/swalSetting";
 import { uploadImage } from "@/utils/uploadImage";
+import { useSelector } from "react-redux";
 
 const maxFileMB = 2 * 1024 * 1024; // 2MB
 
@@ -19,6 +20,8 @@ const defaultCardBox = {
 };
 
 export default function CardBoxModal({ cardBox, isCreateMode = true, modalId = "cardBoxModal", onSuccess }) {
+  const userInfo = useSelector((state) => state.user.userInfo);
+  
   const {
     register,
     handleSubmit,
@@ -102,6 +105,7 @@ export default function CardBoxModal({ cardBox, isCreateMode = true, modalId = "
 
     const newCardBox = {
       ...(cardBox ?? defaultCardBox),
+      user_id: userInfo.id,
       title: formData.title,
       cover_url: formData.cover_url,
       is_favorite: formData.is_favorite,
