@@ -59,6 +59,7 @@ export default function CardBoxModal({ cardBox, isCreateMode = true, modalId = '
   };
 
   useEffect(() => {
+    console.log('cardBox', cardBox);
     const subscription = watch((value, { name, type }) => {
       if (name === 'cover_url') {
         setImgBlobUrl(value[name]);
@@ -146,7 +147,10 @@ export default function CardBoxModal({ cardBox, isCreateMode = true, modalId = '
     const el = cardBoxModalRef.current;
     if (!el) return;
 
-    const onHidden = () => reset(defaultCardBox);
+    const onHidden = () => {
+      reset(cardBox ?? defaultCardBox);
+      if (isCreateMode) setImgBlobUrl('');
+    };
     el.addEventListener('hidden.bs.modal', onHidden);
 
     return () => el.removeEventListener('hidden.bs.modal', onHidden);

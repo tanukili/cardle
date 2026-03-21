@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { getCardBoxes as fetchCardBoxesByUser, deleteCardBoxes } from '@/services/cardBoxService';
 import CardBox from '@/components/card/CardBox';
 import CardBoxModal from '@/components/card/CardBoxModal';
 import CardModal from '@/components/card/CardModal';
@@ -10,26 +11,23 @@ export default function CardBoxs() {
   const baseUrl = import.meta.env.VITE_BASE_URL;
   const [cardBoxes, setCardBoxes] = useState([]);
   const [defaultCardBox, setDefaultCardBox] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const userInfo = useSelector((state) => state.user.userInfo);
 
   const getCardBoxes = async () => {
     try {
-      setIsLoading(true);
-      const response = await axios.get(`${baseUrl}cardBoxes`);
-      const data = response.data;
-      setCardBoxes(data);
-      setDefaultCardBox(data.find((cb) => cb.type === 'default'));
+      const response = await fetchCardBoxesByUser(userInfo?.id);
+      setCardBoxes(response);
+      setDefaultCardBox(response.find((cb) => cb.type === 'default'));
     } catch (error) {
-      console.error('Error fetching card boxes:', error);
-      setCardBoxes([]);
-    } finally {
-      setIsLoading(false);
+      console.error('Fetching card boxes:', error);
     }
   };
 
+  
   useEffect(() => {
+    if (!userInfo?.id) return;
     getCardBoxes();
-  }, [baseUrl]);
+  }, [userInfo?.id]);
 
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const switchShowFavoritesOnly = (e) => {
@@ -76,15 +74,14 @@ export default function CardBoxs() {
 
   const deleteSelectedCardBoxes = async () => {
     try {
-      const ids = Array.from(selectedIds);
-      // Promise 請求陣列
-      const deletePromises = ids.map((id) => axios.delete(`${baseUrl}cardBoxes/${id}`));
-      await Promise.all(deletePromises);
-
+      const response = await deleteCardBoxes(selectedIds);
+      console.log(response, 'response');
+      showSwalToast({ title: '刪除成功' });
       setSelectedIds(new Set());
       getCardBoxes();
-    } catch (error) {
-      console.error('Error deleting card boxes:', error);
+    } catch (err) {
+      const errorMsg = `${err.response.status} ${err.response.statusText}`;
+      showSwalToast({ title: `刪除失敗，${errorMsg}`, variant: 'error' });
     }
   };
 

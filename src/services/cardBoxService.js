@@ -41,7 +41,7 @@ export const getLastestCardBoxes = async (userId, limit = 5) => {
     params: {
       user_id: userId,
       _limit: limit,
-      _sort: 'updated_at',
+      // _sort: 'updated_at',
       _order: 'desc',
     },
   });
@@ -51,7 +51,7 @@ export const getLastestCardBoxes = async (userId, limit = 5) => {
 // 取得所有
 export const getCardBoxes = async (userId) => {
   const response = await apiClient.get('/cardBoxes', {
-    params: { user_id: userId },
+    params: { user_id: userId, is_archived: false },
   });
   return response;
 };
@@ -80,4 +80,15 @@ export const updateCardBox = async (id, cardBox) => {
   };
   const response = await apiClient.patch(`/cardBoxes/${id}`, payload);
   return response;
+};
+
+// 軟刪除多個
+export const deleteCardBoxes = async (cardBoxIdSet = new Set()) => {
+  const ids = Array.from(cardBoxIdSet);
+  if (ids.length === 0) return;
+  const deletePromises = ids.map((id) => apiClient.patch(`/cardBoxes/${id}`, { is_archived: true }));
+  const responses = await Promise.all(deletePromises);
+  console.log(responses, 'responses');
+
+  return responses;
 };

@@ -34,18 +34,19 @@ export const inactivateOrder = async (orderId, patchData = {}) => {
 
 // 新增一筆訂單
 export const createActiveOrder = async (order) => {
-  return apiClient.post(`/orders`, order);
+  return await apiClient.post(`/orders`, order);
 };
 
 // 取得會員訂閱中方案
 export const getActivePlanByUser = async (userId) => {
   const params = {
-    user_id: userId,
+    userId: userId,
     status: 'active',
     _limit: 1,
     _sort: 'subscribeDate',
     _order: 'desc',
   };
   const response = await apiClient.get(`/orders`, { params });
+  console.log(response[0], 'response');
   return response[0] || null;
 };
