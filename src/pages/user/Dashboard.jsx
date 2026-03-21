@@ -6,7 +6,7 @@ import BaseCard from '@/components/card/BaseCard';
 import CardBox from '@/components/card/CardBox';
 import { getDefaultCardBox, createCardBox, getLastestCardBoxes } from '@/services/cardBoxService';
 import { getLastestCards } from '@/services/cardService';
-import { getActivePlanByUser } from '@/services/subscriptionService';
+import { getActivePlanByUser, createActiveOrder } from '@/services/subscriptionService';
 import { showSwalToast } from '@/utils/swalSetting';
 
 import { Scrollbar } from 'swiper/modules';
@@ -58,6 +58,30 @@ export default function Dashboard() {
     const userId = userInfo?.id;
     if (!userId) return;
 
+    // workaround: 如果沒有訂單，則建立一筆免費訂單
+    const setDefaultOrder = async () => {
+      try {
+        const ts = Math.floor(Date.now() / 1000);
+        const orderId = `ord-${ts.toString().slice(0, 10).replace(/-/g, '')}-${Math.floor(Math.random() * 10000)}`;
+
+        const res = await createActiveOrder({
+          planId: 'plan_free',
+          id: orderId,
+          userId: userInfo.id,
+          price: 0,
+          subscribeDate: ts,
+          nextBillingDate: ts + 30 * 24 * 60 * 60,
+          isAutoRenew: true,
+          agreedToTerms: true,
+          status: 'active',
+          paymentMethodId: null,
+        });
+        console.log(res, '預設免費方案成功');
+      } catch (error) {
+        console.error('Creating order:', error);
+      }
+    };
+
     const getAllData = async () => {
       try {
         const [cardBoxes, cards, activePlan] = await Promise.all([
@@ -68,6 +92,9 @@ export default function Dashboard() {
         setLastestCardBoxes(cardBoxes);
         setLastestCards(cards);
         setActivePlan(activePlan);
+        if(!activePlan) {
+          setDefaultOrder();
+        }
       } catch (error) {
         showSwalToast({ title: '取得資料失敗', variant: 'error' });
         console.error('Fetching data:', error);
@@ -82,8 +109,8 @@ export default function Dashboard() {
     return {
       ...card,
       cardBox: {
-        color: targetbox.ui.color,
-        title: targetbox.title,
+        color: targetbox?.ui?.color,
+        title: targetbox?.title,
       },
     };
   });
@@ -122,7 +149,6 @@ export default function Dashboard() {
 
   // 免費會員遮罩
   const DisableMask = () => {
-    console.log(activePlan);
     if (activePlan?.price > 0) return null;
 
     return (
@@ -526,10 +552,10 @@ export default function Dashboard() {
           ))}
           {displayCardSwiper.length < 8 && (
             <SwiperSlide className=" d-flex align-items-center h-auto" style={{ width: '300px' }}>
-              <div className="bg-primary-0 rounded-4 p-4 w-100 d-flex flex-column align-items-center justify-content-center h-75">
+              <div className="bg-primary-0 rounded-4 p-4 w-100 d-flex flex-column align-items-center justify-content-center min-h-75">
                 <p className="py-6 text-center text-gray-500">沒有更多卡片了。</p>
                 <button className="btn btn-outline-primary" onClick={() => navigate('/user/card-boxes')}>
-                  前往我的卡片盒
+                  立即新增
                 </button>
               </div>
             </SwiperSlide>
