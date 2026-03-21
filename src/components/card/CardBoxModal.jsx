@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { Modal } from "bootstrap";
 import { createCardBox, updateCardBox } from "@/services/cardBoxService";
 import { showSwalToast } from "@/utils/swalSetting";
@@ -17,23 +18,51 @@ const defaultCardBox = {
   ui: { color: "secondary" },
 };
 
-export default function CardBoxModal({
-  cardBox,
-  isCreateMode = true,
-  modalId = "cardBoxModal",
-  onSuccess,
-}) {
-  const [newCardBox, setNewCardBox] = useState(defaultCardBox);
+export default function CardBoxModal({ cardBox, isCreateMode = true, modalId = "cardBoxModal", onSuccess }) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    resetField,
+    setValue,
+    watch,
+    control,
+    reset,
+  } = useForm({
+    defaultValues: cardBox ?? defaultCardBox,
+    mode: "onTouched",
+  });
+
+  const [imgBlobUrl, setImgBlobUrl] = useState(cardBox?.cover_url);
   const [isLoading, setIsLoading] = useState(false);
   const modalAction = isCreateMode ? "新增" : "更新";
 
+  const rules = {
+    title: {
+      required: "名稱為必填",
+      maxLength: { value: 20, message: "名稱最多 20 個字" },
+    },
+    cover_url: {
+      validate: (value) => {
+        if (!value) return true;
+        try {
+          new URL(value);
+          return true;
+        } catch {
+          return "請輸入有效的圖片網址";
+        }
+      },
+    },
+  };
+
   useEffect(() => {
-    if (isCreateMode) {
-      setNewCardBox(defaultCardBox);
-    } else {
-      setNewCardBox(cardBox);
-    }
-  }, [cardBox, isCreateMode]);
+    const subscription = watch((value, { name, type }) => {
+      if (name === "cover_url") {
+        setImgBlobUrl(value[name]);
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [watch, cardBox, isCreateMode]);
 
   const [isImgUploading, setIsImgUploading] = useState(false);
 
@@ -49,15 +78,15 @@ export default function CardBoxModal({
 
     try {
       blobUrl = URL.createObjectURL(file);
-      setNewCardBox((prev) => ({ ...prev, cover_url: blobUrl }));
+      setImgBlobUrl(blobUrl);
 
       const url = await uploadImage(file, "covers");
-      setNewCardBox((prev) => ({ ...prev, cover_url: url }));
+      setValue("cover_url", url);
       showSwalToast({ title: "圖片上傳成功" });
     } catch (error) {
       if (blobUrl) {
         URL.revokeObjectURL(blobUrl);
-        setNewCardBox((prev) => ({ ...prev, cover_url: "" }));
+        setValue("cover_url", "");
       }
       showSwalToast({ title: "圖片上傳失敗", variant: "error" });
       console.error("Error - Cloudinary Upload :", error);
@@ -67,10 +96,17 @@ export default function CardBoxModal({
     }
   };
 
-  const handleCardBoxSubmit = async (e) => {
-    e.preventDefault();
+  const handleCardBoxSubmit = async (formData) => {
     if (isLoading) return;
     setIsLoading(true);
+
+    const newCardBox = {
+      ...(cardBox ?? defaultCardBox),
+      title: formData.title,
+      cover_url: formData.cover_url,
+      is_favorite: formData.is_favorite,
+    };
+
     try {
       // 新增或更新卡片盒
       if (isCreateMode) {
@@ -100,8 +136,17 @@ export default function CardBoxModal({
     if (cardBoxModalRef.current) {
       Modal.getOrCreateInstance(cardBoxModalRef.current).hide();
     }
-    setNewCardBox(defaultCardBox);
   };
+
+  useEffect(() => {
+    const el = cardBoxModalRef.current;
+    if (!el) return;
+
+    const onHidden = () => reset(defaultCardBox);
+    el.addEventListener("hidden.bs.modal", onHidden);
+
+    return () => el.removeEventListener("hidden.bs.modal", onHidden);
+  }, [reset]);
 
   return (
     <div
@@ -115,22 +160,18 @@ export default function CardBoxModal({
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-header">
-            <h2 className="modal-title fs-xl">
-              {isCreateMode ? "新增卡片盒" : "編輯卡片盒"}
-            </h2>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            />
+            <h2 className="modal-title fs-xl">{isCreateMode ? "新增卡片盒" : "編輯卡片盒"}</h2>
+            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
           </div>
-          <form onSubmit={handleCardBoxSubmit}>
+          <form onSubmit={handleSubmit(handleCardBoxSubmit)}>
             <div className="modal-body">
               <div className="container-fluid">
                 <div className="mb-5">
-                  <label htmlFor="cardBoxTitle" className="form-label">
+                  <label htmlFor="cardBoxTitle" className="form-label d-flex text-nowrap">
                     卡片盒名稱
+                    {errors.title && (
+                      <span className="invalid-feedback fs-s d-block ms-2 mt-auto">{errors.title.message}</span>
+                    )}
                   </label>
                   <div className="form-control-container">
                     <input
@@ -138,64 +179,44 @@ export default function CardBoxModal({
                       className="form-control"
                       type="text"
                       placeholder="請輸入卡片盒名稱"
-                      value={newCardBox.title}
-                      onChange={(e) =>
-                        setNewCardBox((prev) => ({
-                          ...prev,
-                          title: e.target.value,
-                        }))
-                      }
-                      required
+                      {...register("title", rules.title)}
                     />
                     <a
                       href="#"
                       className="input-clearup"
                       onClick={(e) => {
                         e.preventDefault();
-                        setNewCardBox((prev) => ({ ...prev, title: "" }));
+                        resetField("title");
                       }}
                     >
-                      <span className="material-symbols-outlined">close</span>
+                      <span className="material-symbols-outlined">{isCreateMode ? "close" : "undo"}</span>
                     </a>
                   </div>
                 </div>
                 <div className="row gx-2">
-                  <label
-                    htmlFor="cardBoxCoverUrl"
-                    className="col-12 form-label"
-                  >
+                  <label htmlFor="cardBoxCoverUrl" className="col-12 form-label d-flex text-nowrap">
                     封面圖片
+                    {errors.cover_url && (
+                      <span className="invalid-feedback fs-s d-block ms-2 mt-auto">{errors.cover_url.message}</span>
+                    )}
                   </label>
                   <div className="col-6">
                     <div
                       className="bg-gray-100 flex-shrink-0 rounded overflow-hidden d-flex align-items-center justify-content-center"
                       style={{ height: 120 }}
                     >
-                      {newCardBox.cover_url ? (
-                        <img
-                          src={newCardBox.cover_url}
-                          alt="封面預覽"
-                          className="w-100 h-100 object-fit-cover"
-                        />
+                      {imgBlobUrl ? (
+                        <img src={imgBlobUrl} alt="封面預覽" className="w-100 h-100 object-fit-cover" />
                       ) : (
-                        <span className="material-symbols-outlined text-gray-400 fs-1">
-                          image
-                        </span>
+                        <span className="material-symbols-outlined text-gray-400 fs-1">image</span>
                       )}
                     </div>
                   </div>
                   <div className="col-6 d-flex">
-                    <label
-                      htmlFor={`inputCardBoxCover-${modalId}`}
-                      className="btn btn-outline-primary mt-auto"
-                    >
+                    <label htmlFor={`inputCardBoxCover-${modalId}`} className="btn btn-outline-primary mt-auto">
                       {isImgUploading ? "上傳中" : "上傳圖片"}
                       {isImgUploading && (
-                        <span
-                          className="spinner-border spinner-border-sm ms-1"
-                          role="status"
-                          aria-hidden="true"
-                        />
+                        <span className="spinner-border spinner-border-sm ms-1" role="status" aria-hidden="true" />
                       )}
                     </label>
                     <input
@@ -212,23 +233,18 @@ export default function CardBoxModal({
                       className="form-control"
                       type="text"
                       placeholder="請輸入封面圖片網址"
-                      value={newCardBox.cover_url}
-                      onChange={(e) =>
-                        setNewCardBox((prev) => ({
-                          ...prev,
-                          cover_url: e.target.value,
-                        }))
-                      }
+                      {...register("cover_url", rules.cover_url)}
                     />
                     <a
                       href="#"
                       className="input-clearup"
                       onClick={(e) => {
                         e.preventDefault();
-                        setNewCardBox((prev) => ({ ...prev, cover_url: "" }));
+                        resetField("cover_url");
+                        setImgBlobUrl("");
                       }}
                     >
-                      <span className="material-symbols-outlined">close</span>
+                      <span className="material-symbols-outlined">{isCreateMode ? "close" : "undo"}</span>
                     </a>
                   </div>
                 </div>
@@ -238,18 +254,9 @@ export default function CardBoxModal({
                       id="cardBoxIsFavorite"
                       className="form-check-input"
                       type="checkbox"
-                      checked={newCardBox.is_favorite}
-                      onChange={(e) =>
-                        setNewCardBox((prev) => ({
-                          ...prev,
-                          is_favorite: e.target.checked,
-                        }))
-                      }
+                      {...register("is_favorite")}
                     />
-                    <label
-                      className="form-check-label"
-                      htmlFor="cardBoxIsFavorite"
-                    >
+                    <label className="form-check-label" htmlFor="cardBoxIsFavorite">
                       加入最愛
                     </label>
                   </div>
@@ -266,17 +273,9 @@ export default function CardBoxModal({
               >
                 關閉
               </button>
-              <button
-                type="submit"
-                className="btn btn-primary"
-                disabled={isLoading}
-              >
+              <button type="submit" className="btn btn-primary" disabled={isLoading}>
                 {isLoading && (
-                  <span
-                    className="spinner-border spinner-border-sm me-2"
-                    role="status"
-                    aria-hidden="true"
-                  />
+                  <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" />
                 )}
                 {modalAction}
               </button>

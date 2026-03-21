@@ -320,13 +320,13 @@
       "id": "card_box_3",
       "title": "TypeScript 基礎",
       "description": "",
-      "cover_url": "user/card-box-cover-1.png",
+      "cover_url": "https://images.unsplash.com/photo-1633356122102-3fe601e05bd2?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "type": "normal",
       "is_inbox": false,
       "is_archived": false,
       "is_favorite": true,
       "created_at": 1766833200,
-      "updated_at": 1770440232,
+      "updated_at": 1774092859,
       "ui": {
         "color": "success"
       }
@@ -467,19 +467,34 @@
       "updated_at": 1773591205
     },
     {
-      "title": "測試",
+      "title": "新卡片和",
+      "description": "",
+      "cover_url": "https://res.cloudinary.com/dt24k06gm/image/upload/v1774092919/covers/hneoyswi67sdjfuct7sn.png",
+      "type": "normal",
+      "is_inbox": false,
+      "is_archived": false,
+      "is_favorite": true,
+      "ui": {
+        "color": "secondary"
+      },
+      "id": "card_box_1774092972",
+      "created_at": 1774092972,
+      "updated_at": 1774092972
+    },
+    {
+      "title": "新增",
       "description": "",
       "cover_url": "",
       "type": "normal",
       "is_inbox": false,
       "is_archived": false,
-      "is_favorite": false,
+      "is_favorite": true,
       "ui": {
         "color": "secondary"
       },
-      "id": "card_box_1773591456",
-      "created_at": 1773591456,
-      "updated_at": 1773591456
+      "id": "card_box_1774093006",
+      "created_at": 1774093006,
+      "updated_at": 1774093006
     }
   ],
   "cards": [
@@ -833,6 +848,19 @@
       "created_at": 1773596510,
       "updated_at": 1773596510,
       "card_box_id": "card_box_1773591456",
+      "content_format": "markdown",
+      "status": "active"
+    },
+    {
+      "title": "dddddddddddddddddddddddddd",
+      "content": "ffffffffffffffffffff",
+      "tags": [
+        "TypeScript 基礎"
+      ],
+      "id": "card_1774100501",
+      "created_at": 1774100501,
+      "updated_at": 1774100572,
+      "card_box_id": "card_box_3",
       "content_format": "markdown",
       "status": "active"
     }
