@@ -1,13 +1,17 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import CardBox from "@/components/card/CardBox";
 import CardBoxModal from "@/components/card/CardBoxModal";
+import CardModal from "@/components/card/CardModal";
+import { showSwalToast } from "@/utils/swalSetting";
 
 export default function CardBoxs() {
   const baseUrl = import.meta.env.VITE_BASE_URL;
   const [cardBoxes, setCardBoxes] = useState([]);
+  const [defaultCardBox, setDefaultCardBox] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
 
   const getCardBoxes = async () => {
     try {
@@ -15,6 +19,7 @@ export default function CardBoxs() {
       const response = await axios.get(`${baseUrl}cardBoxes`);
       const data = response.data;
       setCardBoxes(data);
+      setDefaultCardBox(data.find((cb) => cb.type === "default"));
     } catch (error) {
       console.error("Error fetching card boxes:", error);
       setCardBoxes([]);
@@ -44,16 +49,18 @@ export default function CardBoxs() {
     });
   };
 
-  const filteredCardBoxes = showFavoritesOnly
-    ? cardBoxes.filter((cb) => cb.is_favorite)
-    : cardBoxes;
+  const filteredCardBoxes = showFavoritesOnly ? cardBoxes.filter((cb) => cb.is_favorite) : cardBoxes;
 
   const [searchValue, setSearchValue] = useState("");
 
   const [isSelectMode, setIsSelectMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState(new Set()); // Set（集合，不重複）
 
-  const handleSelect = (id) => {
+  const handleSelect = (id, type) => {
+    if (type === "default") {
+      showSwalToast({ title: "預設卡片盒無法刪除", variant: "error" });
+      return;
+    }
     const newSelected = new Set(selectedIds);
     if (newSelected.has(id)) {
       newSelected.delete(id);
@@ -72,9 +79,7 @@ export default function CardBoxs() {
     try {
       const ids = Array.from(selectedIds);
       // Promise 請求陣列
-      const deletePromises = ids.map((id) =>
-        axios.delete(`${baseUrl}cardBoxes/${id}`)
-      );
+      const deletePromises = ids.map((id) => axios.delete(`${baseUrl}cardBoxes/${id}`));
       await Promise.all(deletePromises);
 
       setSelectedIds(new Set());
@@ -84,19 +89,19 @@ export default function CardBoxs() {
     }
   };
 
+  const cardModalRef = useRef(null);
+  const openCardModal = () => {
+    cardModalRef.current?.show();
+  };
+
   return (
     <>
-      <section
-        className="container pt-6 position-sticky bg-white z-2 mb-10"
-        style={{ top: "-28px" }}
-      >
+      <section className="container pt-6 position-sticky bg-white z-2 mb-10" style={{ top: "-28px" }}>
         <Link
           to="/user"
           className="mb-4 py-1 pe-2 fs-s text-gray-600 d-inline-flex align-items-center mb-lg-10 fs-lg-m px-lg-4 py-lg-2"
         >
-          <span className="material-symbols-outlined icon-sm me-2_5 me-lg-3 ">
-            arrow_back_ios_new
-          </span>
+          <span className="material-symbols-outlined icon-sm me-2_5 me-lg-3 ">arrow_back_ios_new</span>
           返回個人儀表板
         </Link>
         <div className="d-flex justify-content-between align-items-center mb-6 ">
@@ -110,10 +115,7 @@ export default function CardBoxs() {
               checked={showFavoritesOnly}
               onChange={switchShowFavoritesOnly}
             />
-            <label
-              className="form-check-label text-primary"
-              htmlFor="favoriteSwitch"
-            >
+            <label className="form-check-label text-primary" htmlFor="favoriteSwitch">
               僅顯示最愛卡片盒
             </label>
           </div>
@@ -121,10 +123,7 @@ export default function CardBoxs() {
         <div className="row g-3 gx-4 gx-lg-3">
           <div className="col-lg-5 me-n4">
             <div className="d-md-flex">
-              <div
-                className="form-control-container with-icon flex-grow-1"
-                style={{ maxWidth: "320px" }}
-              >
+              <div className="form-control-container with-icon flex-grow-1" style={{ maxWidth: "320px" }}>
                 <input
                   id="searchCardBox"
                   type="text"
@@ -146,10 +145,7 @@ export default function CardBoxs() {
                 </a>
               </div>
               <p className="text-gray-700 mt-6 text-nowrap my-md-auto ms-md-4 ms-xl-8">
-                共
-                <span className="mx-1 fw-bold tracking-2">
-                  {filteredCardBoxes.length}
-                </span>
+                共<span className="mx-1 fw-bold tracking-2">{filteredCardBoxes.length}</span>
                 個卡片盒
               </p>
             </div>
@@ -160,9 +156,7 @@ export default function CardBoxs() {
               <div className="d-flex align-items-center justify-content-between">
                 <p className="text-gray-700 me-6">
                   已選取
-                  <span className="fw-bold mx-1 tracking-2">
-                    {selectedIds.size}
-                  </span>
+                  <span className="fw-bold mx-1 tracking-2">{selectedIds.size}</span>
                   個卡片盒
                 </p>
                 <button
@@ -189,26 +183,18 @@ export default function CardBoxs() {
                 </button>
               </div>
               <div className="col-6 col-lg-auto mt-6 mt-lg-3 order-lg-2">
-                <button className="btn btn-outline-primary w-100" type="button">
+                <button className="btn btn-outline-primary w-100" type="button" onClick={openCardModal}>
                   新增卡片
                 </button>
               </div>
             </>
           )}
           <div className={`col-lg-auto  ${isSelectMode ? "" : "ms-auto"}`}>
-            <button
-              className="btn btn-outline-primary w-100"
-              type="button"
-              onClick={toggleSelectMode}
-            >
+            <button className="btn btn-outline-primary w-100" type="button" onClick={toggleSelectMode}>
               {isSelectMode ? "取消選取" : "選取"}
             </button>
           </div>
-          <div
-            className={`col-lg-auto order-lg-3 ${
-              isSelectMode ? "d-lg-none" : ""
-            }`}
-          >
+          <div className={`col-lg-auto order-lg-3 ${isSelectMode ? "d-lg-none" : ""}`}>
             <div className="form-select-container">
               <a
                 className="position-absolute top-50 translate-middle text-primary lh-1"
@@ -259,11 +245,10 @@ export default function CardBoxs() {
         )}
       </div>
 
-      <CardBoxModal
-        isCreateMode
-        modalId="createCardBoxModal"
-        onSuccess={getCardBoxes}
-      />
+      <CardBoxModal isCreateMode modalId="createCardBoxModal" onSuccess={getCardBoxes} />
+
+      {/* 卡片 Modal */}
+      <CardModal ref={cardModalRef} cardBox={defaultCardBox} onSuccess={getCardBoxes} />
     </>
   );
 }

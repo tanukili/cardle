@@ -495,6 +495,22 @@
       "id": "card_box_1774093006",
       "created_at": 1774093006,
       "updated_at": 1774093006
+    },
+    {
+      "id": "card_box_1774104280",
+      "title": "預設卡片盒",
+      "description": "",
+      "cover_url": "",
+      "type": "default",
+      "is_inbox": false,
+      "is_archived": false,
+      "is_favorite": false,
+      "ui": {
+        "color": "secondary"
+      },
+      "user_id": "X-gJy7b",
+      "created_at": 1774104280,
+      "updated_at": 1774104280
     }
   ],
   "cards": [
@@ -861,6 +877,19 @@
       "created_at": 1774100501,
       "updated_at": 1774100572,
       "card_box_id": "card_box_3",
+      "content_format": "markdown",
+      "status": "active"
+    },
+    {
+      "title": "dfsdf",
+      "content": "dfsdfdsf",
+      "tags": [
+        "預設卡片盒"
+      ],
+      "id": "card_1774105722",
+      "created_at": 1774105722,
+      "updated_at": 1774105722,
+      "card_box_id": "card_box_1774104280",
       "content_format": "markdown",
       "status": "active"
     }

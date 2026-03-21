@@ -1,6 +1,18 @@
 import { apiClient } from "@/services/apiClient";
 
 // 後續優化：使用 defer、data shaping
+const defaultCardBox = {
+  title: "",
+  description: "",
+  cover_url: "",
+  type: "normal",
+  is_inbox: false,
+  is_archived: false,
+  is_favorite: false,
+  ui: {
+    color: "secondary",
+  },
+};
 
 // 取得單一卡片盒與其卡片
 export const getCardBoxDetail = async (cardBoxId) => {
@@ -15,6 +27,11 @@ export const getCardBoxDetail = async (cardBoxId) => {
   };
 };
 
+export const getDefaultCardBox = async (userId) => {
+  const response = await apiClient.get("/cardBoxes", { params: { user_id: userId, type: "default" } });
+  return response;
+};
+
 // 取得所有
 export const getCardBoxes = async () => {
   const response = await apiClient.get("/cardBoxes");
@@ -25,8 +42,9 @@ export const getCardBoxes = async () => {
 export const createCardBox = async (cardBox) => {
   const ts = Math.floor(Date.now() / 1000);
   const payload = {
-    ...cardBox,
     id: `card_box_${ts}`,
+    ...defaultCardBox,
+    ...cardBox,
     created_at: ts,
     updated_at: ts,
   };

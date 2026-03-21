@@ -10,7 +10,7 @@ const defaultCard = {
 };
 
 // forwardRef 提供父元件取得子元件的 ref
-export default forwardRef(function CardModal({ editCard, cardBox, modalId = "cardModal", onSuccess }, ref) {
+export default forwardRef(function CardModal({ editCard=defaultCard, cardBox, modalId = "cardModal", onSuccess }, ref) {
   const modalRef = useRef(null);
   const isEditMode = Boolean(editCard?.id);
   const [isLoading, setIsLoading] = useState(false);
@@ -119,7 +119,7 @@ export default forwardRef(function CardModal({ editCard, cardBox, modalId = "car
               <div className="container-fluid">
                 <p className="mb-4 d-flex align-items-center">
                   所屬卡片盒
-                  <span className={`badge badge-${cardBox.color ?? "secondary"} lh-base ms-2`}>{cardBox.title}</span>
+                  <span className={`badge badge-${cardBox?.color ?? "secondary"} lh-base ms-2`}>{cardBox?.title}</span>
                 </p>
                 <div className="row gx-3 mb-4 d-flex align-items-center">
                   <label htmlFor="cardTitle" className="form-label fs-m mb-2 d-flex text-nowrap">

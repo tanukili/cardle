@@ -38,7 +38,7 @@ export default function CardBox({
       className={cardBoxClass}
       onClick={
         isSelectMode
-          ? () => onSelect?.(cardBox.id)
+          ? () => onSelect?.(cardBox.id, cardBox.type)
           : (e) => {
               e.stopPropagation();
               navigate(`/user/card-box/${cardBox.id}`);

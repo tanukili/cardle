@@ -1,7 +1,9 @@
 import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 import ProgressList from "@/components/bookshelf/ProgressList";
 import BaseCard from "@/components/card/BaseCard";
 import CardBox from "@/components/card/CardBox";
+import { getDefaultCardBox, createCardBox } from "@/services/cardBoxService";
 
 import { Scrollbar } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -14,6 +16,35 @@ import { ResponsiveBar } from "@nivo/bar";
 export default function Dashboard() {
   const userInfo = useSelector((state) => state.user.userInfo);
 
+  // 前端處理預設卡片盒邏輯
+  useEffect(() => {
+    const userId = userInfo?.id;
+    if (!userId) return;
+
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const res = await getDefaultCardBox(userId);
+        if (cancelled) return;
+        if (res.length > 0) return;
+
+        await createCardBox({
+          user_id: userId,
+          title: "預設卡片盒",
+          type: "default",
+        });
+      } catch (error) {
+        if (!cancelled) console.error("Card Box:", error);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [userInfo?.id]);
+
+  // 以下程式碼待整理
   const learningResources = [
     {
       type: "book",
@@ -41,8 +72,7 @@ export default function Dashboard() {
     },
     {
       type: "podcast",
-      title:
-        "EP629 專案經理只是開會追進度的角色？宰相蕭何教你如何看懂局，成為老闆最倚重的軍師",
+      title: "EP629 專案經理只是開會追進度的角色？宰相蕭何教你如何看懂局，成為老闆最倚重的軍師",
       link: "https://podcasts.apple.com/tw/podcast/ep629-%E5%B0%88%E6%A1%88%E7%B6%93%E7%90%86%E5%8F%AA%E6%98%AF%E9%96%8B%E6%9C%83%E8%BF%BD%E9%80%B2%E5%BA%A6%E7%9A%84%E8%A7%92%E8%89%B2-%E5%AE%B0%E7%9B%B8%E8%95%AD%E4%BD%95%E6%95%99%E4%BD%A0%E5%A6%82%E4%BD%95%E7%9C%8B%E6%87%82%E5%B1%80-%E6%88%90%E7%82%BA%E8%80%81%E9%97%86%E6%9C%80%E5%80%9A%E9%87%8D%E7%9A%84%E8%BB%8D%E5%B8%AB/id1452688611?i=1000741740202",
       totalUnit: 100,
       completedUnit: 100,
@@ -101,8 +131,7 @@ export default function Dashboard() {
       user_id: "X-gJy7b",
       card_box_id: "card_box_3",
       tags: [],
-      content:
-        "px：固定像素  \n%：相對於父元素  \nrem：相對於 root font size  \n使用 rem 可以更靈活響應式。",
+      content: "px：固定像素  \n%：相對於父元素  \nrem：相對於 root font size  \n使用 rem 可以更靈活響應式。",
       content_format: "plain",
       created_at: 1738675200,
       updated_at: 1738761600,
@@ -166,8 +195,7 @@ export default function Dashboard() {
       user_id: "X-gJy7b",
       card_box_id: "card_box_3",
       tags: [],
-      content:
-        "props 是由父元件傳入的資料。  \n    state 是元件內部的狀態，可被修改。",
+      content: "props 是由父元件傳入的資料。  \n    state 是元件內部的狀態，可被修改。",
       content_format: "plain",
       created_at: 1738675200,
       updated_at: 1738675200,
@@ -192,8 +220,7 @@ export default function Dashboard() {
       user_id: "X-gJy7b",
       card_box_id: "card_box_3",
       tags: [],
-      content:
-        "`display: flex;`  \n    是現代網頁常用的排版方式之一，能夠快速讓元素水平或垂直對齊",
+      content: "`display: flex;`  \n    是現代網頁常用的排版方式之一，能夠快速讓元素水平或垂直對齊",
       content_format: "plain",
       created_at: 1738675200,
       updated_at: 1738675200,
@@ -386,10 +413,7 @@ export default function Dashboard() {
 
   return (
     <main className="overflow-hidden">
-      <section
-        className="text-center pt-20 pb-14 pt-lg-25 pb-lg-30"
-        style={{ backgroundColor: "#fafafa" }}
-      >
+      <section className="text-center pt-20 pb-14 pt-lg-25 pb-lg-30" style={{ backgroundColor: "#fafafa" }}>
         <div className="container">
           <h2 className="fs-xl text-gray-700 mb-4 fs-md-3xl">
             哈囉！
@@ -398,15 +422,9 @@ export default function Dashboard() {
             </span>
             ！
           </h2>
-          <h1 className="fs-2xl text-gray-700 mb-13 fs-md-4xl mb-md-16">
-            今天有任何靈感嗎？
-          </h1>
+          <h1 className="fs-2xl text-gray-700 mb-13 fs-md-4xl mb-md-16">今天有任何靈感嗎？</h1>
           <nav className="nav nav-underline justify-content-center mb-10">
-            <div
-              className="nav-item d-flex"
-              id="dashboard-nav-tab"
-              role="tablist"
-            >
+            <div className="nav-item d-flex" id="dashboard-nav-tab" role="tablist">
               <button
                 className="nav-link mx-3 d-flex align-items-center active"
                 id="nav-add-tab"
@@ -417,10 +435,7 @@ export default function Dashboard() {
                 aria-controls="nav-home"
                 aria-selected="true"
               >
-                <span className="material-symbols-outlined me-4">
-                  {" "}
-                  edit_square{" "}
-                </span>
+                <span className="material-symbols-outlined me-4"> edit_square </span>
                 新增卡片
               </button>
               <button
@@ -468,10 +483,7 @@ export default function Dashboard() {
               </div>
             </div>
             <div className="col-12">
-              <button
-                className="btn btn-primary w-100 w-md-auto fs-md-xl py-md-4 px-md-6"
-                type="submit"
-              >
+              <button className="btn btn-primary w-100 w-md-auto fs-md-xl py-md-4 px-md-6" type="submit">
                 新增
               </button>
             </div>
@@ -490,10 +502,7 @@ export default function Dashboard() {
               aria-expanded="false"
               aria-controls="chartCollapse"
             >
-              <span className="material-symbols-outlined align-bottom fs-md-3xl">
-                {" "}
-                keyboard_arrow_down{" "}
-              </span>
+              <span className="material-symbols-outlined align-bottom fs-md-3xl"> keyboard_arrow_down </span>
             </a>
           </h2>
         </div>
@@ -504,15 +513,10 @@ export default function Dashboard() {
               <div className="pie-chart col-12 col-lg-6 col-xl-5 mb-8 mb-lg-0">
                 <div className="card bg-gray-0 border-primary-100 rounded-4 h-100">
                   <div className="card-title p-4 mb-0 p-xl-6">
-                    <h3 className="fs-l lh-base fw-normal text-primary-900 fs-xl-xl">
-                      本月學習主題
-                    </h3>
+                    <h3 className="fs-l lh-base fw-normal text-primary-900 fs-xl-xl">本月學習主題</h3>
                   </div>
                   <div className="card-body d-flex flex-column flex-sm-row justify-content-center align-items-center py-0 py-sm-4 py-xl-6">
-                    <div
-                      className="pie-container pe-sm-3"
-                      style={{ height: "200px", width: "200px" }}
-                    >
+                    <div className="pie-container pe-sm-3" style={{ height: "200px", width: "200px" }}>
                       <ResponsivePie
                         data={pieData}
                         margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
@@ -581,14 +585,9 @@ export default function Dashboard() {
                 <div className="overflow-scroll scrollbar-none">
                   <div className="card bg-gray-0 border-primary-100 rounded-4">
                     <div className="card-title p-4 mb-0 p-xl-6">
-                      <h3 className="fs-l lh-base fw-normal text-primary-900 fs-xl-xl">
-                        學習時間 (分)
-                      </h3>
+                      <h3 className="fs-l lh-base fw-normal text-primary-900 fs-xl-xl">學習時間 (分)</h3>
                     </div>
-                    <div
-                      className="bar-container card-body d-flex flex-column p-xl-6"
-                      style={{ height: "300px" }}
-                    >
+                    <div className="bar-container card-body d-flex flex-column p-xl-6" style={{ height: "300px" }}>
                       <ResponsiveBar
                         data={barData}
                         keys={["學習時間"]}
@@ -615,9 +614,7 @@ export default function Dashboard() {
                         animate={true}
                         motionConfig="gentle"
                         role="application"
-                        barAriaLabel={(e) =>
-                          `${e.id}: ${e.formattedValue} 分鐘`
-                        }
+                        barAriaLabel={(e) => `${e.id}: ${e.formattedValue} 分鐘`}
                         ariaLabel="學習時間長條圖"
                       />
                     </div>
@@ -629,30 +626,15 @@ export default function Dashboard() {
         </div>
       </section>
       <section className="container py-14 py-lg-20">
-        <h2 className="fs-xl mb-8 pb-6 border-bottom border-gray-200 fs-md-3xl lh-md-sm mb-md-10">
-          學習進度追蹤
-        </h2>
+        <h2 className="fs-xl mb-8 pb-6 border-bottom border-gray-200 fs-md-3xl lh-md-sm mb-md-10">學習進度追蹤</h2>
         <div className="scrollbar-none w-100 overflow-scroll mb-8 mb-md-10">
-          <nav
-            className="nav nav-pills nav-fill gap-6"
-            style={{ width: "max-content" }}
-          >
-            <button
-              className="nav-link border border-primary active"
-              aria-current="page"
-              type="button"
-            >
+          <nav className="nav nav-pills nav-fill gap-6" style={{ width: "max-content" }}>
+            <button className="nav-link border border-primary active" aria-current="page" type="button">
               顯示全部
             </button>
             {resourceTypes.map(({ type, text, iconName }) => (
-              <button
-                className="nav-link border border-primary d-flex align-items-center"
-                type="button"
-                key={type}
-              >
-                <span className="material-symbols-outlined me-3">
-                  {iconName}
-                </span>
+              <button className="nav-link border border-primary d-flex align-items-center" type="button" key={type}>
+                <span className="material-symbols-outlined me-3">{iconName}</span>
                 {text}
               </button>
             ))}
@@ -708,20 +690,11 @@ export default function Dashboard() {
           }}
         >
           {displayCardSwiper.map((swiperItem) => (
-            <SwiperSlide
-              style={{ width: "300px" }}
-              className="d-flex flex-column gap-4"
-            >
+            <SwiperSlide style={{ width: "300px" }} className="d-flex flex-column gap-4">
               {Array.isArray(swiperItem) ? (
-                swiperItem.map((card) => (
-                  <BaseCard card={card} key={card.id} mode="withBadge" />
-                ))
+                swiperItem.map((card) => <BaseCard card={card} key={card.id} mode="withBadge" />)
               ) : (
-                <BaseCard
-                  card={swiperItem}
-                  key={swiperItem.id}
-                  mode="withBadge"
-                />
+                <BaseCard card={swiperItem} key={swiperItem.id} mode="withBadge" />
               )}
             </SwiperSlide>
           ))}
