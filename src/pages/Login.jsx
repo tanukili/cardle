@@ -11,10 +11,51 @@ export default function Login() {
   const navigate = useNavigate();
 
   // 表單狀態
-  const [email, setEmail] = useState("demo@example.com");
-  const [password, setPassword] = useState("123456a");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  /*  workaround start: 土炮 onChange 驗證功能 */
+  const [errors, setErrors] = useState({
+    email: [
+      {
+        isInvalid: false,
+        validator: (value) => value.trim() !== "",
+        message: "請輸入註冊時使用的信箱",
+      },
+      {
+        isInvalid: false,
+        validator: (value) => /^\S+@\S+$/i.test(value),
+        message: "請輸入有效的電子信箱",
+      },
+    ],
+    password: [
+      {
+        isInvalid: false,
+        validator: (value) => value.trim() !== "",
+        message: "請輸入密碼",
+      },
+    ],
+  });
+
+  const getError = (field) => {
+    return errors[field].find((rule) => rule.isInvalid)?.message;
+  };
+
+  const validate = (value, field) => {
+    const isValid = errors[field].every((rule) => rule.validator(value));
+    setErrors((prev) => {
+      return {
+        ...prev,
+        [field]: prev[field].map((rule) => ({
+          ...rule,
+          isInvalid: !rule.validator(value),
+        })),
+      };
+    });
+  };
+  /*  workaround end: 土炮 onChange 驗證功能 */
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -85,14 +126,21 @@ export default function Login() {
                 </label>
                 <input
                   type="email"
-                  className="form-control"
+                  className={`form-control ${
+                    getError("email") && "is-invalid"
+                  }`}
                   id="email"
                   placeholder="請輸入帳號"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    validate(e.target.value, "email");
+                  }}
                   required
                 />
-                <div className="invalid-feedback">請輸入註冊時使用的信箱</div>
+                {getError("email") && (
+                  <div className="invalid-feedback">{getError("email")}</div>
+                )}
               </div>
 
               <div className="mb-4">
@@ -101,14 +149,21 @@ export default function Login() {
                 </label>
                 <input
                   type="password"
-                  className="form-control"
+                  className={`form-control ${
+                    getError("password") && "is-invalid"
+                  }`}
                   id="password"
                   placeholder="請輸入密碼"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    validate(e.target.value, "password");
+                  }}
                   required
                 />
-                <div className="invalid-feedback">請輸入密碼</div>
+                {getError("password") && (
+                  <div className="invalid-feedback">{getError("password")}</div>
+                )}
               </div>
 
               <button
