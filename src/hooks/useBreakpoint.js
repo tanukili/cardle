@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 const breakpoints = {
   xs: 0,
@@ -20,7 +20,7 @@ export const useColumnConfig = (config = {}) => {
     // 更新欄數
     const updateColumns = () => {
       const width = window.innerWidth;
-      let current = "xs";
+      let current = 'xs';
       for (const name of Object.keys(breakpoints)) {
         if (width >= breakpoints[name]) current = name;
       }
@@ -39,11 +39,11 @@ export const useColumnConfig = (config = {}) => {
     // 初始化
     updateColumns();
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
     // 清除事件監聽
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
       clearTimeout(timeoutId);
     };
   }, [config]);

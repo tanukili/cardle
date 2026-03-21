@@ -24,7 +24,7 @@
     .material-symbols-outlined {
       display: block;
       font-size: 24px;
-      font-variation-settings: "FILL" 1;
+      font-variation-settings: 'FILL' 1;
     }
     &.active {
       color: $color-star;
@@ -66,10 +66,10 @@
   border-color: $gray-500;
   cursor: pointer;
   height: 100%;
-  
+
   .card-ul-style li {
     &::before {
-      content: "\2022";
+      content: '\2022';
       font-size: inherit;
       margin-inline: 0.25rem;
     }
@@ -141,8 +141,15 @@
     height: 120px;
     object-fit: cover;
     width: 100%;
+    transition:
+      height 0.5s ease-in-out,
+      margin-bottom 0.5s ease-in-out;
     @include media-breakpoint-up(lg) {
       height: 240px;
+    }
+
+    &.cover-small {
+      height: 0px;
     }
   }
 }

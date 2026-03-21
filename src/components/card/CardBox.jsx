@@ -1,55 +1,80 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import { updateCardBox } from '@/services/cardBoxService';
+import { showSwalToast } from '@/utils/swalSetting';
 
-export default function CardBox({ cardBox, isSelectMode = false, isSelected = false, onSelect, isFavorite = false, onToggleFavorite }) {
+export default function CardBox({
+  cardBox,
+  isSelectMode = false,
+  isSelected = false,
+  onSelect,
+  isFavorite = false,
+  onUpdateSuccess,
+}) {
   const navigate = useNavigate();
+  const cardBoxClass = [
+    'card',
+    'card-box',
+    isSelectMode && 'select-mode',
+    isSelected && 'is-selected',
+    isFavorite && 'is-favorite',
+  ]
+    .filter(Boolean)
+    .join(' ');
 
-  const cardBoxClass = ["card", "card-box", isSelectMode && "select-mode", isSelected && "is-selected", isFavorite && "is-favorite"].filter(Boolean).join(" ");
+  const handleToggleFavorite = async (id, isFavorite) => {
+    try {
+      await updateCardBox(id, { is_favorite: !isFavorite });
+      showSwalToast({ title: `成功${isFavorite ? '移除' : '加入'}最愛` });
+      onUpdateSuccess?.();
+    } catch (error) {
+      const errorMsg = `${error.response.status} ${error.response.statusText}`;
+      showSwalToast({
+        title: `最愛狀態更新失敗，${errorMsg}`,
+        variant: 'error',
+      });
+      console.error('Error - Toggling Favorite :', error);
+    }
+  };
 
   return (
-    <div className={cardBoxClass}
-      onClick={isSelectMode ? () => onSelect?.(cardBox.id) : (e) => {
-        e.stopPropagation();
-        navigate(`/user/card-box/${cardBox.id}`);
-      }}
+    <div
+      className={cardBoxClass}
+      onClick={
+        isSelectMode
+          ? () => onSelect?.(cardBox.id, cardBox.type)
+          : (e) => {
+              e.stopPropagation();
+              navigate(`/user/card-box/${cardBox.id}`);
+            }
+      }
     >
       <div className="position-relative">
         {cardBox.cover_url ? (
-          <img
-            className="card-img-top"
-            src={cardBox.cover_url}
-            alt={`${cardBox.title }-封面`}
-          />
+          <img className="card-img-top" src={cardBox.cover_url} alt={`${cardBox.title}-封面`} />
         ) : (
-          <div className="card-img-top bg-primary-0 d-flex"
-          >
+          <div className="card-img-top bg-primary-0 d-flex">
             <h3 className="text-primary-500 m-auto">{cardBox.title}</h3>
           </div>
         )}
         {/* 最愛按鈕 */}
         <button
-          className={`btn btn-gray-0 btn-icon-star card-box-favorite ${cardBox.is_favorite ? " active" : ""}`}
+          className={`btn btn-gray-0 btn-icon-star card-box-favorite ${cardBox.is_favorite ? ' active' : ''}`}
           onClick={(e) => {
             e.stopPropagation();
-            onToggleFavorite?.(cardBox.id, cardBox.is_favorite);
+            handleToggleFavorite(cardBox.id, cardBox.is_favorite);
           }}
-          >
-          <span className="material-symbols-outlined">
-            star
-          </span>
+        >
+          <span className="material-symbols-outlined">star</span>
         </button>
-          {/* 選擇標示 */}
-          {isSelectMode && (
-            <div className="card-box-select">
-              <span className="material-symbols-outlined">
-                check
-              </span>
-            </div>
-          )}
+        {/* 選擇標示 */}
+        {isSelectMode && (
+          <div className="card-box-select">
+            <span className="material-symbols-outlined">check</span>
+          </div>
+        )}
       </div>
       <div className="card-body">
-        <h3 className="card-title">
-          {cardBox.title}
-        </h3>
+        <h3 className="card-title">{cardBox.title}</h3>
       </div>
     </div>
   );

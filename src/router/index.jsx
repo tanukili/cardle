@@ -1,40 +1,41 @@
-import { createHashRouter } from "react-router-dom";
-import Home from "@/pages/Home";
-import SignUp from "@/pages/SignUp";
-import Login from "@/pages/Login";
-import Features from "@/pages/Features";
+import { createHashRouter } from 'react-router-dom';
+import Home from '@/pages/Home';
+import SignUp from '@/pages/SignUp';
+import Login from '@/pages/Login';
+import Features from '@/pages/Features';
 
-import Subscription from "@/pages/subscription/Detail";
-import SubscriptionCheckout from "@/pages/subscription/Checkout";
-import SubscriptionSuccess from "@/pages/subscription/Success";
+import Subscription from '@/pages/subscription/Detail';
+import SubscriptionCheckout from '@/pages/subscription/Checkout';
+import SubscriptionSuccess from '@/pages/subscription/Success';
 
-import AccountCenter from "@/pages/account/Center";
-import AccountProfile from "@/pages/account/Profile";
-import AccountPlan from "@/pages/account/Plan";
-import AccountPlanDetail from "@/pages/account/PlanDetail";
-import AccountPlanUpgrade from "@/pages/account/PlanUpgrade";
+import AccountCenter from '@/pages/account/Center';
+import AccountProfile from '@/pages/account/Profile';
+import AccountPlan from '@/pages/account/Plan';
+import AccountPlanDetail from '@/pages/account/PlanDetail';
+import AccountPlanUpgrade from '@/pages/account/PlanUpgrade';
 
-import UserDashboard from "@/pages/user/Dashboard";
-import UserBookshelf from "@/pages/user/bookshelf/BookshelfIndex";
-import UserCalendar from "@/pages/user/bookshelf/Calendar";
-import UserPomodoroTimer from "@/pages/user/bookshelf/PomodoroTimer";
-import UserLearningTopics from "@/pages/user/bookshelf/LearningTopics";
-import UserCardBoxes from "@/pages/user/CardBoxes";
-import UserCardBoxDetail from "@/pages/user/cardBox/CardBoxDetail";
-import UserBoardList from "@/pages/user/board/BoardList";
-import UserBoard from "@/pages/user/board/Board";
-import UserArticleList from "@/pages/user/article/ArticleList";
-import UserArticleDetail from "@/pages/user/article/ArticleDetail";
+import UserDashboard from '@/pages/user/Dashboard';
+import UserBookshelf from '@/pages/user/bookshelf/BookshelfIndex';
+import UserCalendar from '@/pages/user/bookshelf/Calendar';
+import UserPomodoroTimer from '@/pages/user/bookshelf/PomodoroTimer';
+import UserLearningTopics from '@/pages/user/bookshelf/LearningTopics';
+import UserCardBoxes from '@/pages/user/CardBoxes';
+import UserCardBoxDetail from '@/pages/user/cardBox/CardBoxDetail';
+import UserBoardList from '@/pages/user/board/BoardList';
+import UserBoard from '@/pages/user/board/Board';
+import UserArticleList from '@/pages/user/article/ArticleList';
+import UserArticleDetail from '@/pages/user/article/ArticleDetail';
 
-import HomeLayout from "@/layouts/HomeLayout";
-import AccountLayout from "@/layouts/account/AccountLayout";
-import UserLayout from "@/layouts/user/UserLayout";
+import HomeLayout from '@/layouts/HomeLayout';
+import AccountLayout from '@/layouts/account/AccountLayout';
+import UserLayout from '@/layouts/user/UserLayout';
 
-import { getCardBoxDetail } from "@/services/cardBoxService";
+import { getCardBoxDetail } from '@/services/cardBoxService';
+import { protectedLoader } from '@/services/loader';
 
 const router = createHashRouter([
   {
-    path: "/",
+    path: '/',
     element: <HomeLayout />,
     children: [
       {
@@ -42,30 +43,30 @@ const router = createHashRouter([
         element: <Home />,
       },
       {
-        path: "sign-up",
+        path: 'sign-up',
         element: <SignUp />,
       },
       {
-        path: "login",
+        path: 'login',
         element: <Login />,
       },
       {
-        path: "features",
+        path: 'features',
         element: <Features />,
       },
       {
-        path: "subscription",
+        path: 'subscription',
         children: [
           {
             index: true,
             element: <Subscription />,
           },
           {
-            path: "checkout/:id",
+            path: 'checkout/:id',
             element: <SubscriptionCheckout />,
           },
           {
-            path: "success/:orderId",
+            path: 'success/:orderId',
             element: <SubscriptionSuccess />,
           },
         ],
@@ -74,30 +75,31 @@ const router = createHashRouter([
   },
   // 6-2 相關
   {
-    path: "/account",
+    path: '/account',
     element: <AccountLayout />,
+    loader: protectedLoader(),
     children: [
       {
         index: true,
         element: <AccountCenter />,
       },
       {
-        path: "profile",
+        path: 'profile',
         element: <AccountProfile />,
       },
       {
-        path: "plan",
+        path: 'plan',
         children: [
           {
             index: true,
             element: <AccountPlan />,
           },
           {
-            path: "detail",
+            path: 'detail',
             element: <AccountPlanDetail />,
           },
           {
-            path: "upgrade",
+            path: 'upgrade',
             element: <AccountPlanUpgrade />,
           },
         ],
@@ -105,15 +107,16 @@ const router = createHashRouter([
     ],
   },
   {
-    path: "user",
+    path: 'user',
     element: <UserLayout />,
+    loader: protectedLoader(),
     children: [
       {
         index: true,
         element: <UserDashboard />,
       },
       {
-        path: "bookshelf",
+        path: 'bookshelf',
         element: <UserBookshelf />,
         children: [
           {
@@ -121,55 +124,55 @@ const router = createHashRouter([
             element: <UserCalendar />,
           },
           {
-            path: "pomodoro",
+            path: 'pomodoro',
             element: <UserPomodoroTimer />,
           },
           {
-            path: "topics",
+            path: 'topics',
             element: <UserLearningTopics />,
           },
         ],
       },
       {
-        path: "card-boxes",
+        path: 'card-boxes',
         element: <UserCardBoxes />,
       },
       {
-        path: "card-box/:cardBoxId",
+        path: 'card-box/:cardBoxId',
         loader: async ({ params }) => {
           return getCardBoxDetail(params.cardBoxId);
         },
         element: <UserCardBoxDetail />,
       },
       {
-        path: "boards",
+        path: 'boards',
         children: [
           {
             index: true,
             element: <UserBoardList />,
           },
           {
-            path: ":boardId",
+            path: ':boardId',
             element: <UserBoard />,
           },
         ],
       },
       {
-        path: "articles",
+        path: 'articles',
         children: [
           {
             index: true,
             element: <UserArticleList />,
           },
           {
-            path: ":articleId",
+            path: ':articleId',
             element: <UserArticleDetail />,
           },
         ],
       },
     ],
   },
-  { basename: "/cardle" },
+  { basename: '/cardle' },
 ]);
 
 export default router;

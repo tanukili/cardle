@@ -1,4 +1,4 @@
-import UsersSwiper from "@/components/swiper/UsersSwiper";
+import UsersSwiper from '@/components/swiper/UsersSwiper';
 
 export default function Features() {
   return (
@@ -7,16 +7,9 @@ export default function Features() {
       <section className="features-hero bg-white pt-30 pt-md-40">
         <div className="container">
           <div className="mb-6 text-md-center text-sm-start mx-6 d-flex flex-column">
-            <h1 className="mb-md-6 mb-4 fs-md-6xl fs-3xl fw-bold text-wrap">
-              卡片紀錄想法，讓知識自在成長
-            </h1>
-            <p className="mb-6 fs-md-3xl fs-l fw-bold">
-              把靈感拆解、連結、重組，打造專屬你的知識地圖。
-            </p>
-            <button
-              type="button"
-              className="btn btn-primary align-self-md-center fs-md-xl py-md-4 px-md-6 z-3"
-            >
+            <h1 className="mb-md-6 mb-4 fs-md-6xl fs-3xl fw-bold text-wrap">卡片紀錄想法，讓知識自在成長</h1>
+            <p className="mb-6 fs-md-3xl fs-l fw-bold">把靈感拆解、連結、重組，打造專屬你的知識地圖。</p>
+            <button type="button" className="btn btn-primary align-self-md-center fs-md-xl py-md-4 px-md-6 z-3">
               立即體驗
             </button>
           </div>
@@ -30,11 +23,7 @@ export default function Features() {
               </div>
             </div>
             <div className="card-image">
-              <img
-                src="features/cards.png"
-                className="container-fluid p-3"
-                alt="cards"
-              />
+              <img src="features/cards.png" className="container-fluid p-3" alt="cards" />
             </div>
           </div>
         </div>
@@ -42,33 +31,19 @@ export default function Features() {
       {/* intro */}
       <section className="intro bg-gray-600 pt-20 pb-10 py-lg-25">
         <div className="container">
-          <div
-            className="intro-title text-center"
-            data-aos="fade-up"
-            data-aos-duration="300"
-          >
-            <h2 className="fs-md-5xl fs-3xl fw-bold mb-6 text-gray-0">
-              全新登場：Cardle
-            </h2>
+          <div className="intro-title text-center" data-aos="fade-up" data-aos-duration="300">
+            <h2 className="fs-md-5xl fs-3xl fw-bold mb-6 text-gray-0">全新登場：Cardle</h2>
             <span className="badge fs-s fs-md-2xl fw-bold px-md-4 py-md-2 bg-tag-secondary-bg text-tag-secondary">
               # 原子化的筆記方式
             </span>
           </div>
           <div className="intro-main pt-6 pt-md-16 row justify-content-center">
-            <div
-              className="col-12 col-lg-8"
-              data-aos="fade-up"
-              data-aos-duration="500"
-            >
+            <div className="col-12 col-lg-8" data-aos="fade-up" data-aos-duration="500">
               <p className="fs-m fs-md-xl fw-bold text-center text-lg-start text-gray-50 mb-6">
                 Cardle
                 是一個基於卡片筆記（Zettelkasten）開發的筆記空具，協助你快速建立卡片與卡片見的連結。同時包含學習資源整合與進度追蹤功能，讓你的學習更迅速直覺。
               </p>
-              <img
-                src="features/large-product-1.png"
-                className="container-fluid p-0"
-                alt="intro-1"
-              />
+              <img src="features/large-product-1.png" className="container-fluid p-0" alt="intro-1" />
             </div>
           </div>
         </div>
@@ -87,9 +62,7 @@ export default function Features() {
               />
             </div>
             <div className="col-12 col-lg-6 gx-10 text-center text-lg-start">
-              <h3 className="fs-2xl fs-md-4xl mb-4 mb-md-6 fw-bold text-gray-0">
-                打造你的專屬知識庫
-              </h3>
+              <h3 className="fs-2xl fs-md-4xl mb-4 mb-md-6 fw-bold text-gray-0">打造你的專屬知識庫</h3>
               <span className="badge fs-sm fs-md-2xl fw-bold px-md-4 py-md-2 bg-tag-success-bg text-tag-success mb-6 mb-md-8">
                 # 輕鬆整理知識
               </span>
@@ -114,9 +87,7 @@ export default function Features() {
 
           <div className="row pt-10 pt-lg-30">
             <div className="col-12 col-lg-6 gx-10 text-center text-lg-start">
-              <h3 className="fs-2xl fs-md-4xl mb-4 mb-md-6 fw-bold text-gray-0">
-                閱讀追蹤
-              </h3>
+              <h3 className="fs-2xl fs-md-4xl mb-4 mb-md-6 fw-bold text-gray-0">閱讀追蹤</h3>
               <span className="badge fs-s fs-md-2xl fw-bold px-md-4 py-md-2 bg-tag-orange-bg text-tag-orange mb-6 mb-md-8">
                 # 留住上次停下的腳步
               </span>
@@ -155,22 +126,12 @@ export default function Features() {
         <div className="bg-secondary-0 py-20 py-md-25">
           <div className="container">
             <div className="users-content d-flex flex-column">
-              <h2 className="text-center fs-3xl fs-md-5xl fw-bold mb-6">
-                專為忙碌的你打造
-              </h2>
+              <h2 className="text-center fs-3xl fs-md-5xl fw-bold mb-6">專為忙碌的你打造</h2>
               <div className="d-flex justify-content-center gap-4 gap-md-6 mb-6">
-                <span className="badge fs-md-2xl fw-bold px-md-4 py-md-2 bg-tag-gray-bg text-tag-gray">
-                  # 高效
-                </span>
-                <span className="badge fs-md-2xl fw-bold px-md-4 py-md-2 bg-tag-gray-bg text-tag-gray">
-                  # 省時
-                </span>
-                <span className="badge fs-md-2xl fw-bold px-md-4 py-md-2 bg-tag-gray-bg text-tag-gray">
-                  # 跨裝置
-                </span>
-                <span className="badge fs-md-2xl fw-bold px-md-4 py-md-2 bg-tag-gray-bg text-tag-gray">
-                  # 隨開即用
-                </span>
+                <span className="badge fs-md-2xl fw-bold px-md-4 py-md-2 bg-tag-gray-bg text-tag-gray"># 高效</span>
+                <span className="badge fs-md-2xl fw-bold px-md-4 py-md-2 bg-tag-gray-bg text-tag-gray"># 省時</span>
+                <span className="badge fs-md-2xl fw-bold px-md-4 py-md-2 bg-tag-gray-bg text-tag-gray"># 跨裝置</span>
+                <span className="badge fs-md-2xl fw-bold px-md-4 py-md-2 bg-tag-gray-bg text-tag-gray"># 隨開即用</span>
               </div>
               <p className="text-center text-gray-600 fs-l fs-m-xl">
                 沒太多時間也沒關係，Cardle 讓你專心做重要的事。
@@ -182,10 +143,7 @@ export default function Features() {
                 <UsersSwiper />
               </div>
 
-              <button
-                type="button"
-                className="btn btn-primary align-self-md-center fs-md-xl py-md-4 px-md-6 z-3"
-              >
+              <button type="button" className="btn btn-primary align-self-md-center fs-md-xl py-md-4 px-md-6 z-3">
                 立即體驗
               </button>
             </div>

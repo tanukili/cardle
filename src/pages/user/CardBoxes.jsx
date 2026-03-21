@@ -1,29 +1,16 @@
-import { Link } from "react-router-dom";
-import { useRef, useState, useEffect } from "react";
-import axios from "axios";
-import { Modal } from "bootstrap";
-import CardBox from "@/components/card/CardBox";
+import { Link } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
+import CardBox from '@/components/card/CardBox';
+import CardBoxModal from '@/components/card/CardBoxModal';
+import CardModal from '@/components/card/CardModal';
+import { showSwalToast } from '@/utils/swalSetting';
 
 export default function CardBoxs() {
   const baseUrl = import.meta.env.VITE_BASE_URL;
   const [cardBoxes, setCardBoxes] = useState([]);
+  const [defaultCardBox, setDefaultCardBox] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const createCardBoxModalRef = useRef(null);
-
-  const defaultCardBox = {
-    title: "",
-    description: "",
-    cover_url: "",
-    type: "normal",
-    is_inbox: false,
-    is_archived: false,
-    is_favorite: false,
-    ui: { color: "secondary" },
-  };
-
-  const [newCardBox, setNewCardBox] = useState(defaultCardBox);
-  const [isCreating, setIsCreating] = useState(false);
-  const [createError, setCreateError] = useState("");
 
   const getCardBoxes = async () => {
     try {
@@ -31,8 +18,9 @@ export default function CardBoxs() {
       const response = await axios.get(`${baseUrl}cardBoxes`);
       const data = response.data;
       setCardBoxes(data);
+      setDefaultCardBox(data.find((cb) => cb.type === 'default'));
     } catch (error) {
-      console.error("Error fetching card boxes:", error);
+      console.error('Error fetching card boxes:', error);
       setCardBoxes([]);
     } finally {
       setIsLoading(false);
@@ -42,45 +30,6 @@ export default function CardBoxs() {
   useEffect(() => {
     getCardBoxes();
   }, [baseUrl]);
-
-  const handleCreateCardBox = async (e) => {
-    e.preventDefault();
-    if (isCreating) return;
-
-    setCreateError("");
-
-    const title = newCardBox.title.trim();
-    if (!title) {
-      // setCreateError("請輸入卡片盒名稱");
-      return;
-    }
-
-    setIsCreating(true);
-    try {
-      const ts = Math.floor(Date.now() / 1000);
-      const payload = {
-        ...newCardBox,
-        id: `card_box_${ts}`,
-        created_at: ts,
-        updated_at: ts,
-      };
-
-      const response = await axios.post(`${baseUrl}cardBoxes`, payload);
-      const created = response.data ?? payload;
-      setCardBoxes((prev) => [...prev, created]);
-
-      // 關閉 Bootstrap Modal
-      if (createCardBoxModalRef.current) {
-        Modal.getOrCreateInstance(createCardBoxModalRef.current).hide();
-      }
-
-      setNewCardBox(defaultCardBox);
-    } catch (error) {
-      // setCreateError("新增失敗，請稍後再試");
-    } finally {
-      setIsCreating(false);
-    }
-  };
 
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const switchShowFavoritesOnly = (e) => {
@@ -99,31 +48,18 @@ export default function CardBoxs() {
     });
   };
 
-  const filteredCardBoxes = showFavoritesOnly
-    ? cardBoxes.filter((cb) => cb.is_favorite)
-    : cardBoxes;
+  const filteredCardBoxes = showFavoritesOnly ? cardBoxes.filter((cb) => cb.is_favorite) : cardBoxes;
 
-  const handleToggleFavorite = async (id, isFavorite) => {
-    try {
-      const { statusText } = await axios.patch(`${baseUrl}cardBoxes/${id}`, {
-        is_favorite: !isFavorite,
-        updated_at: Math.floor(Date.now() / 1000),
-      });
-        getCardBoxes();
-    } catch (error) {
-      console.error(
-        "Error toggling favorite:",
-        error.response?.data?.message || error.message
-      );
-    }
-  };
-
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
 
   const [isSelectMode, setIsSelectMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState(new Set()); // Set（集合，不重複）
 
-  const handleSelect = (id) => {
+  const handleSelect = (id, type) => {
+    if (type === 'default') {
+      showSwalToast({ title: '預設卡片盒無法刪除', variant: 'error' });
+      return;
+    }
     const newSelected = new Set(selectedIds);
     if (newSelected.has(id)) {
       newSelected.delete(id);
@@ -142,31 +78,29 @@ export default function CardBoxs() {
     try {
       const ids = Array.from(selectedIds);
       // Promise 請求陣列
-      const deletePromises = ids.map((id) =>
-        axios.delete(`${baseUrl}cardBoxes/${id}`)
-      );
+      const deletePromises = ids.map((id) => axios.delete(`${baseUrl}cardBoxes/${id}`));
       await Promise.all(deletePromises);
 
       setSelectedIds(new Set());
       getCardBoxes();
     } catch (error) {
-      console.error("Error deleting card boxes:", error);
+      console.error('Error deleting card boxes:', error);
     }
+  };
+
+  const cardModalRef = useRef(null);
+  const openCardModal = () => {
+    cardModalRef.current?.show();
   };
 
   return (
     <>
-      <section
-        className="container pt-6 position-sticky bg-white z-2 mb-10"
-        style={{ top: "74px" }}
-      >
+      <section className="container pt-6 position-sticky bg-white z-2 mb-10" style={{ top: '-28px' }}>
         <Link
           to="/user"
           className="mb-4 py-1 pe-2 fs-s text-gray-600 d-inline-flex align-items-center mb-lg-10 fs-lg-m px-lg-4 py-lg-2"
         >
-          <span className="material-symbols-outlined icon-sm me-2_5 me-lg-3 ">
-            arrow_back_ios_new
-          </span>
+          <span className="material-symbols-outlined icon-sm me-2_5 me-lg-3 ">arrow_back_ios_new</span>
           返回個人儀表板
         </Link>
         <div className="d-flex justify-content-between align-items-center mb-6 ">
@@ -180,10 +114,7 @@ export default function CardBoxs() {
               checked={showFavoritesOnly}
               onChange={switchShowFavoritesOnly}
             />
-            <label
-              className="form-check-label text-primary"
-              htmlFor="favoriteSwitch"
-            >
+            <label className="form-check-label text-primary" htmlFor="favoriteSwitch">
               僅顯示最愛卡片盒
             </label>
           </div>
@@ -191,10 +122,7 @@ export default function CardBoxs() {
         <div className="row g-3 gx-4 gx-lg-3">
           <div className="col-lg-5 me-n4">
             <div className="d-md-flex">
-              <div
-                className="form-control-container with-icon flex-grow-1"
-                style={{ maxWidth: "320px" }}
-              >
+              <div className="form-control-container with-icon flex-grow-1" style={{ maxWidth: '320px' }}>
                 <input
                   id="searchCardBox"
                   type="text"
@@ -209,17 +137,14 @@ export default function CardBoxs() {
                   className="input-clearup"
                   onClick={(e) => {
                     e.preventDefault();
-                    setSearchValue("");
+                    setSearchValue('');
                   }}
                 >
                   <span className="material-symbols-outlined">close</span>
                 </a>
               </div>
               <p className="text-gray-700 mt-6 text-nowrap my-md-auto ms-md-4 ms-xl-8">
-                共
-                <span className="mx-1 fw-bold tracking-2">
-                  {filteredCardBoxes.length}
-                </span>
+                共<span className="mx-1 fw-bold tracking-2">{filteredCardBoxes.length}</span>
                 個卡片盒
               </p>
             </div>
@@ -230,9 +155,7 @@ export default function CardBoxs() {
               <div className="d-flex align-items-center justify-content-between">
                 <p className="text-gray-700 me-6">
                   已選取
-                  <span className="fw-bold mx-1 tracking-2">
-                    {selectedIds.size}
-                  </span>
+                  <span className="fw-bold mx-1 tracking-2">{selectedIds.size}</span>
                   個卡片盒
                 </p>
                 <button
@@ -254,38 +177,27 @@ export default function CardBoxs() {
                   type="button"
                   data-bs-toggle="modal"
                   data-bs-target="#createCardBoxModal"
-                  onClick={() => {
-                    setNewCardBox(defaultCardBox);
-                  }}
                 >
                   新增卡片盒
                 </button>
               </div>
               <div className="col-6 col-lg-auto mt-6 mt-lg-3 order-lg-2">
-                <button className="btn btn-outline-primary w-100" type="button">
+                <button className="btn btn-outline-primary w-100" type="button" onClick={openCardModal}>
                   新增卡片
                 </button>
               </div>
             </>
           )}
-          <div className={`col-lg-auto  ${isSelectMode ? "" : "ms-auto"}`}>
-            <button
-              className="btn btn-outline-primary w-100"
-              type="button"
-              onClick={toggleSelectMode}
-            >
-              {isSelectMode ? "取消選取" : "選取"}
+          <div className={`col-lg-auto  ${isSelectMode ? '' : 'ms-auto'}`}>
+            <button className="btn btn-outline-primary w-100" type="button" onClick={toggleSelectMode}>
+              {isSelectMode ? '取消選取' : '選取'}
             </button>
           </div>
-          <div
-            className={`col-lg-auto order-lg-3 ${
-              isSelectMode ? "d-lg-none" : ""
-            }`}
-          >
+          <div className={`col-lg-auto order-lg-3 ${isSelectMode ? 'd-lg-none' : ''}`}>
             <div className="form-select-container">
               <a
                 className="position-absolute top-50 translate-middle text-primary lh-1"
-                style={{ left: "calc(50% - 56px)" }}
+                style={{ left: 'calc(50% - 56px)' }}
                 href="#"
                 onClick={(e) => {
                   e.preventDefault();
@@ -320,160 +232,22 @@ export default function CardBoxs() {
                   isSelected={selectedIds.has(cardBox.id)}
                   onSelect={handleSelect}
                   isFavorite={cardBox.is_favorite}
-                  onToggleFavorite={handleToggleFavorite}
+                  onUpdateSuccess={getCardBoxes}
                 />
               </div>
             ))}
           </div>
         ) : (
           <div className="alert alert-light mb-4 text-center" role="alert">
-            {cardBoxes.length ? "沒有符合條件的卡片盒" : "目前沒有任何卡片盒"}
+            {cardBoxes.length ? '沒有符合條件的卡片盒' : '目前沒有任何卡片盒'}
           </div>
         )}
       </div>
 
-      {/* 新增卡片盒 Modal */}
-      <div
-        className="modal-reset modal fade"
-        id="createCardBoxModal"
-        tabIndex="-1"
-        aria-labelledby="createCardBoxModalLabel"
-        aria-hidden="true"
-        ref={createCardBoxModalRef}
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h2 className="modal-title fs-l" id="createCardBoxModalLabel">
-                新增卡片盒
-              </h2>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              />
-            </div>
-            <form onSubmit={handleCreateCardBox}>
-              <div className="modal-body">
-                {createError && (
-                  <div className="alert alert-danger py-2 mb-4" role="alert">
-                    {createError}
-                  </div>
-                )}
+      <CardBoxModal isCreateMode modalId="createCardBoxModal" onSuccess={getCardBoxes} />
 
-                <div className="mb-4">
-                  <label htmlFor="cardBoxTitle" className="form-label">
-                    卡片盒名稱
-                  </label>
-                  <div className="form-control-container">
-                    <input
-                      id="cardBoxTitle"
-                      className="form-control"
-                      type="text"
-                      placeholder="請輸入卡片盒名稱"
-                      value={newCardBox.title}
-                      onChange={(e) =>
-                        setNewCardBox((prev) => ({
-                          ...prev,
-                          title: e.target.value,
-                        }))
-                      }
-                      required
-                    />
-                    <a
-                      href="#"
-                      className="input-clearup"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setNewCardBox((prev) => ({ ...prev, title: "" }));
-                      }}
-                    >
-                      <span className="material-symbols-outlined">close</span>
-                    </a>
-                  </div>
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="cardBoxCoverUrl" className="form-label">
-                    封面圖片
-                  </label>
-                  <div className="form-control-container">
-                    <input
-                      id="cardBoxCoverUrl"
-                      className="form-control"
-                      type="text"
-                      placeholder="請輸入封面圖片網址"
-                      value={newCardBox.cover_url}
-                      onChange={(e) =>
-                        setNewCardBox((prev) => ({
-                          ...prev,
-                          cover_url: e.target.value,
-                        }))
-                      }
-                    />
-                    <a
-                      href="#"
-                      className="input-clearup"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setNewCardBox((prev) => ({ ...prev, cover_url: "" }));
-                      }}
-                    >
-                      <span className="material-symbols-outlined">close</span>
-                    </a>
-                  </div>
-                </div>
-                <div className="mt-4">
-                  <div className="form-check">
-                    <input
-                      id="cardBoxIsFavorite"
-                      className="form-check-input"
-                      type="checkbox"
-                      checked={newCardBox.is_favorite}
-                      onChange={(e) =>
-                        setNewCardBox((prev) => ({
-                          ...prev,
-                          is_favorite: e.target.checked,
-                        }))
-                      }
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="cardBoxIsFavorite"
-                    >
-                      加入最愛
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-outline-primary"
-                  data-bs-dismiss="modal"
-                  disabled={isCreating}
-                >
-                  關閉
-                </button>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={isCreating}
-                >
-                  {isCreating && (
-                    <span
-                      className="spinner-border spinner-border-sm me-2"
-                      role="status"
-                      aria-hidden="true"
-                    />
-                  )}
-                  新增
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
+      {/* 卡片 Modal */}
+      <CardModal ref={cardModalRef} cardBox={defaultCardBox} onSuccess={getCardBoxes} />
     </>
   );
 }

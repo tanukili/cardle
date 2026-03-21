@@ -67,9 +67,9 @@
 
     &:before {
       --icon-color: #{$gray-500};
-      --icon-code-point: "\e8b6";
+      --icon-code-point: '\e8b6';
       content: var(--icon-code-point);
-      font-family: "Material Symbols Outlined";
+      font-family: 'Material Symbols Outlined';
       position: absolute;
       display: block;
       top: 50%;
@@ -79,11 +79,7 @@
       line-height: 1;
       color: var(--icon-color);
     }
-    &:has(
-        .form-control:hover,
-        .form-control:focus,
-        .form-control:disabled
-      ):before {
+    &:has(.form-control:hover, .form-control:focus, .form-control:disabled):before {
       --icon-color: #{$primary-600};
     }
   }
@@ -96,8 +92,8 @@
     background-image: unset;
   }
   &:after {
-    content: "\e313";
-    font-family: "Material Symbols Outlined";
+    content: '\e313';
+    font-family: 'Material Symbols Outlined';
     position: absolute;
     pointer-events: none;
     top: 50%;

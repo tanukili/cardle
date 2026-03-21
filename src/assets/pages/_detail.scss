@@ -11,34 +11,35 @@
 }
 $smooth-bezier: cubic-bezier(0.2, 0.8, 0.4, 1);
 $duration: 0.3s; /* 稍微增加到 0.3s 增加「緩慢」感 */
-$bg-expanded: #EBF1FA;
+$bg-expanded: #ebf1fa;
 $shadow-default: 0 2px 8px rgba(0, 0, 0, 0.08);
 $shadow-expanded: 0 4px 12px rgba(0, 0, 0, 0.15);
 .faq-item {
   /* 預設狀態 (未展開) - 白色背景 */
-  background-color: #ffffff; 
+  background-color: #ffffff;
   border-radius: 16px;
   box-shadow: $shadow-default;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
   /* 將過渡時間延長至 0.3s，並使用平滑曲線 */
-  transition: background-color $duration $smooth-bezier, 
-              box-shadow $duration $smooth-bezier, 
-              transform $duration $smooth-bezier;
+  transition:
+    background-color $duration $smooth-bezier,
+    box-shadow $duration $smooth-bezier,
+    transform $duration $smooth-bezier;
   transform: scale(1); /* 確保初始狀態 */
 }
 
 /* 展開狀態 - 藍色背景 */
 .faq-item.expanded {
-    background-color: $bg-expanded;
-    box-shadow: $shadow-expanded;
-    transform: scale(1.005); 
-    color: #000;
+  background-color: $bg-expanded;
+  box-shadow: $shadow-expanded;
+  transform: scale(1.005);
+  color: #000;
 }
 /* Hover 效果 */
 .faq-item:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
-    transform: scale(1.002);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: scale(1.002);
 }
 
 .collapsing {
@@ -49,27 +50,30 @@ $shadow-expanded: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* 確保內容溢出隱藏 */
-.collapse:not(.show), .collapsing {
-    overflow: hidden !important; 
+.collapse:not(.show),
+.collapsing {
+  overflow: hidden !important;
 }
 
 .faq-question {
   background: none;
   border: none;
   padding: 0;
-  color: #1A1A1A;
+  color: #1a1a1a;
   cursor: pointer;
   text-align: left;
-  transition: color 0.3s ease; 
+  transition: color 0.3s ease;
 }
 
 .faq-icon {
-  transition: transform 0.2s ease, color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
   font-size: 1.5rem;
 }
 
 /* 展開時圖標顏色和旋轉 */
-.faq-question[aria-expanded="true"] .faq-icon {
+.faq-question[aria-expanded='true'] .faq-icon {
   transform: rotate(90deg);
 }
 
@@ -90,20 +94,20 @@ $shadow-expanded: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 .faq-answer p:first-child {
   /* 確保第一個段落有頂部間距 */
-  padding-top: 1rem; 
+  padding-top: 1rem;
 }
 
 /* 確保答案內最後一個段落沒有底部邊距，讓卡片收尾更乾淨 */
 .faq-answer p:last-child {
   /* 展開時底部間距 */
-  padding-bottom: 1rem; 
+  padding-bottom: 1rem;
 }
 
 /* 隱藏狀態下的額外處理 (內容淡出) */
 .collapse:not(.show) .faq-answer {
   opacity: 0;
-      /* 關鍵修正：讓內容在整個 0.3s 期間淡出，與高度動畫同步，消除突兀感 */
-  transition: opacity $duration $smooth-bezier 0s; 
+  /* 關鍵修正：讓內容在整個 0.3s 期間淡出，與高度動畫同步，消除突兀感 */
+  transition: opacity $duration $smooth-bezier 0s;
 }
 #faqAccordion .collapse:not(.show) .faq-answer p {
   /* 確保內容的填充也消失 */
@@ -122,7 +126,7 @@ $shadow-expanded: 0 4px 12px rgba(0, 0, 0, 0.15);
   position: absolute;
   z-index: -1;
   pointer-events: none; /* 不擋點擊 */
-  max-width: 100%;      /* 保證不會超過容器 */
+  max-width: 100%; /* 保證不會超過容器 */
   height: auto;
 }
 /* 右上 */
@@ -144,7 +148,7 @@ $shadow-expanded: 0 4px 12px rgba(0, 0, 0, 0.15);
   .top-right {
     width: 270px;
     right: -77px;
-    top:13px;
+    top: 13px;
   }
   .bottom-left {
     width: 214px;
@@ -152,38 +156,38 @@ $shadow-expanded: 0 4px 12px rgba(0, 0, 0, 0.15);
     left: -109px;
   }
 }
-.title{
+.title {
   text-align: left;
 }
-@include media-breakpoint-down(md){
+@include media-breakpoint-down(md) {
   .faq-area > .container {
     max-width: 100%;
     padding-left: 0;
     padding-right: 0;
   }
 }
-.calltoactionarea{
+.calltoactionarea {
   position: relative;
-    overflow-x: clip;
-    overflow-y: visible;
-    z-index: 2;
-    padding: 100px 0;
-    background-color: #EAFFE1;
-     &::before {
-      bottom: -32px;
-      aspect-ratio: auto;
-      height: clamp(3rem, 1.21rem + 7.6375vw, 10.375rem);
-      content: '';
-      position: absolute;
-      width: clamp(23.4375rem, 0rem + 100vw, 120rem);
-      background: url('../detail/wave-top1.svg') no-repeat center / cover;
-      z-index: -1;
-      top: -65px;
+  overflow-x: clip;
+  overflow-y: visible;
+  z-index: 2;
+  padding: 100px 0;
+  background-color: #eaffe1;
+  &::before {
+    bottom: -32px;
+    aspect-ratio: auto;
+    height: clamp(3rem, 1.21rem + 7.6375vw, 10.375rem);
+    content: '';
+    position: absolute;
+    width: clamp(23.4375rem, 0rem + 100vw, 120rem);
+    background: url('../detail/wave-top1.svg') no-repeat center / cover;
+    z-index: -1;
+    top: -65px;
+  }
+  @include media-breakpoint-down(md) {
+    &::before {
+      top: -20px;
     }
-    @include media-breakpoint-down(md) {
-      &::before {
-        top: -20px;
-      }
   }
   &::after {
     content: '';
@@ -196,22 +200,22 @@ $shadow-expanded: 0 4px 12px rgba(0, 0, 0, 0.15);
     background: url('../detail/wave-bottom1.svg') no-repeat center / contain;
     z-index: -1;
   }
-      @include media-breakpoint-down(md) {
-      &::after {
-        bottom: -30px;
-      }
-    }
-}
   @include media-breakpoint-down(md) {
-    .calltoactionarea{
-      padding: 64px 0;
+    &::after {
+      bottom: -30px;
     }
   }
+}
+@include media-breakpoint-down(md) {
+  .calltoactionarea {
+    padding: 64px 0;
+  }
+}
 
 /* 移除摺疊按鈕點擊時的藍色光暈 */
 .accordion-button:focus {
   box-shadow: none;
-  border-color: rgba(0,0,0,.125);
+  border-color: rgba(0, 0, 0, 0.125);
 }
 
 /* 調整摺疊按鈕背景為透明 */
@@ -229,13 +233,15 @@ $shadow-expanded: 0 4px 12px rgba(0, 0, 0, 0.15);
 .custom-focus-group {
   border: 1px solid #bdbdbd;
   border-radius: 0.5rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition:
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
 }
 
 /* 移除input focus時的預設邊框與陰影 */
 .custom-focus-group .form-control:focus {
   border-color: #bdbdbd;
-  box-shadow: none;      /* 移除藍色陰影 */
+  box-shadow: none; /* 移除藍色陰影 */
 }
 
 /* 當input元素獲得焦點時，外層div產生焦點效果 */
@@ -246,15 +252,15 @@ $shadow-expanded: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .custom-focus-group.is-invalid {
-    border-color: var(--bs-form-invalid-border-color);
-    padding-right: calc(1.5em + 2rem);
-    background-image: none;
-    background-repeat: no-repeat;
-    background-position: right calc(0.375em + 0.5rem) center;
-    background-size: calc(0.75em + 1rem) calc(0.75em + 1rem);
+  border-color: var(--bs-form-invalid-border-color);
+  padding-right: calc(1.5em + 2rem);
+  background-image: none;
+  background-repeat: no-repeat;
+  background-position: right calc(0.375em + 0.5rem) center;
+  background-size: calc(0.75em + 1rem) calc(0.75em + 1rem);
 }
 /* 微調圖示與輸入框的連體效果 */
 .custom-focus-group .input-group-text,
 .custom-focus-group .form-control {
-    border: none; /* 移除內部邊框，靠父容器顯示邊框 */
+  border: none; /* 移除內部邊框，靠父容器顯示邊框 */
 }

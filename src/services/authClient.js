@@ -1,10 +1,10 @@
-import axios from "axios";
+import axios from 'axios';
 
 // 從 cookie 讀取 userToken
 function getCookie(name) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(";").shift();
+  if (parts.length === 2) return parts.pop().split(';').shift();
   return null;
 }
 
@@ -14,7 +14,7 @@ export const authClient = axios.create({
 });
 
 authClient.interceptors.request.use((config) => {
-  const token = getCookie("userToken");
+  const token = getCookie('userToken');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   } else {

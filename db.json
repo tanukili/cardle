@@ -103,13 +103,7 @@
         "unit": "月"
       },
       "status": "active",
-      "featuresShort": [
-        "無限制建立筆記卡片",
-        "無限制建立書單",
-        "標籤分類",
-        "視覺化關聯地圖",
-        "進度追蹤與提醒"
-      ],
+      "featuresShort": ["無限制建立筆記卡片", "無限制建立書單", "標籤分類", "視覺化關聯地圖", "進度追蹤與提醒"],
       "featuresDetail": [
         {
           "key": "cards_unlimited",
@@ -162,13 +156,7 @@
         "unit": "年"
       },
       "status": "active",
-      "featuresShort": [
-        "無限制建立筆記卡片",
-        "無限制建立書單",
-        "標籤分類",
-        "視覺化關聯地圖",
-        "進度追蹤與提醒"
-      ],
+      "featuresShort": ["無限制建立筆記卡片", "無限制建立書單", "標籤分類", "視覺化關聯地圖", "進度追蹤與提醒"],
       "featuresDetail": [
         {
           "key": "cards_unlimited",
@@ -287,8 +275,34 @@
       "nextBillingDate": 1772294400,
       "isAutoRenew": true,
       "agreedToTerms": true,
-      "status": "active",
+      "status": "replaced",
       "paymentMethodId": "pm-002"
+    },
+    {
+      "id": "ord-20260201-001",
+      "planId": "plan_free",
+      "userId": "X-gJy7b",
+      "price": 0,
+      "subscribeDate": 1774108686,
+      "nextBillingDate": null,
+      "isAutoRenew": true,
+      "agreedToTerms": true,
+      "status": "active",
+      "paymentMethodId": null
+    },
+    {
+      "id": "ord-20260321-1916",
+      "planId": "plan_pro_month",
+      "userId": "X-gJy7b",
+      "price": 120,
+      "subscribeDate": 1774116376,
+      "nextBillingDate": 1776794776,
+      "isAutoRenew": false,
+      "agreedToTerms": true,
+      "status": "inactive",
+      "paymentMethodId": "pm-1774116376589-822",
+      "cancelledAt": 1774116791,
+      "cancellationReason": "user_cancel"
     }
   ],
   "paymentMethods": [
@@ -309,6 +323,15 @@
       "cardHolder": "Amy Doe",
       "last4": "1234",
       "expDate": "12/28"
+    },
+    {
+      "id": "pm-1774116376589-822",
+      "userId": "X-gJy7b",
+      "brand": "credit_card",
+      "type": "credit_card",
+      "cardHolder": "chu",
+      "last4": "1111",
+      "expDate": "11/22"
     }
   ],
   "cardBoxes": [
@@ -316,13 +339,14 @@
       "id": "card_box_3",
       "title": "TypeScript 基礎",
       "description": "",
-      "cover_url": "user/card-box-cover-1.png",
+      "cover_url": "https://images.unsplash.com/photo-1633356122102-3fe601e05bd2?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "type": "normal",
       "is_inbox": false,
       "is_archived": false,
       "is_favorite": true,
+      "user_id": "X-gJy7b",
       "created_at": 1766833200,
-      "updated_at": 1770440232,
+      "updated_at": 1774092859,
       "ui": {
         "color": "success"
       }
@@ -336,6 +360,7 @@
       "is_inbox": false,
       "is_archived": false,
       "is_favorite": true,
+      "user_id": "X-gJy7b",
       "ui": {
         "color": "secondary"
       },
@@ -344,18 +369,19 @@
     },
     {
       "id": "card_box_5",
-      "title": "料理基礎",
+      "title": "規劃能力",
       "description": "",
       "cover_url": "user/card-box-cover-5.jpg",
       "type": "normal",
       "is_inbox": false,
       "is_archived": false,
       "is_favorite": true,
+      "user_id": "X-gJy7b",
       "ui": {
         "color": "secondary"
       },
       "created_at": 1769625487,
-      "updated_at": 1769625487
+      "updated_at": 1773592332
     },
     {
       "title": "g????",
@@ -369,6 +395,7 @@
         "color": "secondary"
       },
       "id": "card_box_1769625517",
+      "user_id": "X-gJy7b",
       "created_at": 1769625517,
       "updated_at": 1770440074
     },
@@ -379,13 +406,142 @@
       "type": "normal",
       "is_inbox": false,
       "is_archived": false,
-      "is_favorite": false,
+      "is_favorite": true,
       "ui": {
         "color": "secondary"
       },
       "id": "card_box_1769868348",
+      "user_id": "X-gJy7b",
       "created_at": 1769868348,
-      "updated_at": 1770653261
+      "updated_at": 1773592573
+    },
+    {
+      "title": "狗狗",
+      "description": "",
+      "cover_url": "https://res.cloudinary.com/dt24k06gm/image/upload/v1773588893/covers/j6hioc7uwbewaum8ztkp.png",
+      "type": "normal",
+      "is_inbox": false,
+      "is_archived": false,
+      "is_favorite": true,
+      "ui": {
+        "color": "secondary"
+      },
+      "id": "card_box_1773588903",
+      "user_id": "X-gJy7b",
+      "created_at": 1773588903,
+      "updated_at": 1773588903
+    },
+    {
+      "title": "日本旅遊",
+      "description": "",
+      "cover_url": "https://res.cloudinary.com/dt24k06gm/image/upload/v1773589901/covers/e2qscwdbtqkhbxdyoy12.png",
+      "type": "normal",
+      "is_inbox": false,
+      "is_archived": false,
+      "is_favorite": true,
+      "ui": {
+        "color": "secondary"
+      },
+      "id": "card_box_1773589907",
+      "user_id": "X-gJy7b",
+      "created_at": 1773589907,
+      "updated_at": 1773589907
+    },
+    {
+      "title": "出遊計畫",
+      "description": "",
+      "cover_url": "https://images.unsplash.com/photo-1630244024081-dc4039254a46?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "type": "normal",
+      "is_inbox": false,
+      "is_archived": false,
+      "is_favorite": true,
+      "ui": {
+        "color": "secondary"
+      },
+      "id": "card_box_1773590733",
+      "user_id": "X-gJy7b",
+      "created_at": 1773590733,
+      "updated_at": 1773591684
+    },
+    {
+      "title": "料理基礎",
+      "description": "",
+      "cover_url": "https://images.unsplash.com/photo-1653233797467-1a528819fd4f?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "type": "normal",
+      "is_inbox": false,
+      "is_archived": false,
+      "is_favorite": true,
+      "ui": {
+        "color": "secondary"
+      },
+      "id": "card_box_1773590789",
+      "user_id": "X-gJy7b",
+      "created_at": 1773590789,
+      "updated_at": 1773590865
+    },
+    {
+      "title": "甜點地圖",
+      "description": "",
+      "cover_url": "https://images.unsplash.com/photo-1688981902751-8355c75bc0f2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "type": "normal",
+      "is_inbox": false,
+      "is_archived": false,
+      "is_favorite": false,
+      "ui": {
+        "color": "secondary"
+      },
+      "id": "card_box_1773591205",
+      "user_id": "X-gJy7b",
+      "created_at": 1773591205,
+      "updated_at": 1773591205
+    },
+    {
+      "title": "新卡片和",
+      "description": "",
+      "cover_url": "https://res.cloudinary.com/dt24k06gm/image/upload/v1774092919/covers/hneoyswi67sdjfuct7sn.png",
+      "type": "normal",
+      "is_inbox": false,
+      "is_archived": false,
+      "is_favorite": true,
+      "ui": {
+        "color": "secondary"
+      },
+      "id": "card_box_1774092972",
+      "user_id": "X-gJy7b",
+      "created_at": 1774092972,
+      "updated_at": 1774092972
+    },
+    {
+      "title": "新增",
+      "description": "",
+      "cover_url": "",
+      "type": "normal",
+      "is_inbox": false,
+      "is_archived": false,
+      "is_favorite": true,
+      "ui": {
+        "color": "secondary"
+      },
+      "id": "card_box_1774093006",
+      "user_id": "X-gJy7b",
+      "created_at": 1774093006,
+      "updated_at": 1774093006
+    },
+    {
+      "id": "card_box_1774104280",
+      "title": "預設卡片盒",
+      "description": "",
+      "cover_url": "",
+      "type": "default",
+      "is_inbox": false,
+      "is_archived": false,
+      "is_favorite": false,
+      "ui": {
+        "color": "secondary"
+      },
+      "user_id": "X-gJy7b",
+      "created_at": 1774104280,
+      "updated_at": 1774104280
     }
   ],
   "cards": [
@@ -394,11 +550,11 @@
       "title": "Interface vs. Type 使用情境",
       "user_id": "1",
       "card_box_id": "card_box_3",
-      "tags": ["TypeScript"],
+      "tags": ["TypeScript 基礎"],
       "content": "使用抉擇取決於具體情況和個人偏好Interface：物件類別會經常擴充或改變時Type：固定的資料結構，或者需要聯合多個類型。",
       "content_format": "plain",
       "created_at": 1766833200,
-      "updated_at": 1766833200,
+      "updated_at": 1774108686,
       "status": "active"
     },
     {
@@ -438,186 +594,11 @@
       "status": "active"
     },
     {
-      "id": "card_1770457167",
-      "title": "測試標題",
-      "content": "## markdown",
-      "tags": ["TypeScript 基礎"],
-      "created_at": 1770457167,
-      "updated_at": 1770457167,
-      "card_box_id": "card_box_3",
-      "content_format": "markdown",
-      "status": "active"
-    },
-    {
-      "title": "測試",
-      "content": "程式碼區塊\n```javascript\nconst text = \"string\"\n```",
-      "tags": ["TypeScript 基礎"],
-      "card_box_id": "card_box_3",
-      "content_format": "markdown",
-      "status": "active",
-      "id": "7pcWofX"
-    },
-    {
-      "title": "dddd",
-      "content": "fffffff",
-      "tags": ["TypeScript 基礎"],
-      "id": "card_1770457914",
-      "created_at": 1770457914,
-      "updated_at": 1770457914,
-      "card_box_id": "card_box_3",
-      "content_format": "markdown",
-      "status": "active"
-    },
-    {
-      "title": "cccc",
-      "content": "ccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffdccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffdccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffdccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffdccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffdccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffdccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffdccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffdccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffdccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffdccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffdccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffdccccffffffffffffffffffffffffffffffffffffffffffffffffffffffffd",
-      "tags": ["TypeScript 基礎"],
-      "id": "card_1770459247",
-      "created_at": 1770459247,
-      "updated_at": 1770459247,
-      "card_box_id": "card_box_3",
-      "content_format": "markdown",
-      "status": "active"
-    },
-    {
-      "title": "dddd",
-      "content": "ffffff",
-      "tags": ["TypeScript 基礎"],
-      "id": "card_1770459316",
-      "created_at": 1770459316,
-      "updated_at": 1770459316,
-      "card_box_id": "card_box_3",
-      "content_format": "markdown",
-      "status": "active"
-    },
-    {
-      "title": "dddff",
-      "content": "dfdfdf",
-      "tags": ["TypeScript 基礎"],
-      "id": "card_1770459332",
-      "created_at": 1770459332,
-      "updated_at": 1770459332,
-      "card_box_id": "card_box_3",
-      "content_format": "markdown",
-      "status": "active"
-    },
-    {
-      "title": "dddd",
-      "content": "fffff",
-      "tags": ["TypeScript 基礎"],
-      "id": "card_1770459350",
-      "created_at": 1770459350,
-      "updated_at": 1770459350,
-      "card_box_id": "card_box_3",
-      "content_format": "markdown",
-      "status": "active"
-    },
-    {
-      "title": "dddd",
-      "content": "ddddd",
-      "tags": ["TypeScript 基礎"],
-      "id": "card_1770459366",
-      "created_at": 1770459366,
-      "updated_at": 1770459366,
-      "card_box_id": "card_box_3",
-      "content_format": "markdown",
-      "status": "active"
-    },
-    {
-      "title": "ddddd",
-      "content": "dddd",
-      "tags": ["TypeScript 基礎"],
-      "id": "card_1770459436",
-      "created_at": 1770459436,
-      "updated_at": 1770459436,
-      "card_box_id": "card_box_3",
-      "content_format": "markdown",
-      "status": "active"
-    },
-    {
-      "title": "dd",
-      "content": "ffff",
-      "tags": ["TypeScript 基礎"],
-      "id": "card_1770459472",
-      "created_at": 1770459472,
-      "updated_at": 1770459472,
-      "card_box_id": "card_box_3",
-      "content_format": "markdown",
-      "status": "active"
-    },
-    {
-      "title": "fff",
-      "content": "dddd",
-      "tags": ["TypeScript 基礎"],
-      "id": "card_1770459546",
-      "created_at": 1770459546,
-      "updated_at": 1770459546,
-      "card_box_id": "card_box_3",
-      "content_format": "markdown",
-      "status": "active"
-    },
-    {
-      "title": "ddd",
-      "content": "dddfff",
-      "tags": ["TypeScript 基礎"],
-      "id": "card_1770459561",
-      "created_at": 1770459561,
-      "updated_at": 1770459561,
-      "card_box_id": "card_box_3",
-      "content_format": "markdown",
-      "status": "active"
-    },
-    {
-      "title": "ddd",
-      "content": "dfff",
-      "tags": ["TypeScript 基礎"],
-      "id": "card_1770459612",
-      "created_at": 1770459612,
-      "updated_at": 1770459612,
-      "card_box_id": "card_box_3",
-      "content_format": "markdown",
-      "status": "active"
-    },
-    {
-      "title": "dddd",
-      "content": "ffff",
-      "tags": ["TypeScript 基礎"],
-      "id": "card_1770460524",
-      "created_at": 1770460524,
-      "updated_at": 1770460524,
-      "card_box_id": "card_box_3",
-      "content_format": "markdown",
-      "status": "active"
-    },
-    {
-      "title": "ddd",
-      "content": "ssss",
-      "tags": ["TypeScript 基礎"],
-      "id": "card_1770460558",
-      "created_at": 1770460558,
-      "updated_at": 1770460558,
-      "card_box_id": "card_box_3",
-      "content_format": "markdown",
-      "status": "active"
-    },
-    {
-      "title": "ffff",
-      "content": "dddd",
-      "tags": ["TypeScript 基礎"],
-      "id": "card_1770460627",
-      "created_at": 1770460627,
-      "updated_at": 1770460627,
-      "card_box_id": "card_box_3",
-      "content_format": "markdown",
-      "status": "active"
-    },
-    {
       "title": "超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題",
       "content": "超級無敵長的卡片超級無敵長的卡片超級無敵長的卡片超級無敵長的卡片",
-      "tags": [
-        "TypeScript 基礎"
-      ],
+      "tags": ["TypeScript 基礎"],
       "id": "card_1770746476",
+      "user_id": "X-gJy7b",
       "created_at": 1770746476,
       "updated_at": 1770746476,
       "card_box_id": "card_box_3",
@@ -625,14 +606,102 @@
       "status": "active"
     },
     {
-      "title": "超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題",
-      "content": "超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題",
-      "tags": [
-        "TypeScript 基礎"
-      ],
-      "id": "card_1770748379",
-      "created_at": 1770748379,
-      "updated_at": 1770748379,
+      "title": "更新卡片",
+      "content": "更新後的內容",
+      "tags": ["測試"],
+      "id": "card_1773593670",
+      "created_at": 1773593670,
+      "updated_at": 1773596487,
+      "card_box_id": "card_box_1773591456",
+      "content_format": "markdown",
+      "status": "active"
+    },
+    {
+      "title": "fffff",
+      "content": "ddferere",
+      "tags": ["測試"],
+      "id": "card_1773594341",
+      "created_at": 1773594341,
+      "updated_at": 1773594341,
+      "card_box_id": "card_box_1773591456",
+      "content_format": "markdown",
+      "status": "active"
+    },
+    {
+      "title": "dfdf",
+      "content": "sdfsdf",
+      "tags": ["測試"],
+      "id": "card_1773594348",
+      "created_at": 1773594348,
+      "updated_at": 1773594348,
+      "card_box_id": "card_box_1773591456",
+      "content_format": "markdown",
+      "status": "active"
+    },
+    {
+      "title": "標題一",
+      "content": "JJJJJJJJJJJJJJJJJJJJJ",
+      "tags": ["測試"],
+      "id": "card_1773595970",
+      "created_at": 1773595970,
+      "updated_at": 1773595970,
+      "card_box_id": "card_box_1773591456",
+      "content_format": "markdown",
+      "status": "active"
+    },
+    {
+      "title": "真的假的",
+      "content": "## 假的！！",
+      "tags": ["測試"],
+      "id": "card_1773596510",
+      "created_at": 1773596510,
+      "updated_at": 1773596510,
+      "card_box_id": "card_box_1773591456",
+      "content_format": "markdown",
+      "status": "active"
+    },
+    {
+      "title": "dfsdf",
+      "content": "dfsdfdsf",
+      "tags": ["預設卡片盒"],
+      "id": "card_1774105722",
+      "created_at": 1774105722,
+      "updated_at": 1774105722,
+      "card_box_id": "card_box_1774104280",
+      "content_format": "markdown",
+      "status": "active"
+    },
+    {
+      "title": "Interface vs. Type 使用情境",
+      "content": "使用抉擇取決於具體情況和個人偏好Interface：物件類別會經常擴充或改變時Type：固定的資料結構，或者需要聯合多個類型。",
+      "tags": ["TypeScript 基礎"],
+      "id": "card_1774108751",
+      "created_at": 1774108751,
+      "updated_at": 1774108751,
+      "card_box_id": "card_box_3",
+      "content_format": "markdown",
+      "status": "active"
+    },
+    {
+      "title": "Interface vs. Type 使用情境",
+      "content": "使用抉擇取決於具體情況和個人偏好Interface：物件類別會經常擴充或改變時Type：固定的資料結構，或者需要聯合多個類型。",
+      "tags": ["TypeScript 基礎"],
+      "user_id": "X-gJy7b",
+      "id": "card_1774108869",
+      "created_at": 1774108869,
+      "updated_at": 1774108869,
+      "card_box_id": "card_box_3",
+      "content_format": "markdown",
+      "status": "active"
+    },
+    {
+      "title": "麻婆豆腐",
+      "content": "食材準備：\n* 嫩豆腐：1盒（約300g，建議用棉豆腐或北豆腐）\n* 牛／豬絞肉：100g\n* 蒜末：2瓣\n* 薑末：1小匙\n* 蔥花：適量（分開蔥白與蔥綠）\n* 豆瓣醬：1.5 大\n* 醬油：1 大匙\n* 料酒：1 大匙\n* 水：200ml\n* 太白粉水：1大匙粉＋1大匙水混合\n* 花椒粉／油：1/2 小匙\n* 辣椒粉或辣椒油：依個人口味\n* 香油：少許",
+      "tags": ["TypeScript 基礎"],
+      "user_id": "X-gJy7b",
+      "id": "card_1774112194",
+      "created_at": 1774112194,
+      "updated_at": 1774112194,
       "card_box_id": "card_box_3",
       "content_format": "markdown",
       "status": "active"
