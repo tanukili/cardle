@@ -1,21 +1,21 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import ProgressList from "@/components/bookshelf/ProgressList";
-import BaseCard from "@/components/card/BaseCard";
-import CardBox from "@/components/card/CardBox";
-import { getDefaultCardBox, createCardBox, getLastestCardBoxes } from "@/services/cardBoxService";
-import { getLastestCards } from "@/services/cardService";
-import { getActivePlanByUser } from "@/services/subscriptionService";
-import { showSwalToast } from "@/utils/swalSetting";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import ProgressList from '@/components/bookshelf/ProgressList';
+import BaseCard from '@/components/card/BaseCard';
+import CardBox from '@/components/card/CardBox';
+import { getDefaultCardBox, createCardBox, getLastestCardBoxes } from '@/services/cardBoxService';
+import { getLastestCards } from '@/services/cardService';
+import { getActivePlanByUser } from '@/services/subscriptionService';
+import { showSwalToast } from '@/utils/swalSetting';
 
-import { Scrollbar } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/scrollbar";
+import { Scrollbar } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/scrollbar';
 
-import { ResponsivePie } from "@nivo/pie";
-import { ResponsiveBar } from "@nivo/bar";
+import { ResponsivePie } from '@nivo/pie';
+import { ResponsiveBar } from '@nivo/bar';
 
 export default function Dashboard() {
   const userInfo = useSelector((state) => state.user.userInfo);
@@ -36,11 +36,11 @@ export default function Dashboard() {
 
         await createCardBox({
           user_id: userId,
-          title: "預設卡片盒",
-          type: "default",
+          title: '預設卡片盒',
+          type: 'default',
         });
       } catch (error) {
-        if (!cancelled) console.error("Card Box:", error);
+        if (!cancelled) console.error('Card Box:', error);
       }
     })();
 
@@ -60,13 +60,17 @@ export default function Dashboard() {
 
     const getAllData = async () => {
       try {
-        const [cardBoxes, cards, activePlan] = await Promise.all([getLastestCardBoxes(userId), getLastestCards(userId), getActivePlanByUser(userId)]);
+        const [cardBoxes, cards, activePlan] = await Promise.all([
+          getLastestCardBoxes(userId),
+          getLastestCards(userId),
+          getActivePlanByUser(userId),
+        ]);
         setLastestCardBoxes(cardBoxes);
         setLastestCards(cards);
         setActivePlan(activePlan);
       } catch (error) {
-        showSwalToast({ title: "取得資料失敗", variant: "error" });
-        console.error("Fetching data:", error);
+        showSwalToast({ title: '取得資料失敗', variant: 'error' });
+        console.error('Fetching data:', error);
       }
     };
 
@@ -90,7 +94,7 @@ export default function Dashboard() {
     while (i < cards.length) {
       const currentCard = cards[i];
       const contentLength = currentCard.content.length;
-      const contentLine = currentCard.content.split("\n").length;
+      const contentLine = currentCard.content.split('\n').length;
       const isLongCard = contentLength > 200 || contentLine > 12;
 
       // 長卡片單獨一組
@@ -101,7 +105,7 @@ export default function Dashboard() {
       if (!isLongCard) {
         // 短卡片抓下一張
         const nextCard = cards[i + 1];
-        if (nextCard && !isLongCard) {       
+        if (nextCard && !isLongCard) {
           result.push([currentCard, nextCard]);
           i += 2;
         } else {
@@ -124,8 +128,8 @@ export default function Dashboard() {
     return (
       <div className="position-absolute top-0 start-0 w-100 h-100 bg-gray-75 bg-opacity-70 rounded-4 p-4 d-flex flex-column align-items-center justify-content-center">
         <p className="py-4 text-center fs-xl">升級方案後解鎖</p>
-        <button className="btn btn-primary" onClick={() => navigate("/account/plan/upgrade")}>
-        立即訂閱
+        <button className="btn btn-primary" onClick={() => navigate('/account/plan/upgrade')}>
+          立即訂閱
         </button>
       </div>
     );
@@ -134,106 +138,106 @@ export default function Dashboard() {
   // TO DO: 以下程式碼待整理
   const learningResources = [
     {
-      type: "book",
-      title: "看完這本就會懂！無痛攻克 JavaScript 面試必考觀念與技巧",
-      link: "",
+      type: 'book',
+      title: '看完這本就會懂！無痛攻克 JavaScript 面試必考觀念與技巧',
+      link: '',
       totalUnit: 100,
       completedUnit: 75,
-      id: "1",
+      id: '1',
     },
     {
-      type: "book",
-      title: "金魚都能懂的CSS 必學屬性：網頁設計必備寶典",
-      link: "",
+      type: 'book',
+      title: '金魚都能懂的CSS 必學屬性：網頁設計必備寶典',
+      link: '',
       totalUnit: 100,
       completedUnit: 50,
-      id: "2",
+      id: '2',
     },
     {
-      type: "video",
-      title: "TypeScript 中文基礎課程",
-      link: "",
+      type: 'video',
+      title: 'TypeScript 中文基礎課程',
+      link: '',
       totalUnit: 100,
       completedUnit: 25,
-      id: "3",
+      id: '3',
     },
     {
-      type: "podcast",
-      title: "EP629 專案經理只是開會追進度的角色？宰相蕭何教你如何看懂局，成為老闆最倚重的軍師",
-      link: "https://podcasts.apple.com/tw/podcast/ep629-%E5%B0%88%E6%A1%88%E7%B6%93%E7%90%86%E5%8F%AA%E6%98%AF%E9%96%8B%E6%9C%83%E8%BF%BD%E9%80%B2%E5%BA%A6%E7%9A%84%E8%A7%92%E8%89%B2-%E5%AE%B0%E7%9B%B8%E8%95%AD%E4%BD%95%E6%95%99%E4%BD%A0%E5%A6%82%E4%BD%95%E7%9C%8B%E6%87%82%E5%B1%80-%E6%88%90%E7%82%BA%E8%80%81%E9%97%86%E6%9C%80%E5%80%9A%E9%87%8D%E7%9A%84%E8%BB%8D%E5%B8%AB/id1452688611?i=1000741740202",
+      type: 'podcast',
+      title: 'EP629 專案經理只是開會追進度的角色？宰相蕭何教你如何看懂局，成為老闆最倚重的軍師',
+      link: 'https://podcasts.apple.com/tw/podcast/ep629-%E5%B0%88%E6%A1%88%E7%B6%93%E7%90%86%E5%8F%AA%E6%98%AF%E9%96%8B%E6%9C%83%E8%BF%BD%E9%80%B2%E5%BA%A6%E7%9A%84%E8%A7%92%E8%89%B2-%E5%AE%B0%E7%9B%B8%E8%95%AD%E4%BD%95%E6%95%99%E4%BD%A0%E5%A6%82%E4%BD%95%E7%9C%8B%E6%87%82%E5%B1%80-%E6%88%90%E7%82%BA%E8%80%81%E9%97%86%E6%9C%80%E5%80%9A%E9%87%8D%E7%9A%84%E8%BB%8D%E5%B8%AB/id1452688611?i=1000741740202',
       totalUnit: 100,
       completedUnit: 100,
-      id: "4",
+      id: '4',
     },
     {
-      type: "book",
-      title: "是挑剔還是找碴？從產品開發面探討QA堅守的底線",
-      link: "https://progressbar.tw/posts/239?srsltid=AfmBOooyQpD9_megsssTCc-Tobx6izYkVOKGPcUjJWC9p7yScJmnIZJR",
+      type: 'book',
+      title: '是挑剔還是找碴？從產品開發面探討QA堅守的底線',
+      link: 'https://progressbar.tw/posts/239?srsltid=AfmBOooyQpD9_megsssTCc-Tobx6izYkVOKGPcUjJWC9p7yScJmnIZJR',
       totalUnit: 100,
       completedUnit: 0,
-      id: "5",
+      id: '5',
     },
   ];
 
   const resourceTypes = [
     {
-      type: "book",
-      text: "讀書筆記",
-      iconName: "book",
+      type: 'book',
+      text: '讀書筆記',
+      iconName: 'book',
     },
     {
-      type: "video",
-      text: "線上課程",
-      iconName: "live_tv",
+      type: 'video',
+      text: '線上課程',
+      iconName: 'live_tv',
     },
     {
-      type: "podcast",
-      text: "Podcast",
-      iconName: "music_video",
+      type: 'podcast',
+      text: 'Podcast',
+      iconName: 'music_video',
     },
   ];
 
   // 圓餅圖數據
   const pieData = [
     {
-      id: "網頁切板",
-      label: "網頁切板",
+      id: '網頁切板',
+      label: '網頁切板',
       value: 70,
-      color: "#4a90e2", // 藍色
+      color: '#4a90e2', // 藍色
     },
     {
-      id: "JavaScript",
-      label: "JavaScript",
+      id: 'JavaScript',
+      label: 'JavaScript',
       value: 20,
-      color: "#ff9e69",
+      color: '#ff9e69',
     },
     {
-      id: "料理基礎",
-      label: "料理基礎",
+      id: '料理基礎',
+      label: '料理基礎',
       value: 10,
-      color: "#fed0a7",
+      color: '#fed0a7',
     },
   ];
 
   // 長條圖數據
   const barData = [
-    { month: "Jan", 學習時間: 50 },
-    { month: "Feb", 學習時間: 20 },
-    { month: "Mar", 學習時間: 70 },
-    { month: "Apr", 學習時間: 30 },
-    { month: "May", 學習時間: 140 },
-    { month: "Jun", 學習時間: 180 },
-    { month: "Jul", 學習時間: 80 },
-    { month: "Aug", 學習時間: 100 },
-    { month: "Sep", 學習時間: 40 },
-    { month: "Oct", 學習時間: 10 },
-    { month: "Nov", 學習時間: 30 },
-    { month: "Dec", 學習時間: 100 },
+    { month: 'Jan', 學習時間: 50 },
+    { month: 'Feb', 學習時間: 20 },
+    { month: 'Mar', 學習時間: 70 },
+    { month: 'Apr', 學習時間: 30 },
+    { month: 'May', 學習時間: 140 },
+    { month: 'Jun', 學習時間: 180 },
+    { month: 'Jul', 學習時間: 80 },
+    { month: 'Aug', 學習時間: 100 },
+    { month: 'Sep', 學習時間: 40 },
+    { month: 'Oct', 學習時間: 10 },
+    { month: 'Nov', 學習時間: 30 },
+    { month: 'Dec', 學習時間: 100 },
   ];
 
   return (
     <main className="overflow-hidden">
-      <section className="text-center pt-20 pb-14 pt-lg-25 pb-lg-30" style={{ backgroundColor: "#fafafa" }}>
+      <section className="text-center pt-20 pb-14 pt-lg-25 pb-lg-30" style={{ backgroundColor: '#fafafa' }}>
         <div className="container">
           <h2 className="fs-xl text-gray-700 mb-4 fs-md-3xl">
             哈囉！
@@ -336,12 +340,12 @@ export default function Dashboard() {
                     <h3 className="fs-l lh-base fw-normal text-primary-900 fs-xl-xl">本月學習主題</h3>
                   </div>
                   <div className="card-body d-flex flex-column flex-sm-row justify-content-center align-items-center py-0 py-sm-4 py-xl-6">
-                    <div className="pie-container pe-sm-3" style={{ height: "200px", width: "200px" }}>
+                    <div className="pie-container pe-sm-3" style={{ height: '200px', width: '200px' }}>
                       <ResponsivePie
                         data={pieData}
                         margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
                         activeOuterRadiusOffset={8}
-                        colors={{ datum: "data.color" }}
+                        colors={{ datum: 'data.color' }}
                         borderWidth={0}
                         enableArcLinkLabels={false}
                         enableArcLabels={false}
@@ -352,8 +356,8 @@ export default function Dashboard() {
                       <ul
                         className="list-unstyled mx-auto mb-2 px-3 d-flex flex-wrap flex-sm-column justify-content-between align-items-center py-1 align-items-sm-start ps-sm-2 pe-sm-0 mb-sm-0"
                         style={{
-                          maxWidth: "288px",
-                          minWidth: "164px",
+                          maxWidth: '288px',
+                          minWidth: '164px',
                         }}
                       >
                         <li className="w-50 px-2 py-1 py-sm-2 px-sm-0 w-sm-100">
@@ -361,9 +365,9 @@ export default function Dashboard() {
                             <span
                               className="d-block rounded-circle me-2"
                               style={{
-                                width: "8px",
-                                height: "8px",
-                                backgroundColor: "#4a90e2",
+                                width: '8px',
+                                height: '8px',
+                                backgroundColor: '#4a90e2',
                               }}
                             ></span>
                             網頁切板: 70%
@@ -374,9 +378,9 @@ export default function Dashboard() {
                             <span
                               className="d-block rounded-circle me-2"
                               style={{
-                                width: "8px",
-                                height: "8px",
-                                backgroundColor: "#ff9e69",
+                                width: '8px',
+                                height: '8px',
+                                backgroundColor: '#ff9e69',
                               }}
                             ></span>
                             JavaScript: 20%
@@ -387,9 +391,9 @@ export default function Dashboard() {
                             <span
                               className="d-block rounded-circle me-2"
                               style={{
-                                width: "8px",
-                                height: "8px",
-                                backgroundColor: "#fed0a7",
+                                width: '8px',
+                                height: '8px',
+                                backgroundColor: '#fed0a7',
                               }}
                             ></span>
                             料理基礎: 10%
@@ -398,7 +402,7 @@ export default function Dashboard() {
                       </ul>
                     </div>
                   </div>
-                <DisableMask />
+                  <DisableMask />
                 </div>
               </div>
               {/* <!-- 長條圖 --> */}
@@ -408,15 +412,15 @@ export default function Dashboard() {
                     <div className="card-title p-4 mb-0 p-xl-6">
                       <h3 className="fs-l lh-base fw-normal text-primary-900 fs-xl-xl">學習時間 (分)</h3>
                     </div>
-                    <div className="bar-container card-body d-flex flex-column p-xl-6" style={{ height: "300px" }}>
+                    <div className="bar-container card-body d-flex flex-column p-xl-6" style={{ height: '300px' }}>
                       <ResponsiveBar
                         data={barData}
-                        keys={["學習時間"]}
+                        keys={['學習時間']}
                         indexBy="month"
                         margin={{ top: 20, right: 20, bottom: 50, left: 40 }}
                         padding={0.55}
-                        valueScale={{ type: "linear" }}
-                        indexScale={{ type: "band", round: true }}
+                        valueScale={{ type: 'linear' }}
+                        indexScale={{ type: 'band', round: true }}
                         colors="#4a90e2"
                         axisTop={null}
                         axisRight={null}
@@ -450,7 +454,7 @@ export default function Dashboard() {
       <section className="container py-14 py-lg-20">
         <h2 className="fs-xl mb-8 pb-6 border-bottom border-gray-200 fs-md-3xl lh-md-sm mb-md-10">學習進度追蹤</h2>
         <div className="scrollbar-none w-100 overflow-scroll mb-8 mb-md-10">
-          <nav className="nav nav-pills nav-fill gap-6" style={{ width: "max-content" }}>
+          <nav className="nav nav-pills nav-fill gap-6" style={{ width: 'max-content' }}>
             <button className="nav-link border border-primary active" aria-current="page" type="button">
               顯示全部
             </button>
@@ -474,13 +478,13 @@ export default function Dashboard() {
           className="card-box-swiper"
           modules={[Scrollbar]}
           spaceBetween={24}
-          slidesPerView={"auto"}
+          slidesPerView={'auto'}
           slidesOffsetBefore={0}
           slidesOffsetAfter={0}
           watchOverflow={true}
           scrollbar={{
             draggable: true,
-            el: ".swiper-scrollbar",
+            el: '.swiper-scrollbar',
           }}
         >
           {lastestCardBoxes.map((cardBox) => (
@@ -502,17 +506,17 @@ export default function Dashboard() {
           breakpoints={{
             1200: { spaceBetween: 40 },
           }}
-          slidesPerView={"auto"}
+          slidesPerView={'auto'}
           slidesOffsetBefore={0}
           slidesOffsetAfter={0}
           watchOverflow={true}
           scrollbar={{
             draggable: true,
-            el: ".swiper-scrollbar",
+            el: '.swiper-scrollbar',
           }}
         >
           {displayCardSwiper.map((swiperItem) => (
-            <SwiperSlide style={{ width: "300px" }} className="d-flex flex-column gap-4">
+            <SwiperSlide style={{ width: '300px' }} className="d-flex flex-column gap-4">
               {Array.isArray(swiperItem) ? (
                 swiperItem.map((card) => <BaseCard card={card} key={card.id} mode="withBadge" />)
               ) : (
@@ -521,10 +525,10 @@ export default function Dashboard() {
             </SwiperSlide>
           ))}
           {displayCardSwiper.length < 8 && (
-            <SwiperSlide className=" d-flex align-items-center h-auto" style={{ width: "300px" }}>
+            <SwiperSlide className=" d-flex align-items-center h-auto" style={{ width: '300px' }}>
               <div className="bg-primary-0 rounded-4 p-4 w-100 d-flex flex-column align-items-center justify-content-center h-75">
                 <p className="py-6 text-center text-gray-500">沒有更多卡片了。</p>
-                <button className="btn btn-outline-primary" onClick={() => navigate("/user/card-boxes")}>
+                <button className="btn btn-outline-primary" onClick={() => navigate('/user/card-boxes')}>
                   前往我的卡片盒
                 </button>
               </div>

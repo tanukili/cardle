@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
-import axios from "axios";
-import CardBox from "@/components/card/CardBox";
-import CardBoxModal from "@/components/card/CardBoxModal";
-import CardModal from "@/components/card/CardModal";
-import { showSwalToast } from "@/utils/swalSetting";
+import { Link } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
+import CardBox from '@/components/card/CardBox';
+import CardBoxModal from '@/components/card/CardBoxModal';
+import CardModal from '@/components/card/CardModal';
+import { showSwalToast } from '@/utils/swalSetting';
 
 export default function CardBoxs() {
   const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -12,16 +12,15 @@ export default function CardBoxs() {
   const [defaultCardBox, setDefaultCardBox] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-
   const getCardBoxes = async () => {
     try {
       setIsLoading(true);
       const response = await axios.get(`${baseUrl}cardBoxes`);
       const data = response.data;
       setCardBoxes(data);
-      setDefaultCardBox(data.find((cb) => cb.type === "default"));
+      setDefaultCardBox(data.find((cb) => cb.type === 'default'));
     } catch (error) {
-      console.error("Error fetching card boxes:", error);
+      console.error('Error fetching card boxes:', error);
       setCardBoxes([]);
     } finally {
       setIsLoading(false);
@@ -51,14 +50,14 @@ export default function CardBoxs() {
 
   const filteredCardBoxes = showFavoritesOnly ? cardBoxes.filter((cb) => cb.is_favorite) : cardBoxes;
 
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
 
   const [isSelectMode, setIsSelectMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState(new Set()); // Set（集合，不重複）
 
   const handleSelect = (id, type) => {
-    if (type === "default") {
-      showSwalToast({ title: "預設卡片盒無法刪除", variant: "error" });
+    if (type === 'default') {
+      showSwalToast({ title: '預設卡片盒無法刪除', variant: 'error' });
       return;
     }
     const newSelected = new Set(selectedIds);
@@ -85,7 +84,7 @@ export default function CardBoxs() {
       setSelectedIds(new Set());
       getCardBoxes();
     } catch (error) {
-      console.error("Error deleting card boxes:", error);
+      console.error('Error deleting card boxes:', error);
     }
   };
 
@@ -96,7 +95,7 @@ export default function CardBoxs() {
 
   return (
     <>
-      <section className="container pt-6 position-sticky bg-white z-2 mb-10" style={{ top: "-28px" }}>
+      <section className="container pt-6 position-sticky bg-white z-2 mb-10" style={{ top: '-28px' }}>
         <Link
           to="/user"
           className="mb-4 py-1 pe-2 fs-s text-gray-600 d-inline-flex align-items-center mb-lg-10 fs-lg-m px-lg-4 py-lg-2"
@@ -123,7 +122,7 @@ export default function CardBoxs() {
         <div className="row g-3 gx-4 gx-lg-3">
           <div className="col-lg-5 me-n4">
             <div className="d-md-flex">
-              <div className="form-control-container with-icon flex-grow-1" style={{ maxWidth: "320px" }}>
+              <div className="form-control-container with-icon flex-grow-1" style={{ maxWidth: '320px' }}>
                 <input
                   id="searchCardBox"
                   type="text"
@@ -138,7 +137,7 @@ export default function CardBoxs() {
                   className="input-clearup"
                   onClick={(e) => {
                     e.preventDefault();
-                    setSearchValue("");
+                    setSearchValue('');
                   }}
                 >
                   <span className="material-symbols-outlined">close</span>
@@ -189,16 +188,16 @@ export default function CardBoxs() {
               </div>
             </>
           )}
-          <div className={`col-lg-auto  ${isSelectMode ? "" : "ms-auto"}`}>
+          <div className={`col-lg-auto  ${isSelectMode ? '' : 'ms-auto'}`}>
             <button className="btn btn-outline-primary w-100" type="button" onClick={toggleSelectMode}>
-              {isSelectMode ? "取消選取" : "選取"}
+              {isSelectMode ? '取消選取' : '選取'}
             </button>
           </div>
-          <div className={`col-lg-auto order-lg-3 ${isSelectMode ? "d-lg-none" : ""}`}>
+          <div className={`col-lg-auto order-lg-3 ${isSelectMode ? 'd-lg-none' : ''}`}>
             <div className="form-select-container">
               <a
                 className="position-absolute top-50 translate-middle text-primary lh-1"
-                style={{ left: "calc(50% - 56px)" }}
+                style={{ left: 'calc(50% - 56px)' }}
                 href="#"
                 onClick={(e) => {
                   e.preventDefault();
@@ -240,7 +239,7 @@ export default function CardBoxs() {
           </div>
         ) : (
           <div className="alert alert-light mb-4 text-center" role="alert">
-            {cardBoxes.length ? "沒有符合條件的卡片盒" : "目前沒有任何卡片盒"}
+            {cardBoxes.length ? '沒有符合條件的卡片盒' : '目前沒有任何卡片盒'}
           </div>
         )}
       </div>

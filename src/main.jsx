@@ -1,18 +1,18 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import "material-symbols";
-import "./assets/index.scss";
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import 'material-symbols';
+import './assets/index.scss';
 
-import { Provider } from "react-redux";
-import { store } from "./store/index";
+import { Provider } from 'react-redux';
+import { store } from './store/index';
 
-import App from "./App.jsx";
+import App from './App.jsx';
 
-import AOS from "aos";
-import "aos/dist/aos.css";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 AOS.init();
 
-createRoot(document.getElementById("root")).render(
+createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>
       <App />

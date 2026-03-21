@@ -60,11 +60,7 @@
         "unit": "月"
       },
       "status": "active",
-      "featuresShort": [
-        "建立筆記卡片",
-        "建立書單",
-        "標籤分類"
-      ],
+      "featuresShort": ["建立筆記卡片", "建立書單", "標籤分類"],
       "featuresDetail": [
         {
           "key": "cards",
@@ -107,13 +103,7 @@
         "unit": "月"
       },
       "status": "active",
-      "featuresShort": [
-        "無限制建立筆記卡片",
-        "無限制建立書單",
-        "標籤分類",
-        "視覺化關聯地圖",
-        "進度追蹤與提醒"
-      ],
+      "featuresShort": ["無限制建立筆記卡片", "無限制建立書單", "標籤分類", "視覺化關聯地圖", "進度追蹤與提醒"],
       "featuresDetail": [
         {
           "key": "cards_unlimited",
@@ -166,13 +156,7 @@
         "unit": "年"
       },
       "status": "active",
-      "featuresShort": [
-        "無限制建立筆記卡片",
-        "無限制建立書單",
-        "標籤分類",
-        "視覺化關聯地圖",
-        "進度追蹤與提醒"
-      ],
+      "featuresShort": ["無限制建立筆記卡片", "無限制建立書單", "標籤分類", "視覺化關聯地圖", "進度追蹤與提醒"],
       "featuresDetail": [
         {
           "key": "cards_unlimited",
@@ -566,9 +550,7 @@
       "title": "Interface vs. Type 使用情境",
       "user_id": "1",
       "card_box_id": "card_box_3",
-      "tags": [
-        "TypeScript 基礎"
-      ],
+      "tags": ["TypeScript 基礎"],
       "content": "使用抉擇取決於具體情況和個人偏好Interface：物件類別會經常擴充或改變時Type：固定的資料結構，或者需要聯合多個類型。",
       "content_format": "plain",
       "created_at": 1766833200,
@@ -580,9 +562,7 @@
       "title": "Interface vs. Type 使用情境",
       "user_id": "1",
       "card_box_id": "card_box_3",
-      "tags": [
-        "TypeScript"
-      ],
+      "tags": ["TypeScript"],
       "content": "使用抉擇取決於具體情況和個人偏好Interface：物件類別會經常擴充或改變時Type：固定的資料結構，或者需要聯合多個類型。",
       "content_format": "plain",
       "created_at": 1766833200,
@@ -594,9 +574,7 @@
       "title": "麻婆豆腐食譜（2-3人份）",
       "user_id": "1",
       "card_box_id": "card_box_3",
-      "tags": [
-        "TypeScript"
-      ],
+      "tags": ["TypeScript"],
       "content": "食材準備：\n* 嫩豆腐：1盒（約300g，建議用棉豆腐或北豆腐）\n* 牛／豬絞肉：100g\n* 蒜末：2瓣\n* 薑末：1小匙\n* 蔥花：適量（分開蔥白與蔥綠）\n* 豆瓣醬：1.5 大\n* 醬油：1 大匙\n* 料酒：1 大匙\n* 水：200ml\n* 太白粉水：1大匙粉＋1大匙水混合\n* 花椒粉／油：1/2 小匙\n* 辣椒粉或辣椒油：依個人口味\n* 香油：少許",
       "content_format": "markdown",
       "created_at": 1766833200,
@@ -608,9 +586,7 @@
       "title": "useState — 狀態管理入門",
       "user_id": "1",
       "card_box_id": "card_box_3",
-      "tags": [
-        "TypeScript"
-      ],
+      "tags": ["TypeScript"],
       "content": "用來宣告與更新元件內的狀態\n```javascript\nconst [count, setCount] = useState(0);\nsetCount(count + 1);\n```\n每次 `setCount` 呼叫後元件會重新渲染。",
       "content_format": "plain",
       "created_at": 1766833200,
@@ -620,9 +596,7 @@
     {
       "title": "超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題超級無敵長的卡片標題",
       "content": "超級無敵長的卡片超級無敵長的卡片超級無敵長的卡片超級無敵長的卡片",
-      "tags": [
-        "TypeScript 基礎"
-      ],
+      "tags": ["TypeScript 基礎"],
       "id": "card_1770746476",
       "user_id": "X-gJy7b",
       "created_at": 1770746476,
@@ -634,9 +608,7 @@
     {
       "title": "更新卡片",
       "content": "更新後的內容",
-      "tags": [
-        "測試"
-      ],
+      "tags": ["測試"],
       "id": "card_1773593670",
       "created_at": 1773593670,
       "updated_at": 1773596487,
@@ -647,9 +619,7 @@
     {
       "title": "fffff",
       "content": "ddferere",
-      "tags": [
-        "測試"
-      ],
+      "tags": ["測試"],
       "id": "card_1773594341",
       "created_at": 1773594341,
       "updated_at": 1773594341,
@@ -660,9 +630,7 @@
     {
       "title": "dfdf",
       "content": "sdfsdf",
-      "tags": [
-        "測試"
-      ],
+      "tags": ["測試"],
       "id": "card_1773594348",
       "created_at": 1773594348,
       "updated_at": 1773594348,
@@ -673,9 +641,7 @@
     {
       "title": "標題一",
       "content": "JJJJJJJJJJJJJJJJJJJJJ",
-      "tags": [
-        "測試"
-      ],
+      "tags": ["測試"],
       "id": "card_1773595970",
       "created_at": 1773595970,
       "updated_at": 1773595970,
@@ -686,9 +652,7 @@
     {
       "title": "真的假的",
       "content": "## 假的！！",
-      "tags": [
-        "測試"
-      ],
+      "tags": ["測試"],
       "id": "card_1773596510",
       "created_at": 1773596510,
       "updated_at": 1773596510,
@@ -699,9 +663,7 @@
     {
       "title": "dfsdf",
       "content": "dfsdfdsf",
-      "tags": [
-        "預設卡片盒"
-      ],
+      "tags": ["預設卡片盒"],
       "id": "card_1774105722",
       "created_at": 1774105722,
       "updated_at": 1774105722,
@@ -712,9 +674,7 @@
     {
       "title": "Interface vs. Type 使用情境",
       "content": "使用抉擇取決於具體情況和個人偏好Interface：物件類別會經常擴充或改變時Type：固定的資料結構，或者需要聯合多個類型。",
-      "tags": [
-        "TypeScript 基礎"
-      ],
+      "tags": ["TypeScript 基礎"],
       "id": "card_1774108751",
       "created_at": 1774108751,
       "updated_at": 1774108751,
@@ -725,9 +685,7 @@
     {
       "title": "Interface vs. Type 使用情境",
       "content": "使用抉擇取決於具體情況和個人偏好Interface：物件類別會經常擴充或改變時Type：固定的資料結構，或者需要聯合多個類型。",
-      "tags": [
-        "TypeScript 基礎"
-      ],
+      "tags": ["TypeScript 基礎"],
       "user_id": "X-gJy7b",
       "id": "card_1774108869",
       "created_at": 1774108869,
@@ -739,9 +697,7 @@
     {
       "title": "麻婆豆腐",
       "content": "食材準備：\n* 嫩豆腐：1盒（約300g，建議用棉豆腐或北豆腐）\n* 牛／豬絞肉：100g\n* 蒜末：2瓣\n* 薑末：1小匙\n* 蔥花：適量（分開蔥白與蔥綠）\n* 豆瓣醬：1.5 大\n* 醬油：1 大匙\n* 料酒：1 大匙\n* 水：200ml\n* 太白粉水：1大匙粉＋1大匙水混合\n* 花椒粉／油：1/2 小匙\n* 辣椒粉或辣椒油：依個人口味\n* 香油：少許",
-      "tags": [
-        "TypeScript 基礎"
-      ],
+      "tags": ["TypeScript 基礎"],
       "user_id": "X-gJy7b",
       "id": "card_1774112194",
       "created_at": 1774112194,

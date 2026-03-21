@@ -1,8 +1,8 @@
-import { useEffect } from "react";
-import { Link, NavLink, Outlet } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import UserHeader from "../user/UserHeader";
-import { getUserSubscription } from "../../store/slices/subscriptionSlice";
+import { useEffect } from 'react';
+import { Link, NavLink, Outlet } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import UserHeader from '../user/UserHeader';
+import { getUserSubscription } from '../../store/slices/subscriptionSlice';
 
 export default function AccountLayout() {
   const dispatch = useDispatch();
@@ -10,12 +10,8 @@ export default function AccountLayout() {
   const user = useSelector((state) => state.user.userInfo);
   const activeOrder = useSelector((state) => state.subscription.activeOrder);
   const plan = useSelector((state) => state.subscription.plan);
-  const paymentMethod = useSelector(
-    (state) => state.subscription.paymentMethod,
-  );
-  const historyOrders = useSelector(
-    (state) => state.subscription.historyOrders,
-  );
+  const paymentMethod = useSelector((state) => state.subscription.paymentMethod);
+  const historyOrders = useSelector((state) => state.subscription.historyOrders);
 
   useEffect(() => {
     if (!user) return;

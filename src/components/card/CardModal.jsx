@@ -1,17 +1,20 @@
-import { forwardRef, useImperativeHandle, useRef, useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { Modal } from "bootstrap";
-import { createCard, updateCard } from "@/services/cardService";
-import { showSwalToast } from "@/utils/swalSetting";
-import { useSelector } from "react-redux";
+import { forwardRef, useImperativeHandle, useRef, useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { Modal } from 'bootstrap';
+import { createCard, updateCard } from '@/services/cardService';
+import { showSwalToast } from '@/utils/swalSetting';
+import { useSelector } from 'react-redux';
 
 const defaultCard = {
-  title: "",
-  content: "",
+  title: '',
+  content: '',
 };
 
 // forwardRef 提供父元件取得子元件的 ref
-export default forwardRef(function CardModal({ editCard=defaultCard, cardBox, modalId = "cardModal", onSuccess }, ref) {
+export default forwardRef(function CardModal(
+  { editCard = defaultCard, cardBox, modalId = 'cardModal', onSuccess },
+  ref,
+) {
   const userInfo = useSelector((state) => state.user.userInfo);
   const modalRef = useRef(null);
   const isEditMode = Boolean(editCard?.id);
@@ -25,18 +28,18 @@ export default forwardRef(function CardModal({ editCard=defaultCard, cardBox, mo
     resetField,
     watch,
   } = useForm({
-    mode: "onTouched",
+    mode: 'onTouched',
   });
 
   // TO DO:表單元素封裝
   const rules = {
     title: {
-      required: "標題為必填",
-      maxLength: { value: 50, message: "標題最多 50 個字" },
+      required: '標題為必填',
+      maxLength: { value: 50, message: '標題最多 50 個字' },
     },
     content: {
-      required: "內容為必填",
-      maxLength: { value: 500, message: "內容最多 500 個字" },
+      required: '內容為必填',
+      maxLength: { value: 500, message: '內容最多 500 個字' },
     },
   };
 
@@ -62,9 +65,9 @@ export default forwardRef(function CardModal({ editCard=defaultCard, cardBox, mo
     if (!el) return;
 
     const onHidden = () => reset(defaultCard);
-    el.addEventListener("hidden.bs.modal", onHidden);
+    el.addEventListener('hidden.bs.modal', onHidden);
 
-    return () => el.removeEventListener("hidden.bs.modal", onHidden);
+    return () => el.removeEventListener('hidden.bs.modal', onHidden);
   }, [reset]);
 
   const handleCardSubmit = async (formData) => {
@@ -83,7 +86,7 @@ export default forwardRef(function CardModal({ editCard=defaultCard, cardBox, mo
       } else {
         await createCard(cardContent, cardBox.id);
       }
-      showSwalToast({ title: `${isEditMode ? "編輯" : "新增"}成功` });
+      showSwalToast({ title: `${isEditMode ? '編輯' : '新增'}成功` });
       if (modalRef.current) {
         Modal.getOrCreateInstance(modalRef.current).hide();
       }
@@ -92,8 +95,8 @@ export default forwardRef(function CardModal({ editCard=defaultCard, cardBox, mo
     } catch (error) {
       const errorMsg = `${error.response.status} ${error.response.statusText}`;
       showSwalToast({
-        title: `${isEditMode ? "編輯" : "新增"}失敗，${errorMsg}`,
-        variant: "error",
+        title: `${isEditMode ? '編輯' : '新增'}失敗，${errorMsg}`,
+        variant: 'error',
       });
     } finally {
       setIsLoading(false);
@@ -113,7 +116,7 @@ export default forwardRef(function CardModal({ editCard=defaultCard, cardBox, mo
         <div className="modal-content">
           <div className="modal-header">
             <h2 className="modal-title fs-2xl" id={`${modalId}Label`}>
-              {isEditMode ? "編輯卡片" : "新增卡片"}
+              {isEditMode ? '編輯卡片' : '新增卡片'}
             </h2>
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
           </div>
@@ -122,7 +125,7 @@ export default forwardRef(function CardModal({ editCard=defaultCard, cardBox, mo
               <div className="container-fluid">
                 <p className="mb-4 d-flex align-items-center">
                   所屬卡片盒
-                  <span className={`badge badge-${cardBox?.color ?? "secondary"} lh-base ms-2`}>{cardBox?.title}</span>
+                  <span className={`badge badge-${cardBox?.color ?? 'secondary'} lh-base ms-2`}>{cardBox?.title}</span>
                 </p>
                 <div className="row gx-3 mb-4 d-flex align-items-center">
                   <label htmlFor="cardTitle" className="form-label fs-m mb-2 d-flex text-nowrap">
@@ -137,17 +140,17 @@ export default forwardRef(function CardModal({ editCard=defaultCard, cardBox, mo
                       className="form-control"
                       type="text"
                       placeholder="請輸入卡片標題"
-                      {...register("title", rules.title)}
+                      {...register('title', rules.title)}
                     />
                     <a
                       href="#"
                       className="input-clearup"
                       onClick={(e) => {
                         e.preventDefault();
-                        resetField("title");
+                        resetField('title');
                       }}
                     >
-                      <span className="material-symbols-outlined">{isEditMode ? "undo" : "close"}</span>
+                      <span className="material-symbols-outlined">{isEditMode ? 'undo' : 'close'}</span>
                     </a>
                   </div>
                 </div>
@@ -164,8 +167,8 @@ export default forwardRef(function CardModal({ editCard=defaultCard, cardBox, mo
                       className="form-control"
                       placeholder="請輸入卡片內容"
                       rows={10}
-                      style={{ minHeight: 200, resize: "none" }}
-                      {...register("content", rules.content)}
+                      style={{ minHeight: 200, resize: 'none' }}
+                      {...register('content', rules.content)}
                     />
                   </div>
                 </div>
@@ -179,7 +182,7 @@ export default forwardRef(function CardModal({ editCard=defaultCard, cardBox, mo
                 {isLoading && (
                   <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" />
                 )}
-                {isEditMode ? "完成編輯" : "新增卡片"}
+                {isEditMode ? '完成編輯' : '新增卡片'}
               </button>
             </div>
           </form>

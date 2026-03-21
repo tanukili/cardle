@@ -1,4 +1,4 @@
-import { apiClient } from "./apiClient";
+import { apiClient } from './apiClient';
 
 // 取得會員訂單
 export const getOrdersByUser = async (userId) => {
@@ -26,7 +26,7 @@ export const stopAutoRenew = async (orderId, patchData = {}) => {
 // 升級/變更：讓舊單失效
 export const inactivateOrder = async (orderId, patchData = {}) => {
   return apiClient.patch(`/orders/${orderId}`, {
-    status: "inactive",
+    status: 'inactive',
     isAutoRenew: false,
     ...patchData,
   });
@@ -41,10 +41,10 @@ export const createActiveOrder = async (order) => {
 export const getActivePlanByUser = async (userId) => {
   const params = {
     user_id: userId,
-    status: "active",
+    status: 'active',
     _limit: 1,
-    _sort: "subscribeDate",
-    _order: "desc",
+    _sort: 'subscribeDate',
+    _order: 'desc',
   };
   const response = await apiClient.get(`/orders`, { params });
   return response[0] || null;

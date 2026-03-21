@@ -1,9 +1,9 @@
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useState, useEffect, useRef, Fragment } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { login, logout } from "@/store/slices/userSlice";
-import { Offcanvas } from "bootstrap";
-import axios from "axios";
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useState, useEffect, useRef, Fragment } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { login, logout } from '@/store/slices/userSlice';
+import { Offcanvas } from 'bootstrap';
+import axios from 'axios';
 
 export default function BaseHeader() {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
@@ -18,16 +18,16 @@ export default function BaseHeader() {
 
   useEffect(() => {
     const token = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("userToken="))
-      ?.split("=")[1];
-    const user = localStorage.getItem("user");
+      .split('; ')
+      .find((row) => row.startsWith('userToken='))
+      ?.split('=')[1];
+    const user = localStorage.getItem('user');
 
     if (token && user && !isLoggedIn) {
       const parsedUser = JSON.parse(user);
       // 確保 avatarUrl 有值，否則用預設頭像
       if (!parsedUser.avatarUrl) {
-        parsedUser.avatarUrl = "default-avatar.png";
+        parsedUser.avatarUrl = 'default-avatar.png';
       }
       // 恢復 axios header
 
@@ -42,7 +42,7 @@ export default function BaseHeader() {
 
     const bsOffcanvas = Offcanvas.getInstance(el);
 
-    if (bsOffcanvas && el.classList.contains("show")) {
+    if (bsOffcanvas && el.classList.contains('show')) {
       bsOffcanvas.hide();
     }
   }, [location]);
@@ -50,18 +50,18 @@ export default function BaseHeader() {
   // 元件卸載清理遮罩
   useEffect(() => {
     return () => {
-      const backdrops = document.querySelectorAll(".offcanvas-backdrop");
+      const backdrops = document.querySelectorAll('.offcanvas-backdrop');
       backdrops.forEach((el) => el.remove());
-      document.body.style.overflow = "";
+      document.body.style.overflow = '';
     };
   }, []);
 
   const handleLogout = () => {
     dispatch(logout());
     // 刪除 cookie token
-    document.cookie = "userToken=; path=/; max-age=0";
-    localStorage.removeItem("user");
-    navigate("/");
+    document.cookie = 'userToken=; path=/; max-age=0';
+    localStorage.removeItem('user');
+    navigate('/');
   };
 
   return (
@@ -84,48 +84,29 @@ export default function BaseHeader() {
                       aria-expanded="false"
                     >
                       {userInfo.avatarUrl && (
-                        <img
-                          className="header-avatar rounded-circle"
-                          src={userInfo.avatarUrl}
-                          alt="個人頭像"
-                        />
+                        <img className="header-avatar rounded-circle" src={userInfo.avatarUrl} alt="個人頭像" />
                       )}
                       <span className="mx-2">{userInfo.username}</span>
-                      <span className="material-symbols-outlined">
-                        keyboard_arrow_down
-                      </span>
+                      <span className="material-symbols-outlined">keyboard_arrow_down</span>
                     </button>
                     <ul className="dropdown-shadow dropdown-menu border-primary-400 bg-gray-0">
                       <li>
-                        <Link
-                          className="dropdown-item rounded-2 mb-2"
-                          to="/user"
-                        >
+                        <Link className="dropdown-item rounded-2 mb-2" to="/user">
                           筆記儀表板
                         </Link>
                       </li>
                       <li>
-                        <Link
-                          className="dropdown-item rounded-2 mb-2"
-                          to="/user/bookshelf"
-                        >
+                        <Link className="dropdown-item rounded-2 mb-2" to="/user/bookshelf">
                           我的書單
                         </Link>
                       </li>
                       <li>
-                        <Link
-                          className="dropdown-item rounded-2 mb-2"
-                          to="/account"
-                        >
+                        <Link className="dropdown-item rounded-2 mb-2" to="/account">
                           會員中心
                         </Link>
                       </li>
                       <li>
-                        <button
-                          className="dropdown-item rounded-2"
-                          type="button"
-                          onClick={handleLogout}
-                        >
+                        <button className="dropdown-item rounded-2" type="button" onClick={handleLogout}>
                           登出
                         </button>
                       </li>
@@ -135,27 +116,17 @@ export default function BaseHeader() {
               ) : (
                 <Fragment key="desktop-guest">
                   <li className="nav-item">
-                    <Link
-                      className="nav-link rounded-2 py-2 px-4 active"
-                      aria-current="page"
-                      to="/"
-                    >
+                    <Link className="nav-link rounded-2 py-2 px-4 active" aria-current="page" to="/">
                       首頁
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link
-                      className="nav-link rounded-2 py-2 px-4"
-                      to="/features"
-                    >
+                    <Link className="nav-link rounded-2 py-2 px-4" to="/features">
                       商品介紹
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link
-                      className="nav-link rounded-2 py-2 px-4"
-                      to="/subscription"
-                    >
+                    <Link className="nav-link rounded-2 py-2 px-4" to="/subscription">
                       訂閱方案
                     </Link>
                   </li>
@@ -193,11 +164,7 @@ export default function BaseHeader() {
               aria-controls="userNavbar"
               aria-label="Toggle navigation"
             >
-              <img
-                className="header-avatar rounded-circle"
-                src={userInfo.avatarUrl}
-                alt="個人頭像"
-              />
+              <img className="header-avatar rounded-circle" src={userInfo.avatarUrl} alt="個人頭像" />
             </button>
           )}
         </div>
@@ -215,11 +182,7 @@ export default function BaseHeader() {
         <div className="offcanvas-body p-2 border border-primary-400">
           <ul className="navbar-nav me-auto mb-6">
             <li className="nav-item">
-              <Link
-                className="nav-link rounded-2 py-3 px-4 active"
-                aria-current="page"
-                to="/"
-              >
+              <Link className="nav-link rounded-2 py-3 px-4 active" aria-current="page" to="/">
                 首頁
               </Link>
             </li>
@@ -238,10 +201,7 @@ export default function BaseHeader() {
             <>
               <span className="border-bottom border-gray-200 mb-6 mx-0_5 d-block"></span>
               <div className="d-flex flex-column">
-                <Link
-                  className="btn btn-outline-primary text-start py-3 mb-2"
-                  to="/login"
-                >
+                <Link className="btn btn-outline-primary text-start py-3 mb-2" to="/login">
                   登入
                 </Link>
                 <Link className="btn btn-primary text-start py-3" to="/sign-up">
@@ -263,26 +223,17 @@ export default function BaseHeader() {
         <div className="offcanvas-body p-2 border border-primary-400">
           <ul className="navbar-nav me-auto mb-6">
             <li className="nav-item">
-              <Link
-                className="nav-link text-primary rounded-2 py-3 px-4 mb-2"
-                to="/user"
-              >
+              <Link className="nav-link text-primary rounded-2 py-3 px-4 mb-2" to="/user">
                 筆記儀表板
               </Link>
             </li>
             <li className="nav-item">
-              <Link
-                className="nav-link text-primary rounded-2 py-3 px-4 mb-2"
-                to="/user/bookshelf"
-              >
+              <Link className="nav-link text-primary rounded-2 py-3 px-4 mb-2" to="/user/bookshelf">
                 我的書單
               </Link>
             </li>
             <li className="nav-item">
-              <Link
-                className="nav-link text-primary rounded-2 py-3 px-4 mb-2"
-                to="/account"
-              >
+              <Link className="nav-link text-primary rounded-2 py-3 px-4 mb-2" to="/account">
                 會員中心
               </Link>
             </li>

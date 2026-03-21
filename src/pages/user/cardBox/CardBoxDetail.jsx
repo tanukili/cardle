@@ -1,16 +1,16 @@
-import { useLoaderData, Link, useRevalidator } from "react-router-dom";
-import { useState, useRef, useEffect } from "react";
-import { showSwalToast } from "@/utils/swalSetting";
-import { deleteCards } from "@/services/cardService";
-import BaseCard from "@/components/card/BaseCard";
-import MasonryCards from "@/components/card/MasonryCards";
-import CardBoxModal from "@/components/card/CardBoxModal";
-import CardModal from "@/components/card/CardModal";
+import { useLoaderData, Link, useRevalidator } from 'react-router-dom';
+import { useState, useRef, useEffect } from 'react';
+import { showSwalToast } from '@/utils/swalSetting';
+import { deleteCards } from '@/services/cardService';
+import BaseCard from '@/components/card/BaseCard';
+import MasonryCards from '@/components/card/MasonryCards';
+import CardBoxModal from '@/components/card/CardBoxModal';
+import CardModal from '@/components/card/CardModal';
 
 export default function CardBoxDetail() {
   const { cardBox, cards } = useLoaderData();
   const revalidator = useRevalidator();
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
   const [isBaseCardMode, setIsBaseCardMode] = useState(false);
 
   const [isSelectMode, setIsSelectMode] = useState(false);
@@ -36,12 +36,12 @@ export default function CardBoxDetail() {
     setIsDeleting(true);
     try {
       await deleteCards(selectedIds);
-      showSwalToast({ title: "刪除成功" });
+      showSwalToast({ title: '刪除成功' });
       setSelectedIds(new Set());
       revalidator.revalidate();
     } catch (err) {
       const errorMsg = `${err.response.status} ${err.response.statusText}`;
-      showSwalToast({ title: `刪除失敗，${errorMsg}`, variant: "error" });
+      showSwalToast({ title: `刪除失敗，${errorMsg}`, variant: 'error' });
     } finally {
       setIsDeleting(false);
     }
@@ -68,8 +68,8 @@ export default function CardBoxDetail() {
         }, 500);
       },
       {
-        rootMargin: "-10px 0px 0px 0px",
-      }
+        rootMargin: '-10px 0px 0px 0px',
+      },
     );
 
     if (coverSentinelRef.current) {
@@ -80,13 +80,9 @@ export default function CardBoxDetail() {
   }, [isCoverSmall]);
 
   // to do：統一使用 Spinner 元件
-  const Spinner = (showSpinner, extraClass = "") => {
+  const Spinner = (showSpinner, extraClass = '') => {
     return showSpinner ? (
-      <span
-        className={`spinner-border spinner-border-sm me-2 ${extraClass}`}
-        role="status"
-        aria-hidden="true"
-      />
+      <span className={`spinner-border spinner-border-sm me-2 ${extraClass}`} role="status" aria-hidden="true" />
     ) : null;
   };
 
@@ -99,15 +95,13 @@ export default function CardBoxDetail() {
 
   return (
     <>
-      <div ref={coverSentinelRef} className="w-100" style={{ height: "1px" }} />
+      <div ref={coverSentinelRef} className="w-100" style={{ height: '1px' }} />
       <section className="card-box-detail container position-sticky pt-6 bg-white z-2 mb-6 mb-lg-8">
         <Link
           to="/user/card-boxes"
           className="mb-4 py-1 pe-2 fs-s text-gray-600 d-inline-flex align-items-center mb-lg-10 fs-lg-m px-lg-4 py-lg-2"
         >
-          <span className="material-symbols-outlined icon-sm me-2_5 me-lg-3 ">
-            arrow_back_ios_new
-          </span>
+          <span className="material-symbols-outlined icon-sm me-2_5 me-lg-3 ">arrow_back_ios_new</span>
           返回卡片盒列表
         </Link>
         <div className="d-flex justify-content-between align-items-center mb-4">
@@ -126,7 +120,7 @@ export default function CardBoxDetail() {
         {cardBox.cover_url && (
           <div
             className={`card-box-detail-cover position-relative rounded-1 overflow-hidden ${
-              isCoverSmall ? "cover-small" : "mb-6 mb-lg-8"
+              isCoverSmall ? 'cover-small' : 'mb-6 mb-lg-8'
             }`}
           >
             <img
@@ -156,20 +150,14 @@ export default function CardBoxDetail() {
                 checked={isBaseCardMode}
                 onChange={() => setIsBaseCardMode(!isBaseCardMode)}
               />
-              <label
-                className="form-check-label text-primary"
-                htmlFor="cardModeSwitch"
-              >
+              <label className="form-check-label text-primary" htmlFor="cardModeSwitch">
                 詳細模式
               </label>
             </div>
           </div>
           <div className="col-lg-5">
             <div className="d-sm-flex">
-              <div
-                className="form-control-container with-icon flex-grow-1"
-                style={{ maxWidth: "320px" }}
-              >
+              <div className="form-control-container with-icon flex-grow-1" style={{ maxWidth: '320px' }}>
                 <input
                   id="searchCardBox"
                   type="text"
@@ -184,15 +172,14 @@ export default function CardBoxDetail() {
                   className="input-clearup"
                   onClick={(e) => {
                     e.preventDefault();
-                    setSearchValue("");
+                    setSearchValue('');
                   }}
                 >
                   <span className="material-symbols-outlined">close</span>
                 </a>
               </div>
               <p className="text-gray-700 mt-4 text-nowrap my-sm-auto ms-sm-4 ms-xl-8">
-                共
-                <span className="mx-1 fw-bold tracking-2">{cards.length}</span>
+                共<span className="mx-1 fw-bold tracking-2">{cards.length}</span>
                 個卡片
               </p>
             </div>
@@ -202,9 +189,7 @@ export default function CardBoxDetail() {
             <div className="col-6 col-md-auto ms-auto text-end ">
               <p className="text-gray-700 d-flex align-items-center h-100">
                 已選取
-                <span className="fw-bold mx-1 tracking-2">
-                  {selectedIds.size}
-                </span>
+                <span className="fw-bold mx-1 tracking-2">{selectedIds.size}</span>
                 個卡片
               </p>
             </div>
@@ -218,28 +203,20 @@ export default function CardBoxDetail() {
                 onClick={handleDeleteCards}
                 disabled={selectedIds.size === 0 || isDeleting}
               >
-                {Spinner(isDeleting, "me-2")}
+                {Spinner(isDeleting, 'me-2')}
                 刪除卡片
               </button>
             </div>
           ) : (
             <div className="col-md-auto order-md-1">
-              <button
-                className="btn btn-outline-primary w-100"
-                type="button"
-                onClick={() => openCardModal()}
-              >
+              <button className="btn btn-outline-primary w-100" type="button" onClick={() => openCardModal()}>
                 新增卡片
               </button>
             </div>
           )}
-          <div className={`col-md-auto  ${isSelectMode ? "" : "ms-auto"}`}>
-            <button
-              className="btn btn-outline-primary w-100"
-              type="button"
-              onClick={toggleSelectMode}
-            >
-              {isSelectMode ? "取消選取" : "選取"}
+          <div className={`col-md-auto  ${isSelectMode ? '' : 'ms-auto'}`}>
+            <button className="btn btn-outline-primary w-100" type="button" onClick={toggleSelectMode}>
+              {isSelectMode ? '取消選取' : '選取'}
             </button>
           </div>
         </div>
@@ -249,7 +226,7 @@ export default function CardBoxDetail() {
       <section className="container pb-10">
         {cards.length === 0 && (
           <div className="alert alert-light mb-4 text-center" role="alert">
-            {cards.length ? "沒有符合條件的卡片" : "目前沒有任何卡片"}
+            {cards.length ? '沒有符合條件的卡片' : '目前沒有任何卡片'}
           </div>
         )}
         {isBaseCardMode ? (
@@ -264,7 +241,7 @@ export default function CardBoxDetail() {
                 isSelectMode={isSelectMode}
                 isSelected={selectedIds.has(card.id)}
                 onSelect={handleSelectCard}
-                onCardClick={() => openCardModal({id: card.id, title: card.title, content: card.content})}
+                onCardClick={() => openCardModal({ id: card.id, title: card.title, content: card.content })}
               />
             )}
           />
@@ -278,7 +255,7 @@ export default function CardBoxDetail() {
                   isSelectMode={isSelectMode}
                   isSelected={selectedIds.has(card.id)}
                   onSelect={handleSelectCard}
-                  onCardClick={() => openCardModal({id: card.id, title: card.title, content: card.content})}
+                  onCardClick={() => openCardModal({ id: card.id, title: card.title, content: card.content })}
                 />
               </div>
             ))}
@@ -294,12 +271,7 @@ export default function CardBoxDetail() {
         onSuccess={revalidator.revalidate}
       />
       {/* 卡片 Modal */}
-      <CardModal
-        ref={cardModalRef}
-        editCard={editCard}
-        cardBox={cardBox}
-        onSuccess={revalidator.revalidate}
-      />
+      <CardModal ref={cardModalRef} editCard={editCard} cardBox={cardBox} onSuccess={revalidator.revalidate} />
     </>
   );
 }

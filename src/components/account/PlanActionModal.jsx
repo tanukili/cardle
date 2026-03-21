@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef } from "react";
-import { Modal } from "bootstrap";
+import { useEffect, useMemo, useRef } from 'react';
+import { Modal } from 'bootstrap';
 
 export default function PlanActionModal({
   title,
@@ -30,7 +30,7 @@ export default function PlanActionModal({
 
   useEffect(() => {
     modalInstanceRef.current = new Modal(modalRef.current, {
-      backdrop: "static",
+      backdrop: 'static',
       keyboard: false,
     });
 
@@ -42,10 +42,10 @@ export default function PlanActionModal({
       onClosedRef.current?.(); // 通知父層已經關完
       afterCloseRef.current?.(); // 關完後執行外層指定動作(navigate)
     };
-    modalRef.current.addEventListener("hidden.bs.modal", modalHandler);
+    modalRef.current.addEventListener('hidden.bs.modal', modalHandler);
 
     return () => {
-      modalRef.current?.removeEventListener("hidden.bs.modal", modalHandler);
+      modalRef.current?.removeEventListener('hidden.bs.modal', modalHandler);
       modalInstanceRef.current.dispose();
       modalInstanceRef.current = null;
     };
@@ -83,29 +83,16 @@ export default function PlanActionModal({
               <h1 className="modal-title fs-5" id="exampleModalLabel">
                 {title}
               </h1>
-              <button
-                type="button"
-                className="btn-close"
-                onClick={closeModal}
-                aria-label="Close"
-              ></button>
+              <button type="button" className="btn-close" onClick={closeModal} aria-label="Close"></button>
             </div>
-            <div className="modal-body" style={{ whiteSpace: "pre-line" }}>
+            <div className="modal-body" style={{ whiteSpace: 'pre-line' }}>
               {description}
             </div>
             <div className="modal-footer border-0">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={closeModal}
-              >
+              <button type="button" className="btn btn-secondary" onClick={closeModal}>
                 {cancelText}
               </button>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={handleConfirm}
-              >
+              <button type="button" className="btn btn-primary" onClick={handleConfirm}>
                 {confirmText}
               </button>
             </div>

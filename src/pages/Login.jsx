@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "@/store/slices/userSlice";
-import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '@/store/slices/userSlice';
+import { useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
 
 export default function Login() {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
@@ -11,9 +11,9 @@ export default function Login() {
   const navigate = useNavigate();
 
   // 表單狀態
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   /*  workaround start: 土炮 onChange 驗證功能 */
@@ -21,20 +21,20 @@ export default function Login() {
     email: [
       {
         isInvalid: false,
-        validator: (value) => value.trim() !== "",
-        message: "請輸入註冊時使用的信箱",
+        validator: (value) => value.trim() !== '',
+        message: '請輸入註冊時使用的信箱',
       },
       {
         isInvalid: false,
         validator: (value) => /^\S+@\S+$/i.test(value),
-        message: "請輸入有效的電子信箱",
+        message: '請輸入有效的電子信箱',
       },
     ],
     password: [
       {
         isInvalid: false,
-        validator: (value) => value.trim() !== "",
-        message: "請輸入密碼",
+        validator: (value) => value.trim() !== '',
+        message: '請輸入密碼',
       },
     ],
   });
@@ -59,7 +59,7 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setError('');
     setLoading(true);
 
     try {
@@ -79,20 +79,20 @@ export default function Login() {
         id: user.id,
         username: user.username,
         email: user.email,
-        avatarUrl: user.avatarImage || "default-avatar.png",
-        phone: user.phone || "",
-        address: user.address || "",
+        avatarUrl: user.avatarImage || 'default-avatar.png',
+        phone: user.phone || '',
+        address: user.address || '',
         newsletterSubscribed: user.newsletterSubscribed || false,
       };
 
       // Step C：Redux 登入
       dispatch(login(userInfo));
-      localStorage.setItem("user", JSON.stringify(userInfo));
+      localStorage.setItem('user', JSON.stringify(userInfo));
 
       // Step D：導頁
-      navigate("/user");
+      navigate('/user');
     } catch (err) {
-      const errorMsg = err.response?.data?.message || "帳號或密碼錯誤";
+      const errorMsg = err.response?.data?.message || '帳號或密碼錯誤';
       setError(errorMsg);
     } finally {
       setLoading(false);
@@ -111,9 +111,7 @@ export default function Login() {
         <div className="row">
           <section className="col-9 col-md-10 col-xl-8 mx-auto py-16 px-3 px-md-15">
             <h1 className="fs-3xl fs-md-4xl mb-4">登入</h1>
-            <p className="fw-medium mb-6 mb-md-10">
-              歡迎回來，請輸入您的帳號及密碼。
-            </p>
+            <p className="fw-medium mb-6 mb-md-10">歡迎回來，請輸入您的帳號及密碼。</p>
 
             {/* 錯誤提示 */}
             {error && <div className="alert alert-danger">{error}</div>}
@@ -126,21 +124,17 @@ export default function Login() {
                 </label>
                 <input
                   type="email"
-                  className={`form-control ${
-                    getError("email") && "is-invalid"
-                  }`}
+                  className={`form-control ${getError('email') && 'is-invalid'}`}
                   id="email"
                   placeholder="請輸入帳號"
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
-                    validate(e.target.value, "email");
+                    validate(e.target.value, 'email');
                   }}
                   required
                 />
-                {getError("email") && (
-                  <div className="invalid-feedback">{getError("email")}</div>
-                )}
+                {getError('email') && <div className="invalid-feedback">{getError('email')}</div>}
               </div>
 
               <div className="mb-4">
@@ -149,37 +143,26 @@ export default function Login() {
                 </label>
                 <input
                   type="password"
-                  className={`form-control ${
-                    getError("password") && "is-invalid"
-                  }`}
+                  className={`form-control ${getError('password') && 'is-invalid'}`}
                   id="password"
                   placeholder="請輸入密碼"
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);
-                    validate(e.target.value, "password");
+                    validate(e.target.value, 'password');
                   }}
                   required
                 />
-                {getError("password") && (
-                  <div className="invalid-feedback">{getError("password")}</div>
-                )}
+                {getError('password') && <div className="invalid-feedback">{getError('password')}</div>}
               </div>
 
-              <button
-                type="submit"
-                className="btn btn-primary w-100 mt-10 mb-4"
-                disabled={loading}
-              >
-                {loading ? "登入中..." : "登入"}
+              <button type="submit" className="btn btn-primary w-100 mt-10 mb-4" disabled={loading}>
+                {loading ? '登入中...' : '登入'}
               </button>
 
               <p>
                 新會員？
-                <Link
-                  to="/sign-up"
-                  className="link-primary ms-2 text-decoration-underline"
-                >
+                <Link to="/sign-up" className="link-primary ms-2 text-decoration-underline">
                   註冊
                 </Link>
               </p>

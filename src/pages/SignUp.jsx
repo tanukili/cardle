@@ -1,23 +1,22 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { Modal } from "bootstrap";
-import { useEffect, useRef, useState } from "react";
-import axios from "axios";
-import { uploadImage } from "@/utils/uploadImage";
-import { showSwalToast } from "../utils/swalSetting";
+import { Link, useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { Modal } from 'bootstrap';
+import { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
+import { uploadImage } from '@/utils/uploadImage';
+import { showSwalToast } from '../utils/swalSetting';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-const DEFAULT_AVATAR_URL =
-  "https://res.cloudinary.com/dt24k06gm/image/upload/v1768755900/uncd8bdsxzci1yj3aeho.png";
+const DEFAULT_AVATAR_URL = 'https://res.cloudinary.com/dt24k06gm/image/upload/v1768755900/uncd8bdsxzci1yj3aeho.png';
 const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
 
 export default function SignUp() {
   const signUpModalElRef = useRef(null);
   const signUpModalInstanceRef = useRef(null);
 
-  const [imgUrl, setImgUrl] = useState("");
-  const [imgError, setImgError] = useState("");
+  const [imgUrl, setImgUrl] = useState('');
+  const [imgError, setImgError] = useState('');
   const [imgLoading, setImgLoading] = useState(false);
 
   const {
@@ -26,30 +25,24 @@ export default function SignUp() {
     watch,
     formState: { errors },
     reset,
-  } = useForm({ mode: "onChange" });
+  } = useForm({ mode: 'onChange' });
 
-  const password = watch("password");
+  const password = watch('password');
 
   useEffect(() => {
     signUpModalInstanceRef.current = new Modal(signUpModalElRef.current);
 
     // Modal 關閉時移除焦點
-    const registerModalElement = document.querySelector("#registerModal");
+    const registerModalElement = document.querySelector('#registerModal');
     const registerModalHandler = () => {
       if (document.activeElement instanceof HTMLElement) {
         document.activeElement.blur();
       }
     };
-    registerModalElement?.addEventListener(
-      "hide.bs.modal",
-      registerModalHandler,
-    );
+    registerModalElement?.addEventListener('hide.bs.modal', registerModalHandler);
 
     return () => {
-      registerModalElement?.removeEventListener(
-        "hide.bs.modal",
-        registerModalHandler,
-      );
+      registerModalElement?.removeEventListener('hide.bs.modal', registerModalHandler);
     };
   }, []);
 
@@ -60,7 +53,7 @@ export default function SignUp() {
   const navigate = useNavigate();
   const closeSignUpModal = () => {
     signUpModalInstanceRef.current?.hide();
-    navigate("/login");
+    navigate('/login');
   };
 
   const handleImageChange = async (e) => {
@@ -69,15 +62,15 @@ export default function SignUp() {
       const file = e.target.files?.[0];
       if (!file) return;
 
-      setImgError("");
+      setImgError('');
 
       if (file.size > MAX_FILE_SIZE) {
-        setImgError("圖片大小不可超過 2MB");
+        setImgError('圖片大小不可超過 2MB');
         return;
       }
 
       // 上傳到 Cloudinary 拿網址
-      const url = await uploadImage(file, "avatars");
+      const url = await uploadImage(file, 'avatars');
       setImgUrl(url);
     } catch (error) {
     } finally {
@@ -106,10 +99,10 @@ export default function SignUp() {
 
       reset();
       setImgUrl(DEFAULT_AVATAR_URL);
-      setImgError("");
+      setImgError('');
       openSignUpModal();
     } catch (error) {
-      showSwalToast({ title: "註冊失敗，帳號已存在", variant: "error" });
+      showSwalToast({ title: '註冊失敗，帳號已存在', variant: 'error' });
     }
   };
 
@@ -129,27 +122,23 @@ export default function SignUp() {
               <p className="fw-medium">立即註冊，開始建立你的知識地圖。</p>
             </div>
             {/* 表單 */}
-            <form
-              className="row mb-6"
-              onSubmit={handleSubmit(handleSignUp)}
-              noValidate
-            >
+            <form className="row mb-6" onSubmit={handleSubmit(handleSignUp)} noValidate>
               <div className="col-xl-6 mb-4">
                 <label htmlFor="inputEmail" className="form-label">
                   電子信箱<span className="ms-1 text-primary">*</span>
                 </label>
                 <input
                   type="email"
-                  className={`form-control ${errors.email ? "is-invalid" : ""}`}
+                  className={`form-control ${errors.email ? 'is-invalid' : ''}`}
                   name="email"
                   id="inputEmail"
                   placeholder="xxxxx@example.com"
                   required
-                  {...register("email", {
-                    required: "請輸入您的電子信箱，將用於登入與通知",
+                  {...register('email', {
+                    required: '請輸入您的電子信箱，將用於登入與通知',
                     pattern: {
                       value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                      message: "電子信箱格式不正確",
+                      message: '電子信箱格式不正確',
                     },
                   })}
                 />
@@ -161,24 +150,21 @@ export default function SignUp() {
                 </label>
                 <input
                   type="text"
-                  className={`form-control ${errors.username ? "is-invalid" : ""}`}
+                  className={`form-control ${errors.username ? 'is-invalid' : ''}`}
                   name="username"
                   id="inputName"
                   placeholder="請輸入暱稱"
                   required
-                  {...register("username", {
-                    required: "請輸入您的名字或暱稱",
+                  {...register('username', {
+                    required: '請輸入您的名字或暱稱',
                     maxLength: {
                       value: 15,
-                      message: "用戶名稱最多 15 個字",
+                      message: '用戶名稱最多 15 個字',
                     },
-                    validate: (v) =>
-                      v.trim().length > 0 || "用戶名稱不能只輸入空白",
+                    validate: (v) => v.trim().length > 0 || '用戶名稱不能只輸入空白',
                   })}
                 />
-                <div className="invalid-feedback">
-                  {errors.username?.message}
-                </div>
+                <div className="invalid-feedback">{errors.username?.message}</div>
               </div>
               <div className="col-xl-6 mb-4">
                 <label htmlFor="inputPassword" className="form-label">
@@ -186,27 +172,25 @@ export default function SignUp() {
                 </label>
                 <input
                   type="password"
-                  className={`form-control ${errors.password ? "is-invalid" : ""}`}
+                  className={`form-control ${errors.password ? 'is-invalid' : ''}`}
                   name="password1"
                   id="inputPassword"
                   minLength="6"
                   placeholder="請輸入至少 6 碼的英文字母及數字"
                   required
-                  {...register("password", {
-                    required: "請輸入您的密碼",
+                  {...register('password', {
+                    required: '請輸入您的密碼',
                     minLength: {
                       value: 6,
-                      message: "密碼至少需要 6 碼",
+                      message: '密碼至少需要 6 碼',
                     },
                     pattern: {
                       value: /^(?=.*[A-Za-z])(?=.*\d).{6,}$/,
-                      message: "密碼需包含英文字母與數字",
+                      message: '密碼需包含英文字母與數字',
                     },
                   })}
                 />
-                <div className="invalid-feedback">
-                  {errors.password?.message}
-                </div>
+                <div className="invalid-feedback">{errors.password?.message}</div>
               </div>
               <div className="col-xl-6 mb-4">
                 <label htmlFor="inputPassword2" className="form-label">
@@ -214,21 +198,18 @@ export default function SignUp() {
                 </label>
                 <input
                   type="password"
-                  className={`form-control ${errors.password2 ? "is-invalid" : ""}`}
+                  className={`form-control ${errors.password2 ? 'is-invalid' : ''}`}
                   name="password2"
                   id="inputPassword2"
                   minLength="6"
                   placeholder="再次確認密碼"
                   required
-                  {...register("password2", {
-                    required: "請再次輸入密碼",
-                    validate: (v) =>
-                      v === password || "兩次密碼不一致，請再確認一次",
+                  {...register('password2', {
+                    required: '請再次輸入密碼',
+                    validate: (v) => v === password || '兩次密碼不一致，請再確認一次',
                   })}
                 />
-                <div className="invalid-feedback">
-                  {errors.password2?.message}
-                </div>
+                <div className="invalid-feedback">{errors.password2?.message}</div>
               </div>
               <div className="col-xl-6 mb-4">
                 <label htmlFor="inputPhone" className="form-label">
@@ -236,14 +217,14 @@ export default function SignUp() {
                 </label>
                 <input
                   type="text"
-                  className={`form-control ${errors.phone ? "is-invalid" : ""}`}
+                  className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
                   name="phone"
                   id="inputPhone"
                   placeholder="請輸入電話號碼"
-                  {...register("phone", {
+                  {...register('phone', {
                     pattern: {
                       value: /^(09\d{8}|0[2-8]-?\d{7})$/,
-                      message: "請輸入正確的手機或市話格式",
+                      message: '請輸入正確的手機或市話格式',
                     },
                   })}
                 />
@@ -252,38 +233,29 @@ export default function SignUp() {
               <div className="col-xl-6 mb-4 align-self-center">
                 <div className="d-flex">
                   <div className="align-self-end">
-                    <label
-                      htmlFor="inputProfile"
-                      className="form-label btn btn-outline-primary me-4 mb-0"
-                    >
+                    <label htmlFor="inputProfile" className="form-label btn btn-outline-primary me-4 mb-0">
                       {imgLoading ? (
                         <div className="d-flex align-items-center gap-1">
                           上傳中
-                          <div
-                            className="spinner-border spinner-border-sm text-primary"
-                            role="status"
-                          >
+                          <div className="spinner-border spinner-border-sm text-primary" role="status">
                             <span className="visually-hidden">Loading...</span>
                           </div>
                         </div>
                       ) : (
-                        "上傳頭貼"
+                        '上傳頭貼'
                       )}
                     </label>
                     <input
                       type="file"
                       accept="image/*"
-                      className={`form-control d-none ${imgError ? "is-invalid" : ""}`}
+                      className={`form-control d-none ${imgError ? 'is-invalid' : ''}`}
                       name="profile"
                       id="inputProfile"
                       onChange={handleImageChange}
                     />
                   </div>
                   <div className="profile-preview">
-                    <img
-                      src={imgUrl || DEFAULT_AVATAR_URL}
-                      alt="profile-preview"
-                    />
+                    <img src={imgUrl || DEFAULT_AVATAR_URL} alt="profile-preview" />
                   </div>
                 </div>
                 <div className="invalid-feedback d-block">{imgError}</div>
@@ -294,15 +266,13 @@ export default function SignUp() {
                 </label>
                 <input
                   type="text"
-                  className={`form-control ${errors.address ? "is-invalid" : ""}`}
+                  className={`form-control ${errors.address ? 'is-invalid' : ''}`}
                   name="address"
                   id="inputAddress"
                   placeholder="請輸入帳單地址"
-                  {...register("address")}
+                  {...register('address')}
                 />
-                <div className="invalid-feedback">
-                  {errors.address?.message}
-                </div>
+                <div className="invalid-feedback">{errors.address?.message}</div>
               </div>
               <div className="col-12">
                 <div className="form-check">
@@ -312,7 +282,7 @@ export default function SignUp() {
                     name="subscribe"
                     id="checkNewsletter"
                     defaultChecked
-                    {...register("subscribe")}
+                    {...register('subscribe')}
                   />
                   <label className="form-check-label" htmlFor="checkNewsletter">
                     訂閱電子報，收到更多產品資訊
@@ -322,29 +292,22 @@ export default function SignUp() {
               <div className="col-12 mb-11 mb-md-15">
                 <div className="form-check position-relative">
                   <input
-                    className={`form-check-input ${errors.agreeTerms ? "is-invalid" : ""}`}
+                    className={`form-check-input ${errors.agreeTerms ? 'is-invalid' : ''}`}
                     type="checkbox"
                     name="agreeTerms"
                     id="checkTerms"
                     required
-                    {...register("agreeTerms", {
-                      required: "請先同意《服務條款與隱私政策》",
+                    {...register('agreeTerms', {
+                      required: '請先同意《服務條款與隱私政策》',
                     })}
                   />
                   <label className="form-check-label" htmlFor="checkTerms">
                     我已閱讀並同意
-                    <a
-                      href="#"
-                      className="link-secondary"
-                      data-bs-toggle="modal"
-                      data-bs-target="#termsModal"
-                    >
+                    <a href="#" className="link-secondary" data-bs-toggle="modal" data-bs-target="#termsModal">
                       《服務條款與隱私政策》
                     </a>
                   </label>
-                  <div className="invalid-feedback position-absolute start-0">
-                    {errors.agreeTerms?.message}
-                  </div>
+                  <div className="invalid-feedback position-absolute start-0">{errors.agreeTerms?.message}</div>
                 </div>
               </div>
               <div className="col-12">
@@ -356,10 +319,7 @@ export default function SignUp() {
             {/* 立即登入 */}
             <p className="fw-medium">
               已經有Cardle帳號了？
-              <Link
-                to="/login"
-                className="text-decoration-underline link-secondary link-offset-1"
-              >
+              <Link to="/login" className="text-decoration-underline link-secondary link-offset-1">
                 立即登入
               </Link>
             </p>
@@ -368,22 +328,11 @@ export default function SignUp() {
       </main>
 
       {/* Modal - 服務條款 與 隱私權政策 */}
-      <div
-        className="modal fade"
-        id="termsModal"
-        tabIndex="-1"
-        aria-labelledby="termsModalLabel"
-        aria-hidden="true"
-      >
+      <div className="modal fade" id="termsModal" tabIndex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
           <div className="modal-content">
             <div className="modal-header border-bottom-0">
-              <button
-                type="button"
-                className="btn-close p-2_5"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+              <button type="button" className="btn-close p-2_5" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
               <div className="mb-12">
@@ -392,9 +341,7 @@ export default function SignUp() {
                   <li className="mb-1">
                     感謝您加入本網站會員（以下稱「本服務」）。申請成為會員前，請您詳細閱讀並同意本條款。
                   </li>
-                  <li className="mb-1">
-                    會員需提供真實、完整且最新的個人資料，並妥善保管帳號與密碼。
-                  </li>
+                  <li className="mb-1">會員需提供真實、完整且最新的個人資料，並妥善保管帳號與密碼。</li>
                   <li>
                     會員不得利用本服務進行任何非法行為或損害他人權益之行為。若因會員違反法律或本條款造成損害，本網站有權立即終止其帳號並追究法律責任。
                   </li>
@@ -416,11 +363,7 @@ export default function SignUp() {
               </div>
             </div>
             <div className="modal-footer border-top-0">
-              <button
-                type="button"
-                className="btn btn-primary py-md-4 w-100"
-                data-bs-dismiss="modal"
-              >
+              <button type="button" className="btn btn-primary py-md-4 w-100" data-bs-dismiss="modal">
                 關閉
               </button>
             </div>
@@ -440,38 +383,22 @@ export default function SignUp() {
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header border-bottom-0">
-              <h1
-                className="modal-title fs-2xl fs-md-3xl"
-                id="exampleModalLabel"
-              >
+              <h1 className="modal-title fs-2xl fs-md-3xl" id="exampleModalLabel">
                 <span className="material-symbols-outlined fill align-middle text-secondary fs-4xl me-2">
                   check_circle
                 </span>
                 註冊成功！
               </h1>
-              <button
-                type="button"
-                className="btn-close p-2_5"
-                aria-label="Close"
-                onClick={closeSignUpModal}
-              ></button>
+              <button type="button" className="btn-close p-2_5" aria-label="Close" onClick={closeSignUpModal}></button>
             </div>
             <div className="modal-body">
               <div>
-                <p className="fs-xl fs-md-2xl fw-medium mb-3">
-                  歡迎來到 Cardle 卡片盒筆記！
-                </p>
-                <p className="fs-m">
-                  我們已把通知信寄到您的信箱，若未收到，請稍後再查看或檢查垃圾信件匣。
-                </p>
+                <p className="fs-xl fs-md-2xl fw-medium mb-3">歡迎來到 Cardle 卡片盒筆記！</p>
+                <p className="fs-m">我們已把通知信寄到您的信箱，若未收到，請稍後再查看或檢查垃圾信件匣。</p>
               </div>
             </div>
             <div className="modal-footer border-top-0">
-              <button
-                type="button"
-                className="btn btn-primary py-md-4 w-100"
-                onClick={closeSignUpModal}
-              >
+              <button type="button" className="btn btn-primary py-md-4 w-100" onClick={closeSignUpModal}>
                 確認
               </button>
             </div>
