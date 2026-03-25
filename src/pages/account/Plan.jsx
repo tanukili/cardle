@@ -82,10 +82,10 @@ export default function Plan() {
                     {paymentMethod && (
                       <>
                         <span className="material-symbols-outlined align-bottom me-1">
-                          {PAYMENT_MAP[paymentMethod.type]?.iconName}
+                          {PAYMENT_MAP[paymentMethod?.type]?.iconName}
                         </span>
-                        <span className="me-2">{PAYMENT_MAP[paymentMethod.type]?.text || paymentMethod.type}</span>
-                        <span>{`**** **** ${paymentMethod.last4}`}</span>
+                        <span className="me-2">{PAYMENT_MAP[paymentMethod?.type]?.text || paymentMethod?.type}</span>
+                        <span>{`**** **** ${paymentMethod?.last4}`}</span>
                       </>
                     )}
                   </div>
@@ -112,7 +112,7 @@ export default function Plan() {
               </button>
               <div className="collapse show" id="payment-record-collapse">
                 <div className="my-6">
-                  {!!historyOrders.length && (
+                  {!!historyOrders?.length && (
                     <div className="table-scroll scrollbar-none">
                       <div className="payment-table-frame border border-gray-200 rounded-2 w-100 overflow-hidden">
                         <table className="table align-middle mb-0 payment-record">
@@ -132,16 +132,16 @@ export default function Plan() {
                                 <td>{getOrderPeriodText(order)}</td>
                                 <td>
                                   <span className="material-symbols-outlined align-bottom me-1">
-                                    {PAYMENT_MAP[order.paymentMethod.type].iconName}
+                                    {PAYMENT_MAP[order?.paymentMethod?.type]?.iconName}
                                   </span>
-                                  {PAYMENT_MAP[order.paymentMethod.type].text}
+                                  {PAYMENT_MAP[order?.paymentMethod?.type]?.text}
                                 </td>
                                 <td>
                                   <button type="button" className="btn btn-outline-primary">
                                     檢視
                                   </button>
                                 </td>
-                                <td>NT$ {order.plan.price}</td>
+                                <td>NT$ {order?.plan?.price}</td>
                               </tr>
                             ))}
                           </tbody>
