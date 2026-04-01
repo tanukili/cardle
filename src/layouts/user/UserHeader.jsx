@@ -3,7 +3,6 @@ import { useState, useEffect, useRef, Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { login, logout } from '@/store/slices/userSlice';
 import { Offcanvas } from 'bootstrap';
-import axios from 'axios';
 
 export default function BaseHeader() {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
