@@ -18,7 +18,6 @@ const Checkout = () => {
   const { time, setTime } = useState([]);
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const userInfo = useSelector((state) => state.user.userInfo);
-  console.log(isLoggedIn, userInfo);
 
   // // 在組件內定義一個狀態來防止重複執行
   const [isProcessing, setIsProcessing] = useState(false);
@@ -94,7 +93,6 @@ const Checkout = () => {
     // 2. 根據訂單中的 paymentMethodId 取得卡片資訊
     const pmRes = await axios.get(`${BASE_URL}paymentMethods/${order.paymentMethodId}`);
     const payment = pmRes.data;
-    console.log(payment);
     navigate(`/subscription/success/${orderId}`, {
       state: { order: order, payment: payment },
     });
@@ -120,7 +118,6 @@ const Checkout = () => {
       let refundInfo = null;
       if (oldOrder) {
         const oldPrice = oldOrder.price || 0;
-        // console.log(oldOrder,oldPrice,isNewPlanFree);
         // 只有舊訂單是「有付錢的」，才需要計算退費
         if (oldPrice > 0) {
           const totalDuration = oldOrder.nextBillingDate - oldOrder.subscribeDate;

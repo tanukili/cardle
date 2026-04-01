@@ -88,7 +88,6 @@ export const deleteCardBoxes = async (cardBoxIdSet = new Set()) => {
   if (ids.length === 0) return;
   const deletePromises = ids.map((id) => apiClient.patch(`/cardBoxes/${id}`, { is_archived: true }));
   const responses = await Promise.all(deletePromises);
-  console.log(responses, 'responses');
 
   return responses;
 };

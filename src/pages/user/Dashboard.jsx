@@ -76,7 +76,6 @@ export default function Dashboard() {
           status: 'active',
           paymentMethodId: null,
         });
-        console.log(res, '預設免費方案成功');
       } catch (error) {
         console.error('Creating order:', error);
       }
