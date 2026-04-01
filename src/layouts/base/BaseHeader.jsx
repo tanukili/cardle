@@ -95,11 +95,11 @@ export default function BaseHeader() {
                           筆記儀表板
                         </Link>
                       </li>
-                      <li>
+                      {/* <li>
                         <Link className="dropdown-item rounded-2 mb-2" to="/user/bookshelf">
                           我的書單
                         </Link>
-                      </li>
+                      </li> */}
                       <li>
                         <Link className="dropdown-item rounded-2 mb-2" to="/account">
                           會員中心
@@ -227,11 +227,11 @@ export default function BaseHeader() {
                 筆記儀表板
               </Link>
             </li>
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <Link className="nav-link text-primary rounded-2 py-3 px-4 mb-2" to="/user/bookshelf">
                 我的書單
               </Link>
-            </li>
+            </li> */}
             <li className="nav-item">
               <Link className="nav-link text-primary rounded-2 py-3 px-4 mb-2" to="/account">
                 會員中心
