@@ -83,7 +83,7 @@ export default function PlanSwiper() {
               </div>
               {/* CTA 按鈕 */}
               <Link
-                to="/sign-up"
+                to={`${plan.title === 'Free' ? '/sign-up' : `/subscription/checkout/${plan.id}`}`}
                 className={`btn ${
                   plan.id === recommendedPlan ? 'btn-secondary' : 'btn-outline-gray-400'
                 } fs-m fs-md-xl py-md-4 mt-auto w-100`}
