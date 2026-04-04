@@ -216,7 +216,7 @@ export default function SignUp() {
                   電話
                 </label>
                 <input
-                  type="text"
+                  type="tel"
                   className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
                   name="phone"
                   id="inputPhone"
