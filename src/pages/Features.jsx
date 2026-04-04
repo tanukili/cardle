@@ -38,7 +38,7 @@ export default function Features() {
             </span>
           </div>
           <div className="intro-main pt-6 pt-md-16 row justify-content-center">
-            <div className="col-12 col-lg-8" data-aos="fade-up" data-aos-duration="500">
+            <div className="col-lg-8" data-aos="fade-up" data-aos-duration="500">
               <p className="fs-m fs-md-xl fw-bold text-center text-lg-start text-gray-50 mb-6">
                 Cardle
                 是一個基於卡片筆記（Zettelkasten）開發的筆記空具，協助你快速建立卡片與卡片見的連結。同時包含學習資源整合與進度追蹤功能，讓你的學習更迅速直覺。
@@ -61,7 +61,7 @@ export default function Features() {
                 alt="product-2"
               />
             </div>
-            <div className="col-12 col-lg-6 gx-10 text-center text-lg-start">
+            <div className="col-lg-6 gx-10 text-center text-lg-start">
               <h3 className="fs-2xl fs-md-4xl mb-4 mb-md-6 fw-bold text-gray-0">打造你的專屬知識庫</h3>
               <span className="badge fs-sm fs-md-2xl fw-bold px-md-4 py-md-2 bg-tag-success-bg text-tag-success mb-6 mb-md-8">
                 # 輕鬆整理知識
@@ -86,7 +86,7 @@ export default function Features() {
           </div>
 
           <div className="row pt-10 pt-lg-30">
-            <div className="col-12 col-lg-6 gx-10 text-center text-lg-start">
+            <div className="col-lg-6 gx-10 text-center text-lg-start">
               <h3 className="fs-2xl fs-md-4xl mb-4 mb-md-6 fw-bold text-gray-0">閱讀追蹤</h3>
               <span className="badge fs-s fs-md-2xl fw-bold px-md-4 py-md-2 bg-tag-orange-bg text-tag-orange mb-6 mb-md-8">
                 # 留住上次停下的腳步

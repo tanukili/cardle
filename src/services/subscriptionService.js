@@ -47,6 +47,5 @@ export const getActivePlanByUser = async (userId) => {
     _order: 'desc',
   };
   const response = await apiClient.get(`/orders`, { params });
-  console.log(response[0], 'response');
   return response[0] || null;
 };

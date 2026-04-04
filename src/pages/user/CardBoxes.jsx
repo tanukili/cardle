@@ -75,7 +75,6 @@ export default function CardBoxs() {
   const deleteSelectedCardBoxes = async () => {
     try {
       const response = await deleteCardBoxes(selectedIds);
-      console.log(response, 'response');
       showSwalToast({ title: '刪除成功' });
       setSelectedIds(new Set());
       getCardBoxes();

@@ -19,7 +19,7 @@ export default function BookshelfIndex() {
     { date: '2025-10-30', status: 'highlight' }, // 範例：當天高亮背景
   ];
 
-  const learningResources = [
+  const [learningResources, setLearningResources] = useState([
     {
       id: 'res_css_book_001',
       title: '金魚都能懂的 CSS 必學屬性',
@@ -80,7 +80,7 @@ export default function BookshelfIndex() {
       created_at: 1703635000,
       updated_at: 1704000000,
     },
-  ];
+  ]);
 
   const progressResources = learningResources.map((resource) => ({
     id: resource.id,
@@ -221,23 +221,43 @@ export default function BookshelfIndex() {
     return formattedDate;
   };
 
-  const todoList = [
+  const [todoList, setTodoList] = useState([
     {
       isCompleted: true,
       content: 'JS 課前影音',
       pomoNum: 2,
+      id: 'todo_001',
     },
     {
       isCompleted: true,
       content: 'Leetcode 刷題',
       pomoNum: 0,
+      id: 'todo_002',
     },
     {
       isCompleted: false,
       content: 'duolingo 英文三個單元',
       pomoNum: 0,
+      id: 'todo_003',
     },
-  ];
+  ]);
+
+  // TO DO：可以將 toggle checkbox 功能封裝成一個 component
+  const handleTodoCompleteChange = (id) => {
+    setTodoList((prev) => {
+      const targetTodo = prev.find((todo) => todo.id === id);
+      targetTodo.isCompleted = !targetTodo.isCompleted;
+      return [...prev, targetTodo];
+    });
+  };
+
+  const handleFavoriteChange = (id) => {
+    setLearningResources((prev) => {
+      const targetResource = prev.find((resource) => resource.id === id);
+      targetResource.is_favorite = !targetResource.is_favorite;
+      return [...prev, targetResource];
+    });
+  };
 
   return (
     <main>
@@ -269,15 +289,16 @@ export default function BookshelfIndex() {
               <div className="card-body pb-10">
                 <h3 className="mb-6">今日任務</h3>
                 <ul className="list-group row-gap-6 mb-6">
-                  {todoList.map((todo, index) => (
-                    <li key={index} className="form-check d-flex items-center">
+                  {todoList.map((todo) => (
+                    <li key={todo.id} className="form-check d-flex items-center">
                       <input
                         className="form-check-input"
                         type="checkbox"
-                        id={`checkDefault-${index}`}
+                        id={`checkDefault-${todo.id}`}
                         checked={todo.isCompleted}
+                        onChange={() => handleTodoCompleteChange(todo.id)}
                       />
-                      <label className="form-check-label" htmlFor={`checkDefault-${index}`}>
+                      <label className="form-check-label" htmlFor={`checkDefault-${todo.id}`}>
                         {todo.content}
                       </label>
                       {Array.from({ length: todo.pomoNum }, (_, i) => (
@@ -358,8 +379,64 @@ export default function BookshelfIndex() {
               </tr>
             </thead>
             <tbody>
-              {displayResources.map((resources) => (
-                <tr key={resources.id}>
+              {displayResources.map((resources) => {
+                const tds = resourceColMap.map(({ correspondingKey }) => {
+                  if (correspondingKey === 'is_favorite') {
+                    return (
+                      <td key={correspondingKey}>
+                        <input
+                          type="checkbox"
+                          className="btn-check"
+                          id={`btn-check-${resources.id}`}
+                          autoComplete="off"
+                          checked={resources.is_favorite}
+                          onChange={() => handleFavoriteChange(resources.id)}
+                        />
+                        <label
+                          className="btn"
+                          htmlFor={`btn-check-${resources.id}`}
+                          style={{
+                            border: 'none',
+                          }}
+                        >
+                          <span
+                            className="material-symbols-outlined text-warning"
+                            style={{
+                              fontVariationSettings: `'FILL' ${Number(resources.is_favorite)}`,
+                            }}
+                          >
+                            star
+                          </span>
+                        </label>
+                      </td>
+                    );
+                  }
+                  if (correspondingKey === 'link') {
+                    return (
+                      <td key={correspondingKey}>
+                        <a href={resources[correspondingKey].url} className="link-secondary" target="_blank">
+                          {resources[correspondingKey]?.text
+                            ? resources[correspondingKey].text
+                            : resources[correspondingKey].url}
+                        </a>
+                      </td>
+                    );
+                  }
+                  if (correspondingKey === 'type') {
+                    return <td key={correspondingKey}>{typeMap[resources[correspondingKey]]}</td>;
+                  }
+                  if (correspondingKey === 'status') {
+                    return <td key={correspondingKey}>{statusMap[resources[correspondingKey]]}</td>;
+                  }
+                  if (correspondingKey.includes('_at')) {
+                    return <td key={correspondingKey}>{formatDate(resources[correspondingKey])}</td>;
+                  }
+
+                  return <td key={correspondingKey}>{resources[correspondingKey]}</td>;
+                });
+
+                return (
+                  <tr key={resources.id}>
                   <th scope="row">
                     <input
                       className="form-check-input"
@@ -369,63 +446,13 @@ export default function BookshelfIndex() {
                       aria-label="selected"
                     />
                   </th>
-                  {resourceColMap.map(({ correspondingKey }) => {
-                    if (correspondingKey === 'is_favorite') {
-                      return (
-                        <td>
-                          <input
-                            type="checkbox"
-                            className="btn-check"
-                            id={`btn-check-${resources.id}`}
-                            autoComplete="off"
-                            checked={resources.is_favorite}
-                          />
-                          <label
-                            className="btn"
-                            htmlFor={`btn-check-${resources.id}`}
-                            style={{
-                              border: 'none',
-                            }}
-                          >
-                            <span
-                              className="material-symbols-outlined text-warning"
-                              style={{
-                                fontVariationSettings: `'FILL' ${Number(resources.is_favorite)}`,
-                              }}
-                            >
-                              star
-                            </span>
-                          </label>
-                        </td>
-                      );
-                    }
-                    if (correspondingKey === 'link') {
-                      return (
-                        <td key={correspondingKey}>
-                          <a href={resources[correspondingKey].url} className="link-secondary" target="_blank">
-                            {resources[correspondingKey]?.text
-                              ? resources[correspondingKey].text
-                              : resources[correspondingKey].url}
-                          </a>
-                        </td>
-                      );
-                    }
-                    if (correspondingKey === 'type') {
-                      return <td>{typeMap[resources[correspondingKey]]}</td>;
-                    }
-                    if (correspondingKey === 'status') {
-                      return <td>{statusMap[resources[correspondingKey]]}</td>;
-                    }
-                    if (correspondingKey.includes('_at')) {
-                      return <td>{formatDate(resources[correspondingKey])}</td>;
-                    }
-                    return <td key={correspondingKey}>{resources[correspondingKey]}</td>;
-                  })}
+                  {tds}
                   <td>
                     <span className="material-symbols-outlined me-3">delete</span>
                   </td>
                 </tr>
-              ))}
+                );
+              })}
             </tbody>
           </table>
         </div>

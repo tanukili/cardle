@@ -57,7 +57,7 @@ export default function Detail() {
             }}
           >
             {/* Slide 1 */}
-            <SwiperSlide className="col-md-4 col-12 h-auto">
+            <SwiperSlide className="col-md-4 h-auto">
               <div className="bg-gray-0 p-6 border border-gray-100 rounded-4 d-flex flex-column h-100">
                 <div>
                   <div className="pb-6 border-bottom border-gray-400 mb-8">
@@ -109,7 +109,7 @@ export default function Detail() {
                 )}
               </div>
             </SwiperSlide>
-            <SwiperSlide className="col-md-4 col-12 h-auto">
+            <SwiperSlide className="col-md-4 h-auto">
               <div className="bg-gray-0 p-6 border border-2 border-secondary rounded-4 shadow d-flex flex-column h-100">
                 <div>
                   <div className="pb-6 border-bottom border-gray-400 mb-8">
@@ -156,7 +156,7 @@ export default function Detail() {
                 </Link>
               </div>
             </SwiperSlide>
-            <SwiperSlide className="col-md-4 col-12 h-auto">
+            <SwiperSlide className="col-md-4 h-auto">
               <div className="bg-gray-0 p-6 border border-gray-100 rounded-4 d-flex flex-column h-100">
                 <div>
                   <div className="pb-6 border-bottom border-gray-400 mb-8">

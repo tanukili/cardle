@@ -88,8 +88,6 @@ export const getUserSubscription = createAsyncThunk('subscription/getUserSubscri
         paymentMethod: paymentMethods.find((pm) => pm.id === order.paymentMethodId) || null,
       }));
 
-    // console.log("results: ", activeOrder, plan, paymentMethod, historyOrders);
-
     return { activeOrder, plan, paymentMethod, historyOrders };
   } catch (error) {
     return thunkAPI.rejectWithValue('無法取得會員訂閱相關資料，請再試一次');

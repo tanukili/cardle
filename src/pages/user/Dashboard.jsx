@@ -76,7 +76,6 @@ export default function Dashboard() {
           status: 'active',
           paymentMethodId: null,
         });
-        console.log(res, '預設免費方案成功');
       } catch (error) {
         console.error('Creating order:', error);
       }
@@ -360,7 +359,7 @@ export default function Dashboard() {
           <div className="container mb-lg-10">
             <div className="row gx-6">
               {/* <!-- 圓餅圖 --> */}
-              <div className="pie-chart col-12 col-lg-6 col-xl-5 mb-8 mb-lg-0 position-relative">
+              <div className="pie-chart col-lg-6 col-xl-5 mb-8 mb-lg-0 position-relative">
                 <div className="card bg-gray-0 border-primary-100 rounded-4 h-100">
                   <div className="card-title p-4 mb-0 p-xl-6">
                     <h3 className="fs-l lh-base fw-normal text-primary-900 fs-xl-xl">本月學習主題</h3>
@@ -432,7 +431,7 @@ export default function Dashboard() {
                 </div>
               </div>
               {/* <!-- 長條圖 --> */}
-              <div className="bar-chart col-12 col-lg-6 col-xl-7 mb-8 mb-md-10 mb-lg-0">
+              <div className="bar-chart col-lg-6 col-xl-7 mb-8 mb-md-10 mb-lg-0">
                 <div className="overflow-scroll scrollbar-none">
                   <div className="card bg-gray-0 border-primary-100 rounded-4">
                     <div className="card-title p-4 mb-0 p-xl-6">

@@ -33,7 +33,7 @@ export default function Calendar() {
             height: '100%',
           }}
         >
-          <span class="material-symbols-outlined">check_circle</span>
+          <span className="material-symbols-outlined">check_circle</span>
         </div>
       );
     }
@@ -48,7 +48,7 @@ export default function Calendar() {
             height: '100%',
           }}
         >
-          <span class="material-symbols-outlined">airline_seat_flat</span>
+          <span className="material-symbols-outlined">airline_seat_flat</span>
         </div>
       );
     }
