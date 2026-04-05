@@ -168,7 +168,7 @@ const Checkout = () => {
         isAutoRenew: true,
         agreedToTerms: true,
         status: 'active',
-        paymentMethodId: pmId,
+        paymentMethodId: isNewPlanFree ? 'pm_system_free' : pmId,
       };
       const orderRes = await axios.post(`${BASE_URL}orders`, newOrder);
 

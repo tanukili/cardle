@@ -74,7 +74,7 @@ export default function Dashboard() {
           isAutoRenew: true,
           agreedToTerms: true,
           status: 'active',
-          paymentMethodId: null,
+          paymentMethodId: "pm_system_free",
         });
       } catch (error) {
         console.error('Creating order:', error);
