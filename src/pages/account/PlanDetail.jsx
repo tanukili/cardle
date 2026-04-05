@@ -1,11 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect, useMemo } from 'react';
-import { getPlans } from '../../services/subscriptionService';
-import { formatDate } from '../../utils/filter';
+import { getPlans } from '@/services/subscriptionService';
+import { formatDate } from '@/utils/filter';
 import { getUserSubscription } from '@/store/slices/subscriptionSlice';
 import { inactivateOrder } from '@/services/subscriptionService';
-import PlanActionModal from '../../components/account/PlanActionModal';
+import PlanActionModal from '@/components/account/PlanActionModal';
 
 export default function PlanDetail() {
   const [showCancelModal, setShowCancelModal] = useState(false);

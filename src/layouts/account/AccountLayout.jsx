@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { Link, NavLink, Outlet } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import UserHeader from '../user/UserHeader';
-import { getUserSubscription } from '../../store/slices/subscriptionSlice';
+import UserHeader from '@/layouts/user/UserHeader';
+import { getUserSubscription } from '@/store/slices/subscriptionSlice';
 
 export default function AccountLayout() {
   const dispatch = useDispatch();

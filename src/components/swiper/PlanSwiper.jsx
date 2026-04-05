@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
+
+import { getPlans } from '@/services/subscriptionService';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -10,18 +11,11 @@ export default function PlanSwiper() {
   const [plans, setPlans] = useState([]);
   const [recommendedPlan, setRecommendedPlan] = useState('plan_pro_month');
 
-  const getPlans = async () => {
-    try {
-      const res = await axios.get(`${BASE_URL}plans`);
-      setPlans(res.data);
-      // console.log(res.data);
-    } catch (error) {
-      alert(error.response?.data.message || '無法取得訂閱方案');
-    }
-  };
-
   useEffect(() => {
-    getPlans();
+    (async () => {
+      const data = await getPlans();
+      setPlans(data);
+    })();
   }, []);
 
   return (

@@ -1,14 +1,14 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
-import { formatDate } from '../../utils/filter';
-import { switchPaidToFree, switchYearToMonth, upgradeMonthToYear } from '../../store/slices/subscriptionSlice';
-import PlanActionModal from '../account/PlanActionModal';
-import { showSwalToast } from '../../utils/swalSetting';
+import { formatDate } from '@/utils/filter';
+import { switchPaidToFree, switchYearToMonth, upgradeMonthToYear } from '@/store/slices/subscriptionSlice';
+import PlanActionModal from '@/components/account/PlanActionModal';
+import { showSwalToast } from '@/utils/swalSetting';
+import { getPlans } from '@/services/subscriptionService';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -198,18 +198,12 @@ export default function PersonalPlanSwiper() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const getPlans = useCallback(async () => {
-    try {
-      const res = await axios.get(`${BASE_URL}plans`);
-      setPlans(res.data);
-    } catch (error) {
-      alert(error.response?.data.message || '無法取得訂閱方案');
-    }
-  }, []);
-
   useEffect(() => {
-    getPlans();
-  }, [getPlans]);
+    (async () => {
+      const data = await getPlans();
+      setPlans(data);
+    })();
+  }, []);
 
   useEffect(() => {
     setCurrentPlanId(userPlan?.id || 'plan_free');

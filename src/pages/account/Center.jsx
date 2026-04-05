@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { formatDate } from '../../utils/filter';
+import { formatDate } from '@/utils/filter';
 
 const PAYMENT_MAP = {
   credit_card: {
