@@ -5,9 +5,11 @@ import BaseFooter from '@/layouts/base/BaseFooter';
 export default function HomeLayout() {
   return (
     <>
-      <BaseHeader />
-      <Outlet />
-      <BaseFooter />
+      <div className="d-flex flex-column min-vh-100">
+        <BaseHeader />
+        <Outlet />
+        <BaseFooter />
+      </div>
     </>
   );
 }

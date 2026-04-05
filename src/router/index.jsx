@@ -30,6 +30,8 @@ import HomeLayout from '@/layouts/HomeLayout';
 import AccountLayout from '@/layouts/account/AccountLayout';
 import UserLayout from '@/layouts/user/UserLayout';
 
+import NotFound from '@/pages/NotFound';
+
 import { getCardBoxDetail } from '@/services/cardBoxService';
 import { protectedLoader } from '@/services/loader';
 
@@ -71,6 +73,10 @@ const router = createHashRouter([
           },
         ],
       },
+      {
+        path: '*',
+        element: <NotFound />,
+      },
     ],
   },
   // 6-2 相關
@@ -103,6 +109,10 @@ const router = createHashRouter([
             element: <AccountPlanUpgrade />,
           },
         ],
+      },
+      {
+        path: '*',
+        element: <NotFound />,
       },
     ],
   },
@@ -170,7 +180,15 @@ const router = createHashRouter([
           },
         ],
       },
+      {
+        path: '*',
+        element: <NotFound />,
+      },
     ],
+  },
+  {
+    path: '*',
+    element: <NotFound />,
   },
   { basename: '/cardle' },
 ]);
