@@ -4,7 +4,7 @@ import { Modal } from 'bootstrap';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { uploadImage } from '@/utils/uploadImage';
-import { showSwalToast } from '../utils/swalSetting';
+import { showSwalToast } from '@/utils/swalSetting';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 

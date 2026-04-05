@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import PersonalPlanSwiper from '../../components/swiper/PersonalPlanSwiper';
+import PersonalPlanSwiper from '@/components/swiper/PersonalPlanSwiper';
 
-import axios from 'axios';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import { formatDate, getOrderPeriodText } from '../../utils/filter';
+import { formatDate, getOrderPeriodText } from '@/utils/filter';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 

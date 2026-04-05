@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
-import PlanSwiper from '../components/swiper/PlanSwiper';
+import PlanSwiper from '@/components/swiper/PlanSwiper';
 
 export default function Home() {
   return (

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import PersonalPlanSwiper from '../../components/swiper/PersonalPlanSwiper';
+import PersonalPlanSwiper from '@/components/swiper/PersonalPlanSwiper';
 
 export default function PlanUpgrade() {
   return (
