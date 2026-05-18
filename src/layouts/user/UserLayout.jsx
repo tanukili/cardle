@@ -1,11 +1,13 @@
-import { Outlet } from "react-router-dom";
-import UserHeader from "@/layouts/user/UserHeader";
+import { Outlet } from 'react-router-dom';
+import UserHeader from '@/layouts/user/UserHeader';
 
 export default function userLayout() {
   return (
     <>
-      <UserHeader />
-      <Outlet />
+      <div className="d-flex flex-column min-vh-100">
+        <UserHeader />
+        <Outlet />
+      </div>
     </>
   );
 }

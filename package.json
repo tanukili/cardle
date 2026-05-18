@@ -11,7 +11,8 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "backend": "json-server-auth db.json --port 4000",
-    "start": "node server.js"
+    "start": "node server.js",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@fullcalendar/core": "^6.1.20",
@@ -46,6 +47,7 @@
     "yup": "^1.7.1"
   },
   "devDependencies": {
+    "prettier": "^3.8.1",
     "@eslint/js": "^9.39.1",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",

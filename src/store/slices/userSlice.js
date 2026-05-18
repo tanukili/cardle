@@ -1,16 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState: {
     isLoggedIn: false,
     userInfo: {
-      id: "",
-      username: "",
-      email: "",
-      avatarUrl: "",
-      phone: "",
-      address: "",
+      id: '',
+      username: '',
+      email: '',
+      avatarUrl: '',
+      phone: '',
+      address: '',
       newsletterSubscribed: false,
     },
   },
@@ -22,12 +22,12 @@ const userSlice = createSlice({
     logout: (state, action) => {
       state.isLoggedIn = false;
       state.userInfo = {
-        id: "",
-        username: "",
-        email: "",
-        avatarUrl: "",
-        phone: "",
-        address: "",
+        id: '',
+        username: '',
+        email: '',
+        avatarUrl: '',
+        phone: '',
+        address: '',
         newsletterSubscribed: false,
       };
     },

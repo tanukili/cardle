@@ -1,6 +1,6 @@
-import { useMemo } from "react";
-import BaseCard from "@/components/card/BaseCard";
-import { useColumnConfig } from "@/hooks/useBreakpoint";
+import { useMemo } from 'react';
+import BaseCard from '@/components/card/BaseCard';
+import { useColumnConfig } from '@/hooks/useBreakpoint';
 
 // data: 卡片
 // columnConfig: 斷點欄數 { lg: 3, xl: 4 }
@@ -16,8 +16,7 @@ export default function MasonryCards({ data, columnConfig, renderCard }) {
     return result;
   }, [data, columnCount]);
 
-  const renderItem = (card) =>
-    renderCard ? renderCard(card) : <BaseCard card={card} />;
+  const renderItem = (card) => (renderCard ? renderCard(card) : <BaseCard card={card} />);
 
   return (
     <div className="row">

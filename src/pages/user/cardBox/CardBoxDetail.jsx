@@ -1,15 +1,16 @@
-import { useLoaderData, Link, useRevalidator } from "react-router-dom";
-import { useState, useRef } from "react";
-import { Modal } from "bootstrap";
-import { showSwalToast } from "@/utils/swalSetting";
-import BaseCard from "@/components/card/BaseCard";
-import MasonryCards from "@/components/card/MasonryCards";
-import { deleteCards, createCard } from "@/services/cardService";
+import { useLoaderData, Link, useRevalidator } from 'react-router-dom';
+import { useState, useRef, useEffect } from 'react';
+import { showSwalToast } from '@/utils/swalSetting';
+import { deleteCards } from '@/services/cardService';
+import BaseCard from '@/components/card/BaseCard';
+import MasonryCards from '@/components/card/MasonryCards';
+import CardBoxModal from '@/components/card/CardBoxModal';
+import CardModal from '@/components/card/CardModal';
 
 export default function CardBoxDetail() {
   const { cardBox, cards } = useLoaderData();
   const revalidator = useRevalidator();
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
   const [isBaseCardMode, setIsBaseCardMode] = useState(false);
 
   const [isSelectMode, setIsSelectMode] = useState(false);
@@ -35,75 +36,109 @@ export default function CardBoxDetail() {
     setIsDeleting(true);
     try {
       await deleteCards(selectedIds);
-      showSwalToast({ title: "刪除成功" });
+      showSwalToast({ title: '刪除成功' });
       setSelectedIds(new Set());
       revalidator.revalidate();
     } catch (err) {
       const errorMsg = `${err.response.status} ${err.response.statusText}`;
-      showSwalToast({ title: `刪除失敗，${errorMsg}`, variant: "error" });
+      showSwalToast({ title: `刪除失敗，${errorMsg}`, variant: 'error' });
     } finally {
       setIsDeleting(false);
     }
   };
 
-  const [newCard, setNewCard] = useState({ title: "", content: "" });
-  const createCardModalRef = useRef(null);
-  const [isCreating, setIsCreating] = useState(false);
+  // 卡片封面伸縮
+  const [isCoverSmall, setIsCoverSmall] = useState(false);
+  const coverSentinelRef = useRef(null);
+  const isTransitioningRef = useRef(false);
+  const coverImageRef = useRef(null);
 
-  const handleCreateCard = async (e) => {
-    e.preventDefault();
-    setIsCreating(true);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (isTransitioningRef.current) return;
 
-    const cardContent = {
-      title: newCard.title.trim(),
-      content: newCard.content,
-      tags: [`${cardBox.title}`],
-    };
+        const shouldBeSmall = !entry.isIntersecting;
+        setIsCoverSmall(shouldBeSmall);
+        isTransitioningRef.current = true;
 
-    try {
-      await createCard(cardContent, cardBox.id);
-      showSwalToast({ title: "新增成功" });
-      setNewCard({ title: "", content: "" });
+        // 冷卻時間 (大於等於 CSS transition)
+        setTimeout(() => {
+          isTransitioningRef.current = false;
+        }, 500);
+      },
+      {
+        rootMargin: '-10px 0px 0px 0px',
+      },
+    );
 
-      if (createCardModalRef.current) {
-        Modal.getOrCreateInstance(createCardModalRef.current).hide();
-      }
-      revalidator.revalidate();
-    } catch (err) {
-      const errorMsg = err?.response
-        ? `${err.response.status} ${err.response.statusText}`
-        : "請稍後再試";
-      showSwalToast({ title: `新增失敗，${errorMsg}`, variant: "error" });
-    } finally {
-      setIsCreating(false);
+    if (coverSentinelRef.current) {
+      observer.observe(coverSentinelRef.current);
     }
+
+    return () => observer.disconnect();
+  }, [isCoverSmall]);
+
+  // to do：統一使用 Spinner 元件
+  const Spinner = (showSpinner, extraClass = '') => {
+    return showSpinner ? (
+      <span className={`spinner-border spinner-border-sm me-2 ${extraClass}`} role="status" aria-hidden="true" />
+    ) : null;
+  };
+
+  const cardModalRef = useRef(null);
+  const [editCard, setEditCard] = useState(null);
+  const openCardModal = (card = null) => {
+    setEditCard(card);
+    cardModalRef.current?.show();
   };
 
   return (
     <>
+      <div ref={coverSentinelRef} className="w-100" style={{ height: '1px' }} />
       <section className="card-box-detail container position-sticky pt-6 bg-white z-2 mb-6 mb-lg-8">
         <Link
           to="/user/card-boxes"
           className="mb-4 py-1 pe-2 fs-s text-gray-600 d-inline-flex align-items-center mb-lg-10 fs-lg-m px-lg-4 py-lg-2"
         >
-          <span className="material-symbols-outlined icon-sm me-2_5 me-lg-3 ">
-            arrow_back_ios_new
-          </span>
+          <span className="material-symbols-outlined icon-sm me-2_5 me-lg-3 ">arrow_back_ios_new</span>
           返回卡片盒列表
         </Link>
-        <h1 className="fs-2xl fs-lg-3xl mb-4">{cardBox.title}</h1>
-        <div className="position-relative mb-6 rounded-1 overflow-hidden mb-lg-8">
-          {cardBox.cover_url ? (
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <h1 className="fs-2xl fs-lg-3xl">{cardBox.title}</h1>
+          {!cardBox.cover_url && (
+            <button
+              className="btn btn-icon-primary btn-gray-0 p-2 rounded-circle border-primary-200"
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#updateCardBoxModal"
+            >
+              <span className="material-icons-outlined d-block">edit</span>
+            </button>
+          )}
+        </div>
+        {cardBox.cover_url && (
+          <div
+            className={`card-box-detail-cover position-relative rounded-1 overflow-hidden ${
+              isCoverSmall ? 'cover-small' : 'mb-6 mb-lg-8'
+            }`}
+          >
             <img
-              className="card-box-detail-cover"
+              className="w-100 h-100 object-fit-cover"
+              ref={coverImageRef}
+              loading="lazy"
               src={cardBox.cover_url}
               alt={cardBox.title}
             />
-          ) : null}
-          <button className="btn btn-icon-primary btn-gray-0 p-2 rounded-circle position-absolute top-0 end-0 m-3 m-lg-6 ">
-            <span className="material-icons-outlined d-block">edit</span>
-          </button>
-        </div>
+            <button
+              className="btn btn-icon-primary btn-gray-0 p-2 rounded-circle position-absolute top-0 end-0 m-3 m-lg-6 "
+              data-bs-toggle="modal"
+              data-bs-target="#updateCardBoxModal"
+            >
+              <span className="material-icons-outlined d-block">edit</span>
+            </button>
+          </div>
+        )}
         <div className="row g-4 gx-md-3">
           <div className="col-md-auto order-md-2">
             <div className="form-check form-switch my-auto h-100 d-flex align-items-center ms-md-5">
@@ -115,20 +150,14 @@ export default function CardBoxDetail() {
                 checked={isBaseCardMode}
                 onChange={() => setIsBaseCardMode(!isBaseCardMode)}
               />
-              <label
-                className="form-check-label text-primary"
-                htmlFor="cardModeSwitch"
-              >
+              <label className="form-check-label text-primary" htmlFor="cardModeSwitch">
                 詳細模式
               </label>
             </div>
           </div>
           <div className="col-lg-5">
             <div className="d-sm-flex">
-              <div
-                className="form-control-container with-icon flex-grow-1"
-                style={{ maxWidth: "320px" }}
-              >
+              <div className="form-control-container with-icon flex-grow-1" style={{ maxWidth: '320px' }}>
                 <input
                   id="searchCardBox"
                   type="text"
@@ -143,15 +172,14 @@ export default function CardBoxDetail() {
                   className="input-clearup"
                   onClick={(e) => {
                     e.preventDefault();
-                    setSearchValue("");
+                    setSearchValue('');
                   }}
                 >
                   <span className="material-symbols-outlined">close</span>
                 </a>
               </div>
               <p className="text-gray-700 mt-4 text-nowrap my-sm-auto ms-sm-4 ms-xl-8">
-                共
-                <span className="mx-1 fw-bold tracking-2">{cards.length}</span>
+                共<span className="mx-1 fw-bold tracking-2">{cards.length}</span>
                 個卡片
               </p>
             </div>
@@ -161,9 +189,7 @@ export default function CardBoxDetail() {
             <div className="col-6 col-md-auto ms-auto text-end ">
               <p className="text-gray-700 d-flex align-items-center h-100">
                 已選取
-                <span className="fw-bold mx-1 tracking-2">
-                  {selectedIds.size}
-                </span>
+                <span className="fw-bold mx-1 tracking-2">{selectedIds.size}</span>
                 個卡片
               </p>
             </div>
@@ -177,35 +203,20 @@ export default function CardBoxDetail() {
                 onClick={handleDeleteCards}
                 disabled={selectedIds.size === 0 || isDeleting}
               >
-                {isDeleting && (
-                  <span
-                    className="spinner-border spinner-border-sm me-2"
-                    role="status"
-                    aria-hidden="true"
-                  />
-                )}
+                {Spinner(isDeleting, 'me-2')}
                 刪除卡片
               </button>
             </div>
           ) : (
             <div className="col-md-auto order-md-1">
-              <button
-                className="btn btn-outline-primary w-100"
-                type="button"
-                data-bs-toggle="modal"
-                data-bs-target="#createCardModal"
-              >
+              <button className="btn btn-outline-primary w-100" type="button" onClick={() => openCardModal()}>
                 新增卡片
               </button>
             </div>
           )}
-          <div className={`col-md-auto  ${isSelectMode ? "" : "ms-auto"}`}>
-            <button
-              className="btn btn-outline-primary w-100"
-              type="button"
-              onClick={toggleSelectMode}
-            >
-              {isSelectMode ? "取消選取" : "選取"}
+          <div className={`col-md-auto  ${isSelectMode ? '' : 'ms-auto'}`}>
+            <button className="btn btn-outline-primary w-100" type="button" onClick={toggleSelectMode}>
+              {isSelectMode ? '取消選取' : '選取'}
             </button>
           </div>
         </div>
@@ -213,6 +224,11 @@ export default function CardBoxDetail() {
       </section>
       {/* 卡片列表 */}
       <section className="container pb-10">
+        {cards.length === 0 && (
+          <div className="alert alert-light mb-4 text-center" role="alert">
+            {cards.length ? '沒有符合條件的卡片' : '目前沒有任何卡片'}
+          </div>
+        )}
         {isBaseCardMode ? (
           <MasonryCards
             data={cards}
@@ -225,6 +241,7 @@ export default function CardBoxDetail() {
                 isSelectMode={isSelectMode}
                 isSelected={selectedIds.has(card.id)}
                 onSelect={handleSelectCard}
+                onCardClick={() => openCardModal({ id: card.id, title: card.title, content: card.content })}
               />
             )}
           />
@@ -238,6 +255,7 @@ export default function CardBoxDetail() {
                   isSelectMode={isSelectMode}
                   isSelected={selectedIds.has(card.id)}
                   onSelect={handleSelectCard}
+                  onCardClick={() => openCardModal({ id: card.id, title: card.title, content: card.content })}
                 />
               </div>
             ))}
@@ -245,124 +263,15 @@ export default function CardBoxDetail() {
         )}
       </section>
 
-      {/* 新增卡片 Modal */}
-      <div
-        className="modal-reset modal fade"
-        id="createCardModal"
-        tabIndex="-1"
-        aria-labelledby="createCardModalLabel"
-        aria-hidden="true"
-        ref={createCardModalRef}
-      >
-        <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h2
-                className="modal-title fs-l fs-lg-2xl"
-                id="createCardModalLabel"
-              >
-                新增卡片
-              </h2>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              />
-            </div>
-            <form onSubmit={handleCreateCard}>
-              <div className="modal-body">
-                <p className="mb-4 d-flex align-items-center">
-                  所屬卡片盒
-                  <span
-                    className={`badge badge-${
-                      cardBox.color ?? "secondary"
-                    } lh-base ms-2`}
-                  >
-                    {cardBox.title}
-                  </span>
-                </p>
-                <div className="mb-4">
-                  <label htmlFor="cardTitle" className="form-label fs-m">
-                    卡片標題
-                  </label>
-                  <div className="form-control-container">
-                    <input
-                      id="cardTitle"
-                      className="form-control"
-                      type="text"
-                      placeholder="請輸入卡片標題"
-                      value={newCard.title}
-                      onChange={(e) =>
-                        setNewCard((prev) => ({
-                          ...prev,
-                          title: e.target.value,
-                        }))
-                      }
-                      required
-                    />
-                    <a
-                      href="#"
-                      className="input-clearup"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setNewCard((prev) => ({ ...prev, title: "" }));
-                      }}
-                    >
-                      <span className="material-symbols-outlined">close</span>
-                    </a>
-                  </div>
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="cardContent" className="form-label fs-m">
-                    卡片內容
-                  </label>
-                  <div className="border rounded overflow-hidden">
-                    <textarea
-                      id="cardContent"
-                      className="form-control border-0 rounded-0"
-                      placeholder="請輸入內容..."
-                      rows={10}
-                      style={{ minHeight: 200, resize: "none" }}
-                      value={newCard.content}
-                      onChange={(e) =>
-                        setNewCard((prev) => ({
-                          ...prev,
-                          content: e.target.value,
-                        }))
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-outline-primary"
-                  data-bs-dismiss="modal"
-                  disabled={isCreating}
-                >
-                  取消
-                </button>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={isCreating}
-                >
-                  {isCreating && (
-                    <span
-                      className="spinner-border spinner-border-sm me-2"
-                      role="status"
-                      aria-hidden="true"
-                    />
-                  )}
-                  新增
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
+      {/* 更新卡片盒 Modal */}
+      <CardBoxModal
+        cardBox={cardBox}
+        isCreateMode={false}
+        modalId="updateCardBoxModal"
+        onSuccess={revalidator.revalidate}
+      />
+      {/* 卡片 Modal */}
+      <CardModal ref={cardModalRef} editCard={editCard} cardBox={cardBox} onSuccess={revalidator.revalidate} />
     </>
   );
 }

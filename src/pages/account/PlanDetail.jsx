@@ -1,11 +1,17 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { formatDate } from "../../utils/filter";
-import { useEffect, useMemo, useState } from "react";
-import { getPlans } from "../../services/subscriptionService";
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useState, useEffect, useMemo } from 'react';
+import { getPlans } from '@/services/subscriptionService';
+import { formatDate } from '@/utils/filter';
+import { getUserSubscription } from '@/store/slices/subscriptionSlice';
+import { inactivateOrder } from '@/services/subscriptionService';
+import PlanActionModal from '@/components/account/PlanActionModal';
 
 export default function PlanDetail() {
-  const activeOrder = useSelector((state) => state.subscription.activeOrder);
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const activeOrder = useSelector((s) => s.subscription.activeOrder);
   const plan = useSelector((state) => state.subscription.plan);
   const navigate = useNavigate();
 
@@ -17,30 +23,36 @@ export default function PlanDetail() {
     })();
   }, []);
 
-  const freePlan = useMemo(
-    () => plans.find((plan) => plan.id === "plan_free"),
-    [plans],
-  );
+  const freePlan = useMemo(() => plans.find((plan) => plan.id === 'plan_free'), [plans]);
   const displayPlan = plan || freePlan;
+
+  const handleCancelNow = async () => {
+    setLoading(true);
+    try {
+      await inactivateOrder(activeOrder.id, {
+        cancelledAt: Math.floor(Date.now() / 1000),
+        cancellationReason: 'user_cancel',
+      });
+      await dispatch(getUserSubscription()).unwrap();
+      setShowCancelModal(false);
+    } catch (err) {
+      alert('取消訂閱失敗');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
       <div className="px-1 px-xl-6 pt-6 pb-10">
         <div className="mb-10">
-          <Link
-            to="/user"
-            className="link-gray-600 fs-s fs-md-m py-1 py-md-2 ps-0 pe-2 px-md-4 mb-4 mb-md-10"
-          >
-            <span className="material-symbols-outlined align-bottom fs-m fs-md-2xl me-2_5 me-md-3">
-              arrow_back_ios
-            </span>
+          <Link to="/user" className="link-gray-600 fs-s fs-md-m py-1 py-md-2 ps-0 pe-2 px-md-4 mb-4 mb-md-10">
+            <span className="material-symbols-outlined align-bottom fs-m fs-md-2xl me-2_5 me-md-3">arrow_back_ios</span>
             返回個人儀表板
           </Link>
           <div className="d-flex align-items-center pb-6 border-bottom border-gray-200">
             <h1 className="fs-2xl fs-md-3xl me-2 me-md-6">方案明細</h1>
-            <p className="fs-xs fs-md-m fw-bold text-secondary">
-              現在使用的方案
-            </p>
+            <p className="fs-xs fs-md-m fw-bold text-secondary">現在使用的方案</p>
           </div>
         </div>
 
@@ -48,31 +60,25 @@ export default function PlanDetail() {
           <div className="card border-gray-200 mb-10">
             <div className="card-body p-6 p-md-8">
               <h3 className="fs-2xl pb-4 mb-6 border-bottom">
-                {plan ? `${plan.title} ${plan.subtitle}` : "Free 免費方案"}
+                {plan ? `${plan.title} ${plan.subtitle}` : 'Free 免費方案'}
               </h3>
               <ul className="list-unstyled mb-10">
                 <li className="mb-2">
                   加入日期：
-                  <span>{formatDate(activeOrder?.subscribeDate) || "--"}</span>
+                  <span>{formatDate(activeOrder?.subscribeDate) || '--'}</span>
                 </li>
                 <li className="mb-2">
                   自動續訂日期：
-                  <span>
-                    {formatDate(activeOrder?.nextBillingDate) || "--"}
-                  </span>
+                  <span>{formatDate(activeOrder?.nextBillingDate) || '--'}</span>
                 </li>
                 <li>
                   費用：
-                  <span>
-                    {plan ? `NT$${plan.price} / ${plan?.billing?.unit}` : "--"}
-                  </span>
+                  <span>{plan ? `NT$${plan.price} / ${plan?.billing?.unit}` : '--'}</span>
                 </li>
               </ul>
 
               <div>
-                <h4 className="fs-l pb-4 border-bottom mb-6">
-                  方案功能與上限說明
-                </h4>
+                <h4 className="fs-l pb-4 border-bottom mb-6">方案功能與上限說明</h4>
                 <ol className="mb-12 feature-list">
                   {displayPlan?.featuresDetail.map((feature) => (
                     <li key={feature.key} className="mb-1">
@@ -91,18 +97,33 @@ export default function PlanDetail() {
           </div>
 
           <div className="d-flex justify-content-center gap-4">
-            <button
-              type="button"
-              className="btn btn-outline-primary"
-              onClick={() => navigate(-1)}
-            >
+            <button type="button" className="btn btn-outline-primary" onClick={() => navigate(-1)}>
               返回
             </button>
-            <button type="button" className="btn btn-outline-primary">
+            <button className="btn btn-outline-danger" onClick={() => setShowCancelModal(true)} disabled={!activeOrder}>
               取消訂閱
             </button>
           </div>
         </section>
+
+        <PlanActionModal
+          title="取消訂閱"
+          description={
+            <>
+              您確定要
+              <span className="text-primary">取消訂閱</span>目前方案嗎？
+              <br />
+              取消後將
+              <span className="text-primary">失去目前方案</span>的付費功能。
+            </>
+          }
+          confirmText={loading ? '處理中...' : '立即取消'}
+          cancelText="關閉"
+          submitting={loading}
+          onConfirm={handleCancelNow}
+          open={showCancelModal}
+          onClosed={() => setShowCancelModal(false)}
+        />
       </div>
     </>
   );

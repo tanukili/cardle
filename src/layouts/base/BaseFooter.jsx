@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
@@ -11,9 +11,7 @@ export default function Footer() {
               <Link to="/" className="mb-4 mb-md-2">
                 <img src="icons/logo-with-text.svg" alt="logo" />
               </Link>
-              <p className="text-primary fw-bold fs-s">
-                把靈感放進卡片盒，慢慢長成知識的森林。
-              </p>
+              <p className="text-primary fw-bold fs-s">把靈感放進卡片盒，慢慢長成知識的森林。</p>
             </div>
             {/* 導覽連結 */}
             <ul className="nav nav-pills flex-column flex-md-row align-items-center gap-3">
