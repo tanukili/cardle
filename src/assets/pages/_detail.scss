@@ -184,7 +184,6 @@ $shadow-expanded: 0 4px 12px rgba(0, 0, 0, 0.15);
       z-index: -1;
       top: -65px;
     }
-  }
   &::after {
     content: '';
     position: absolute;
@@ -206,7 +205,7 @@ $shadow-expanded: 0 4px 12px rgba(0, 0, 0, 0.15);
     padding: 64px 0;
   }
 }
-
+}
 /* 移除摺疊按鈕點擊時的藍色光暈 */
 .accordion-button:focus {
   box-shadow: none;
