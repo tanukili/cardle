@@ -182,7 +182,7 @@ $shadow-expanded: 0 4px 12px rgba(0, 0, 0, 0.15);
       width: clamp(23.4375rem, 0rem + 100vw, 120rem);
       background: url('/detail/wave-top1.svg') no-repeat center / cover;
       z-index: -1;
-      top: -65px;
+      top: -35px;
     }
   &::after {
     content: '';
