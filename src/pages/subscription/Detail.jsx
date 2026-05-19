@@ -205,14 +205,14 @@ export default function Detail() {
             </SwiperSlide>
           </Swiper>
         </div>
-      </section>
-      <section className="faq py-md-25 py-20">
-        <div className="faq-area">
-          <div className="container">
-            <h2 className="fs-md-5xl fs-4 pb-6 border-bottom text-center">FAQ</h2>
-            <div className="background-blocks">
-              <img className="colorblocks top-right" src="./public/detail/deco1.svg" alt="deco1" />
-              <img className="colorblocks bottom-left" src="./public/detail/deco2.svg" alt="deco2" />
+     </section>
+    <section className="faq py-md-25 py-20">
+      <div className="faq-area">
+        <div className="container">
+          <h2 className="fs-md-5xl fs-4 pb-6 border-bottom text-center">FAQ</h2>
+          <div className="background-blocks">
+              <img className="colorblocks top-right"  src="detail/deco1.svg" alt="deco1"/>
+              <img className="colorblocks bottom-left" src="detail/deco2.svg" alt="deco2"/>
               <div className="row justify-content-center">
                 <div className="col-md-8 col-11  py-md-20 py-10">
                   <div className="accordion" id="faqAccordion">

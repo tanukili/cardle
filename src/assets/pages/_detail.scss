@@ -168,27 +168,22 @@ $shadow-expanded: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 .calltoactionarea {
   position: relative;
-  overflow-x: clip;
-  overflow-y: visible;
-  z-index: 2;
-  padding: 100px 0;
-  background-color: #eaffe1;
-  &::before {
-    bottom: -32px;
-    aspect-ratio: auto;
-    height: clamp(3rem, 1.21rem + 7.6375vw, 10.375rem);
-    content: '';
-    position: absolute;
-    width: clamp(23.4375rem, 0rem + 100vw, 120rem);
-    background: url('../detail/wave-top1.svg') no-repeat center / cover;
-    z-index: -1;
-    top: -65px;
-  }
-  @include media-breakpoint-down(md) {
-    &::before {
-      top: -20px;
+    overflow-x: clip;
+    overflow-y: visible;
+    z-index: 2;
+    padding: 100px 0;
+    background-color: #EAFFE1;
+     &::before {
+      bottom: -32px;
+      aspect-ratio: auto;
+      height: clamp(3rem, 1.21rem + 7.6375vw, 10.375rem);
+      content: '';
+      position: absolute;
+      width: clamp(23.4375rem, 0rem + 100vw, 120rem);
+      background: url('/detail/wave-top1.svg') no-repeat center / cover;
+      z-index: -1;
+      top: -65px;
     }
-  }
   &::after {
     content: '';
     position: absolute;
@@ -197,7 +192,7 @@ $shadow-expanded: 0 4px 12px rgba(0, 0, 0, 0.15);
     right: 0;
     aspect-ratio: auto;
     height: clamp(3rem, 1.21rem + 7.6375vw, 10.375rem);
-    background: url('../detail/wave-bottom1.svg') no-repeat center / contain;
+    background: url('/detail/wave-bottom1.svg') no-repeat center / contain;
     z-index: -1;
   }
   @include media-breakpoint-down(md) {
@@ -205,13 +200,12 @@ $shadow-expanded: 0 4px 12px rgba(0, 0, 0, 0.15);
       bottom: -30px;
     }
   }
-}
 @include media-breakpoint-down(md) {
   .calltoactionarea {
     padding: 64px 0;
   }
 }
-
+}
 /* 移除摺疊按鈕點擊時的藍色光暈 */
 .accordion-button:focus {
   box-shadow: none;
